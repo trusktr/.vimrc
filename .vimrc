@@ -28,7 +28,8 @@
          NeoBundle 'tpope/vim-fugitive'
          NeoBundle 'tpope/vim-markdown'
          NeoBundle 'Lokaltog/vim-easymotion'
-         "NeoBundle 'mattn/zencoding-vim'
+         "NeoBundle 'mattn/zencoding-vim' " use emmet instead
+         NeoBundle 'mattn/emmet-vim'
          "NeoBundle 'Valloric/YouCompleteMe' " TODO: Add build steps like for vimproc
          NeoBundle 'scrooloose/nerdtree'
          NeoBundle 'mhinz/vim-startify'
@@ -44,10 +45,13 @@
             "let g:syntastic_warning_symbol = '∆'
             "let g:syntastic_style_warning_symbol = '≈'
          NeoBundle 'scrooloose/nerdcommenter'
-         "NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-         NeoBundle 'Lokaltog/vim-powerline'
-            let g:Powerline_symbols='fancy' " Powerline: fancy statusline (patched font)
+         NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+         "NeoBundle 'Lokaltog/vim-powerline'
+            "let g:Powerline_symbols='fancy' " Powerline: fancy statusline (patched font)
          NeoBundle 'w0ng/vim-hybrid'
+         NeoBundle 'altercation/vim-colors-solarized'
+             let g:solarized_termcolors=256
+         NeoBundle 'stephenmckinney/vim-solarized-powerline'
          NeoBundle 'nanotech/jellybeans.vim'
          NeoBundle 'mhinz/vim-signify'
             let g:signify_disable_by_default = 0
@@ -55,6 +59,7 @@
              "let g:signify_cursorhold_insert = 1
          "NeoBundle 'airblade/vim-gitgutter'
         "NeoBundle 'msanders/snipmate.vim'
+        "NeoBundle 'https://github.com/SirVer/ultisnips.git' " why does this only work with the full url?
         "NeoBundle 'maxbrunsfeld/vim-yankstack'
         "NeoBundle 'nathanaelkane/vim-indent-guides'
         "NeoBundle 'Yggdroot/indentLine'
@@ -64,6 +69,7 @@
         "NeoBundle 'megaannum/self' " required for megaannum/forms
         "NeoBundle 'megaannum/forms' " Runs a bit slow..
         "NeoBundle 'mfumi/snake.vim'
+         NeoBundle 'pangloss/vim-javascript'
      " VIM-SCRIPTS REPOS
          "NeoBundle 'L9' " Required for FuzzyFinder
          "NeoBundle 'FuzzyFinder'
@@ -213,7 +219,7 @@
     set cursorline " highlight the current line.
     set virtualedit=onemore " so we can go one character past the last in normal mode.
     set showtabline=2 " 0 never show tab bar, 1 at least two tabs present, 2 always
-    set scrolloff=5
+    set scrolloff=0
     set listchars=tab:\ \ ,trail:· " tell vim how to represent certain characters. Make the cursor on a tab space appear at the front of the tab space.
     set list " enable the above character representation
     set notimeout " no timeout for any multikey combos. I'm too slow at some. hehe
@@ -274,9 +280,11 @@
             "autocmd ColorScheme * highlight normal ctermbg=None
             set t_Co=256 " enable full color
             silent! colorscheme hybrid
+            highlight LineNr guifg=red
         endif
         if has("gui_running")
             silent! colorscheme hybrid
+            highlight LineNr guifg=red
             if has("gui_gtk2")
                 set guifont=Ubuntu\ Mono\ for\ Powerline\ 11
             elseif has("gui_win32")
@@ -299,71 +307,116 @@
         "imap <right> isuckatvi
 
         " MOVEMENT
-        " make uhjk like arrow keys and move undo to l.
-        " TODO: make sure this is consistent across modes.
-        nnoremap u k
-        nnoremap k l
-        nnoremap l u
-        xnoremap u k
-        xnoremap k l
-        xnoremap l u
-        " make using ctrl+arrows to move by word.
-        map <c-left> b
-        map <c-right> e
-        " TODO: Move cursor programmatically, not with maps to other keys.
-        nmap <c-up> 10<up>
-        nmap <c-down> 10<down>
-        imap <c-up> <c-o>10<up>
-        imap <c-down> <c-o>10<down>
-        "map <s-left> B
-        "map <s-right> E
+            " make uhjk like arrow keys and move undo to l.
+            " TODO: make sure this is consistent across modes including when
+            " waiting for keystroke combinations and when using ctrl for
+            " movement like with arrow keys.
+            " TODO: Make toggle between new modes and classic mode.
+            " TODO: Make this into a plugin.
+                "nnoremap u k
+                "nnoremap k l
+                "nnoremap l u
+                "xnoremap u k
+                "xnoremap k l
+                "xnoremap l u
+                "nmap <c-u> <c-up>
+                "nmap <c-h> <c-left>
+                "nmap <c-j> <c-down>
+                "nmap <c-k> <c-right>
+                "imap <c-u> <c-up>
+                "imap <c-h> <c-left>
+                "imap <c-j> <c-down>
+                "imap <c-k> <c-right>
+
+                nnoremap j h
+                nnoremap k j
+                nnoremap i k
+                nnoremap h i
+                xnoremap j h
+                xnoremap k j
+                xnoremap i k
+                xnoremap h i
+                nmap <c-i> <c-up>
+                nmap <c-j> <c-left>
+                nmap <c-k> <c-down>
+                nmap <c-l> <c-right>
+                imap <c-i> <c-up>
+                imap <c-j> <c-left>
+                imap <c-k> <c-down>
+                imap <c-l> <c-right>
+                if has("gui_running") " alt combinations have to be treated differently in gvim vs console vim.
+                    imap <a-i> <up>
+                    imap <a-j> <left>
+                    imap <a-k> <down>
+                    imap <a-l> <right>
+                else
+                    imap i <up>
+                    imap j <left>
+                    imap k <down>
+                    imap l <right>
+                endif
+
+
+            " make using ctrl+arrows to move by word.
+                map <c-left> b
+                map <c-right> e
+                " TODO: Move cursor programmatically, not with maps to other keys.
+                nmap <c-up> 10<up>
+                nmap <c-down> 10<down>
+                imap <c-up> <c-o>10<up>
+                imap <c-down> <c-o>10<down>
+                "map <s-left> B
+                "map <s-right> E
 
         " SELECTION
-        " ctrl+a to enter VISUAL and select all.
-        map  <c-a> <esc>gg0vG$
-        map! <c-a> <esc>gg0vG$
-        " Enter and select text in VISUAL mode holding shift+arrows or ctrl+shift+arrows, exit when shift not held.
-        map <c-c> <esc>
-        xnoremap <right> <esc><right>
-        xnoremap <left> <esc><left>
-        xnoremap <up> <esc><up>
-        xnoremap <down> <esc><down>
-        xnoremap <c-right> <esc>e
-        xnoremap <c-left> <esc>b
-        xnoremap <c-up> <esc>10<up>
-        xnoremap <c-down> <esc>10<down>
-        nnoremap <s-right> v<right>
-        xnoremap <s-right> <right>
-        inoremap <s-right> <c-o>v<right>
-        nnoremap <s-left> v<left>
-        xnoremap <s-left> <left>
-        inoremap <s-left> <c-o>v<left>
-        nnoremap <s-up> v<up>
-        xnoremap <s-up> <up>
-        inoremap <s-up> <c-o>v<up>
-        nnoremap <s-down> v<down>
-        xnoremap <s-down> <down>
-        inoremap <s-down> <c-o>v<down>
-        nnoremap <c-s-right> ve
-        xnoremap <c-s-right> e
-        inoremap <c-s-right> <c-o>ve
-        nnoremap <c-s-left> vb
-        xnoremap <c-s-left> b
-        inoremap <c-s-left> <c-o>vb
-        nnoremap <c-s-up> v10<up>
-        xnoremap <c-s-up> 10<up>
-        inoremap <c-s-up> <c-o>v10<up>
-        nnoremap <c-s-down> v10<down>
-        xnoremap <c-s-down> 10<down>
-        inoremap <c-s-down> <c-o>v10<down>
-        nmap <s-home> v<home>
-        nmap <s-end> v<end>
-        nnoremap <c-s-home> vgg0
-        nnoremap <c-s-end> vG<end>
+            " ctrl+a to enter VISUAL and select all.
+            map  <c-a> <esc>ggVG
+            map! <c-a> <esc>ggVG
+            " Enter VISUAL mode by holding shift+arrows or ctrl+shift+arrows, exit when shift not held.
+            map <c-c> <esc>
+            xnoremap <right> <esc><right>
+            xnoremap <left> <esc><left>
+            xnoremap <up> <esc><up>
+            xnoremap <down> <esc><down>
+            xnoremap <c-right> <esc>e
+            xnoremap <c-left> <esc>b
+            xnoremap <c-up> <esc>10<up>
+            xnoremap <c-down> <esc>10<down>
+            nnoremap <s-right> v<right>
+            xnoremap <s-right> <right>
+            inoremap <s-right> <c-o>v<right>
+            nnoremap <s-left> v<left>
+            xnoremap <s-left> <left>
+            inoremap <s-left> <c-o>v<left>
+            nnoremap <s-up> v<up>
+            xnoremap <s-up> <up>
+            inoremap <s-up> <c-o>v<up>
+            nnoremap <s-down> v<down>
+            xnoremap <s-down> <down>
+            inoremap <s-down> <c-o>v<down>
+            nnoremap <c-s-right> ve
+            xnoremap <c-s-right> e
+            inoremap <c-s-right> <c-o>ve
+            nnoremap <c-s-left> vb
+            xnoremap <c-s-left> b
+            inoremap <c-s-left> <c-o>vb
+            nnoremap <c-s-up> v10<up>
+            xnoremap <c-s-up> 10<up>
+            inoremap <c-s-up> <c-o>v10<up>
+            nnoremap <c-s-down> v10<down>
+            xnoremap <c-s-down> 10<down>
+            inoremap <c-s-down> <c-o>v10<down>
+            nmap <s-home> v<home>
+            nmap <s-end> v<end>
+            nnoremap <c-s-home> vgg0
+            nnoremap <c-s-end> vG<end>
 
         " deleting with ctrl
-        imap <c-bs> <c-w>
-        imap <c-del> <esc>dei
+            imap <c-bs> <c-w>
+            imap <c-h> <c-w>
+            " no ctrl+backspace for now. :(
+            imap <c-del> <c-o>de
+            imap [3;5~ <c-o>de
 
         " smart home key.
         nmap <expr> <home> search('^\s\+\%#', 'n') ? '0' : '_'
@@ -376,8 +429,8 @@
 
         " SEARCHING
             " ctrl+f to find.
-                map  <c-f> <esc>/
-                map! <c-f> <esc>/
+                "map  <c-f> <esc>/
+                "map! <c-f> <esc>/
             " enter to find next ocurrences.
                 map <cr> n
                 map <s-cr> N
@@ -386,9 +439,15 @@
                 nnoremap <leader>s :let @/ = expand('<cword>') <bar> echo @/ <bar> set hls<cr>
             " same thing as above, but highlights the visual selection.
                 xnoremap <leader>s "*y<esc>:let @/ = substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g") <bar> echo @/ <bar> set hls<cr>
-            " ctrl+c to toggle highlight.
-                let hlstate=0
-                nnoremap <c-c> :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=hlstate+1<cr>
+
+            " ctrl+c to control search highlight. ctrl+c doesn't do anything
+            " in normal mode otherwise. Uncomment one of the two lines. The
+            " first one only turns off search highlight when it is on, no
+            " toggling, but a subsequent search or typing n or N will turn it
+            " back on automatically. The second one toggles search highlight
+            " on or off, and searching does not automatically turn it back on.
+                "nnoremap <c-c> :nohlsearch<cr>
+                nnoremap <c-c> :if (&hlsearch == 1) \| set nohlsearch \| else \| set hlsearch \| endif <cr>
 
         " Move line or selection up or down with alt+up/down and indent based
         " on new location.
@@ -432,6 +491,11 @@
         " alt+left/right to move between tabs.
         map <a-right> gt
         map <a-left> gT
+
+        " TODO: ijkl
+        nnoremap <a-j> gt
+        nnoremap <a-l> gT
+
         " quick buffer switching
         nnoremap <leader>b :buffers<cr>:b<space>
     " END KEYBINDINGS:
@@ -513,7 +577,7 @@
               if &wrap
                 echo "Wrap OFF"
                 setlocal nowrap
-                set virtualedit=all
+                "set virtualedit=all
                 silent! nunmap <buffer> <Up>
                 silent! nunmap <buffer> <Down>
                 silent! nunmap <buffer> <Home>
@@ -525,12 +589,14 @@
               else
                 echo "Wrap ON"
                 setlocal wrap linebreak nolist
-                set virtualedit=
-                setlocal display+=lastline
+                "set virtualedit=
+                "setlocal display+=lastline
                 noremap  <buffer> <silent> <Up>   gk
                 noremap  <buffer> <silent> <Down> gj
                 noremap  <buffer> <silent> <Home> g<Home>
                 noremap  <buffer> <silent> <End>  g<End>
+                noremap  <buffer> <silent> i      gk
+                noremap  <buffer> <silent> k      gj
                 inoremap <buffer> <silent> <Up>   <C-o>gk
                 inoremap <buffer> <silent> <Down> <C-o>gj
                 inoremap <buffer> <silent> <Home> <C-o>g<Home>
