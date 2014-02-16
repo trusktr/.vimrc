@@ -1,4 +1,15 @@
 
+" Create necessary folders if they don't already exist. Only works in Linux
+" for now. Is there a better way?
+call system('mkdir ~/.vim')
+call system('mkdir ~/.vim/bundle')
+call system('mkdir ~/.vim/swap')
+call system('mkdir ~/.vim/undo')
+call system('mkdir ~/.vim/backup')
+
+silent! call mkdir("~/.vim")
+
+
 " BEGIN NEOBUNDLE PLUGIN MANAGEMENT:
     set nocompatible               " be iMproved
      if has('vim_starting')
@@ -38,6 +49,7 @@
             source ~/.vim/.gmail " Source login info
          NeoBundle 'kien/ctrlp.vim'
             let g:ctrlp_working_path_mode = 2 " CtrlP: use the nearest ancestor that contains one of these directories or files: .git/ .hg/ .svn/ .bzr/ _darcs/
+            nnoremap <silent> <leader>sh :h<CR>:CtrlPTag<CR>
          "NeoBundle 'scrooloose/syntastic'
             "let g:syntastic_mode_map = { 'mode': 'active' }
             "let g:syntastic_error_symbol = '✗'
@@ -45,22 +57,25 @@
             "let g:syntastic_warning_symbol = '∆'
             "let g:syntastic_style_warning_symbol = '≈'
          NeoBundle 'scrooloose/nerdcommenter'
-         NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+         "NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
          "NeoBundle 'Lokaltog/vim-powerline'
             "let g:Powerline_symbols='fancy' " Powerline: fancy statusline (patched font)
+         NeoBundle 'bling/vim-airline'
          NeoBundle 'w0ng/vim-hybrid'
          NeoBundle 'altercation/vim-colors-solarized'
              let g:solarized_termcolors=256
          NeoBundle 'stephenmckinney/vim-solarized-powerline'
          NeoBundle 'nanotech/jellybeans.vim'
-         NeoBundle 'mhinz/vim-signify'
-            let g:signify_disable_by_default = 0
-             "let g:signify_cursorhold_normal = 1
-             "let g:signify_cursorhold_insert = 1
-         "NeoBundle 'airblade/vim-gitgutter'
+         "NeoBundle 'mhinz/vim-signify'
+            "let g:signify_disable_by_default = 0
+             ""let g:signify_cursorhold_normal = 1
+             ""let g:signify_cursorhold_insert = 1
+         NeoBundle 'airblade/vim-gitgutter'
         "NeoBundle 'msanders/snipmate.vim'
         "NeoBundle 'https://github.com/SirVer/ultisnips.git' " why does this only work with the full url?
-        "NeoBundle 'maxbrunsfeld/vim-yankstack'
+        NeoBundle 'maxbrunsfeld/vim-yankstack'
+            nmap <leader>P <Plug>yankstack_substitute_newer_paste
+            nmap <leader>p <Plug>yankstack_substitute_older_paste
         "NeoBundle 'nathanaelkane/vim-indent-guides'
         "NeoBundle 'Yggdroot/indentLine'
             "let g:indentLine_char = '.'
@@ -80,6 +95,8 @@
      " NON GIT REPOS
          "NeoBundle 'http://svn.macports.org/repository/macports/contrib/mpvim/'
          "NeoBundle 'https://bitbucket.org/ns9tks/vim-fuzzyfinder'
+         
+         " For creating text-based-ui menus in vim:
          "NeoBundle 'svn://svn.code.sf.net/p/vimuiex/code/trunk', {
                      "\'name': 'vxlib',
                      "\'rtp': 'runtime/vxlib/'
