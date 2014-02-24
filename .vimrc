@@ -1,3 +1,7 @@
+" NOTE: You'll need to find and replace file separators if running in a
+" non-unix environment (e.g. DOS).
+
+" TODO: Make a FileSeparator variable to handle each OS.
 
 let s:VIMROOT = $HOME."/.vimtest"
 
@@ -16,10 +20,14 @@ endif
 if glob(s:VIMROOT."/bundle/") != "" " if the ~/.vim/bundle/ directory exists.
 
     if glob(s:VIMROOT."/bundle/neobundle.vim/") == "" " if NeoBundle doesn't exist
-        echo "Installing NeoBundle..."
-        silent! execute "!cd ".s:VIMROOT."/bundle/ && echo && git clone https://github.com/Shougo/neobundle.vim"
-        if glob(s:VIMROOT."/bundle/neobundle.vim/") == "" " if NeoBundle still doesn't exist
-            echo "Error: Unable to install NeoBundle. Make sure Git is installed then restart Vim to try again."
+        if (match(system('which git'), "git not found") == -1) " if git is installed
+            echo "Setting up plugin manager..."
+            silent! execute "!cd ".s:VIMROOT."/bundle/ && echo && git clone https://github.com/Shougo/neobundle.vim"
+            if glob(s:VIMROOT."/bundle/neobundle.vim/") == "" " if NeoBundle still doesn't exist
+                echo "Error: Unable to set up the plugin manager. Something went wrong with git (likely a connection problem). Restart Vim to try again."
+            endif
+        else
+            echo "Tip: Install Git then restart Vim to experience Vim in all it's glory."
         endif
     endif
 
@@ -250,7 +258,7 @@ endif
         set smartcase " ...except when using capital letters
         set incsearch " Incremental search
         set wildmenu " Better commandline tab completion
-        set wildmode=longest:full,full " Expand match on first Tab complete
+        set wildmode=list,full " Show list on tab completion, then epand to first full match
         set laststatus=2               " Always show a status line
         set statusline=%f%m%r%h%w\ [%n:%{&ff}/%Y]%=[0x\%04.4B][%03v][%p%%\ line\ %l\ of\ %L] " Show detailed information in status line
         set cursorline " highlight the current line.
