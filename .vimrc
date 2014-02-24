@@ -111,11 +111,12 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ~/.vim/bundle/ directory exists.
                  "NeoBundle 'megaannum/forms' " Runs a bit slow..
                  "NeoBundle 'mfumi/snake.vim'
                  NeoBundle 'pangloss/vim-javascript'
-             " VIM-SCRIPTS REPOS
+             " VIM.ORG SCRIPTS
                  "NeoBundle 'L9' " Required for FuzzyFinder
                  "NeoBundle 'FuzzyFinder'
-                 NeoBundle 'vim-scripts/DrawIt'
-                 NeoBundle 'vim-scripts/taglist.vim'
+                 NeoBundle 'DrawIt'
+                 NeoBundle 'taglist.vim'
+                 "NeoBundle 'CmdlineCompl.vim' SEEMS OUTDATED
              " NON GITHUB REPOS
                  "NeoBundle 'git://git.wincent.com/command-t'
              " NON GIT REPOS
@@ -131,6 +132,8 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ~/.vim/bundle/ directory exists.
                              "\'name': 'vimuiex',
                              "\'rtp': 'runtime/vimuiex/'
                              "\}
+             " LOCAL PLUGINS
+                 "NeoBundle 'file:///home/user/path/to/plugin'
 
              " Required:
              filetype plugin indent on
@@ -258,7 +261,7 @@ endif
         set smartcase " ...except when using capital letters
         set incsearch " Incremental search
         set wildmenu " Better commandline tab completion
-        set wildmode=list,full " Show list on tab completion, then epand to first full match
+        set wildmode=longest:list,full " Complete longest common string and show the match list, then epand to first full match
         set laststatus=2               " Always show a status line
         set statusline=%f%m%r%h%w\ [%n:%{&ff}/%Y]%=[0x\%04.4B][%03v][%p%%\ line\ %l\ of\ %L] " Show detailed information in status line
         set cursorline " highlight the current line.
@@ -417,16 +420,8 @@ endif
             " ctrl+a to enter VISUAL and select all.
                 map  <c-a> <esc>ggVG
                 map! <c-a> <esc>ggVG
-            " Enter VISUAL mode by holding shift+arrows or ctrl+shift+arrows, exit when shift not held.
+            " Enter VISUAL mode by holding shift+arrows or ctrl+shift+arrows
                 map <c-c> <esc>
-                xnoremap <right> <esc><right>
-                xnoremap <left> <esc><left>
-                xnoremap <up> <esc><up>
-                xnoremap <down> <esc><down>
-                xnoremap <c-right> <esc>e
-                xnoremap <c-left> <esc>b
-                xnoremap <c-up> <esc>10<up>
-                xnoremap <c-down> <esc>10<down>
                 nnoremap <s-right> v<right>
                 xnoremap <s-right> <right>
                 inoremap <s-right> <c-o>v<right>
@@ -455,6 +450,15 @@ endif
                 nmap <s-end> v<end>
                 nnoremap <c-s-home> vgg0
                 nnoremap <c-s-end> vG<end>
+            " exit VISUAL when shift not held.
+                "xnoremap <right> <esc><right>
+                "xnoremap <left> <esc><left>
+                "xnoremap <up> <esc><up>
+                "xnoremap <down> <esc><down>
+                "xnoremap <c-right> <esc>e
+                "xnoremap <c-left> <esc>b
+                "xnoremap <c-up> <esc>10<up>
+                "xnoremap <c-down> <esc>10<down>
 
         " deleting with ctrl
             imap <c-bs> <c-w>
