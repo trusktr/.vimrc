@@ -1,5 +1,5 @@
 
-let s:VIMROOT = $HOME."/.vim"
+let s:VIMROOT = $HOME."/.vimtest"
 
 " Create necessary folders if they don't already exist.
 if exists("*mkdir")
@@ -19,7 +19,7 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ~/.vim/bundle/ directory exists.
         echo "Installing NeoBundle..."
         silent! execute "!cd ".s:VIMROOT."/bundle/ && echo && git clone https://github.com/Shougo/neobundle.vim"
         if glob(s:VIMROOT."/bundle/neobundle.vim/") == "" " if NeoBundle still doesn't exist
-            echo "Error: Unable to install NeoBundle. Restart vim to try again."
+            echo "Error: Unable to install NeoBundle. Make sure Git is installed then restart Vim to try again."
         endif
     endif
 
@@ -644,5 +644,4 @@ endif
     " END COMMAND MAPS AND SPECIAL FUNCTION MAPS:
 
 " END CUSTOM SETTINGS:
-
 
