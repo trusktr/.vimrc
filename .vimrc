@@ -3,7 +3,7 @@
 
 " TODO: Make a FileSeparator variable to handle each OS.
 
-behave mswin " awesome
+behave mswin " awesome (but horrible name choice. "behave cua" would be nicer because I hate Windows. I just like treating the cursor like an I beam when selecting instead of a block.
 scriptencoding utf-8 " make sure we use utf-8 before doing anything.
 
 let s:VIMROOT = $HOME."/.vim"
