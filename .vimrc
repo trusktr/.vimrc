@@ -3,8 +3,9 @@
 
 " TODO: Make a FileSeparator variable to handle each OS.
 
-behave mswin " awesome (but horrible name choice. "behave cua" would be nicer because I hate Windows. I just like treating the cursor like an I beam when selecting instead of a block.
 scriptencoding utf-8 " make sure we use utf-8 before doing anything.
+behave mswin " awesome (but horrible name choice. "behave cua" would be nicer because I hate Windows. I just like treating the cursor like an I beam when selecting instead of a block.
+runtime! macros/matchit.vim " enabled awesome match abilities like HTML tag matching with %
 
 let s:VIMROOT = $HOME."/.vim"
 
@@ -87,14 +88,15 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ".s:VIMROOT."/bundle/ directory exi
                     "let g:syntastic_warning_symbol = 'â'
                     "let g:syntastic_style_warning_symbol = 'â'
                 NeoBundle 'scrooloose/nerdcommenter'
+                NeoBundle 'w0ng/vim-hybrid'
+                NeoBundle 'noahfrederick/vim-hemisu'
+                NeoBundle 'altercation/vim-colors-solarized'
+                    let g:solarized_termcolors=256
                 "NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
                 "NeoBundle 'Lokaltog/vim-powerline'
                     "let g:Powerline_symbols='fancy' " Powerline: fancy statusline (patched font)
+                "NeoBundle 'stephenmckinney/vim-solarized-powerline'
                 NeoBundle 'bling/vim-airline'
-                NeoBundle 'w0ng/vim-hybrid'
-                NeoBundle 'altercation/vim-colors-solarized'
-                    let g:solarized_termcolors=256
-                NeoBundle 'stephenmckinney/vim-solarized-powerline'
                 NeoBundle 'nanotech/jellybeans.vim'
                 "NeoBundle 'mhinz/vim-signify'
                     "let g:signify_disable_by_default = 0
@@ -275,8 +277,9 @@ endif
         set cursorline " highlight the current line.
         "set cursorcolumn " highlight the current column.
         set virtualedit=onemore " so we can go one character past the last in normal mode.
+        set backspace=indent,eol,start " don't limit backspace to one line. Behaves like a modern editor in this regard.
         set showtabline=2 " 0 never show tab bar, 1 at least two tabs present, 2 always
-        set scrolloff=0
+        set scrolloff=0 " how many lines to keep before and after the cursor near the top or bottom of the view.
         "tell vim how to represent certain characters. Make the cursor on a tab space appear at the front of the tab space:
             "if !(&term == "win32" || $TERM == "cygwin")
                 "set listchars=tab:\ \ ,trail:·
