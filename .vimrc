@@ -3,7 +3,10 @@
 
 " TODO: Make a FileSeparator variable to handle each OS.
 
-let s:VIMROOT = $HOME."/.vimtest"
+behave mswin " awesome
+scriptencoding utf-8 " make sure we use utf-8 before doing anything.
+
+let s:VIMROOT = $HOME."/.vim"
 
 " Create necessary folders if they don't already exist.
 if exists("*mkdir")
@@ -13,11 +16,11 @@ if exists("*mkdir")
     silent! call mkdir(s:VIMROOT."/undo", "p")
     silent! call mkdir(s:VIMROOT."/backup", "p")
 else
-    echo "Error: Create the directories ~/.vim/, ~/.vim/bundle/, ~/.vim/undo/, ~/.vim/backup/, and ~/.vim/swap/ first."
+    echo "Error: Create the directories ".s:VIMROOT."/, ".s:VIMROOT."/bundle/, ".s:VIMROOT."/undo/, ".s:VIMROOT."/backup/, and ".s:VIMROOT."/swap/ first."
     exit
 endif
 
-if glob(s:VIMROOT."/bundle/") != "" " if the ~/.vim/bundle/ directory exists.
+if glob(s:VIMROOT."/bundle/") != "" " if the ".s:VIMROOT."/bundle/ directory exists.
 
     if glob(s:VIMROOT."/bundle/neobundle.vim/") == "" " if NeoBundle doesn't exist
         if (match(system('which git'), "git not found") == -1) " if git is installed
@@ -33,119 +36,122 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ~/.vim/bundle/ directory exists.
 
     if glob(s:VIMROOT."/bundle/neobundle.vim/") != "" " if NeoBundle exists
         " BEGIN NEOBUNDLE PLUGIN MANAGEMENT:
-             if has('vim_starting')
-                 set nocompatible               " be iMproved
+            if has('vim_starting')
+                set nocompatible               " be iMproved
 
-                 " Required:
-                 let &runtimepath.=",".s:VIMROOT."/bundle/neobundle.vim"
-                 "execute 'set runtimepath+='.s:VIMROOT.'/bundle/neobundle.vim'
-             endif
+                " Required:
+                let &runtimepath.=",".s:VIMROOT."/bundle/neobundle.vim"
+                "execute 'set runtimepath+='.s:VIMROOT.'/bundle/neobundle.vim'
+            endif
 
-             " Required:
-             call neobundle#rc(expand(s:VIMROOT.'/bundle/'))
+            " Required:
+            call neobundle#rc(expand(s:VIMROOT.'/bundle/'))
 
-             " Let NeoBundle manage NeoBundle
-             " Required:
-             NeoBundleFetch 'Shougo/neobundle.vim'
+            " Let NeoBundle manage NeoBundle
+            " Required:
+            NeoBundleFetch 'Shougo/neobundle.vim'
 
 
-             " MY BUNDLES HERE:
-             " Along with bundle-specific settings.
-             " Note: You don't set neobundle setting in .gvimrc!
-             " ORIGINAL REPOS ON GITHUB
-                 NeoBundle 'Shougo/vimproc', {
-                      \ 'build' : {
-                      \     'windows' : 'make -f make_mingw32.mak',
-                      \     'cygwin' : 'make -f make_cygwin.mak',
-                      \     'mac' : 'make -f make_mac.mak',
-                      \     'unix' : 'make -f make_unix.mak'
-                      \    }
-                      \ }
-                 NeoBundle 'kchmck/vim-coffee-script'
-                 NeoBundle 'tpope/vim-fugitive'
-                 NeoBundle 'tpope/vim-markdown'
-                 NeoBundle 'Lokaltog/vim-easymotion'
-                 "NeoBundle 'mattn/zencoding-vim' " use emmet instead
-                 NeoBundle 'mattn/emmet-vim'
-                 "NeoBundle 'Valloric/YouCompleteMe' " TODO: Add build steps like for vimproc
-                 NeoBundle 'scrooloose/nerdtree'
-                 NeoBundle 'mhinz/vim-startify'
-                 "NeoBundle 'mbbill/VimExplorer'
-                 "NeoBundle 'yuratomo/gmail.vim'
-                    "silent! source `=s:VIMROOT."/.gmail"` " Source login info
-                 NeoBundle 'kien/ctrlp.vim'
-                     let g:ctrlp_working_path_mode = 2 " CtrlP: use the nearest ancestor that contains one of these directories or files: .git/ .hg/ .svn/ .bzr/ _darcs/
-                     nnoremap <silent> <leader>sh :h<CR>:CtrlPTag<CR>
-                 "NeoBundle 'scrooloose/syntastic'
-                     "let g:syntastic_mode_map = { 'mode': 'active' }
-                     "let g:syntastic_error_symbol = '✗'
-                     "let g:syntastic_style_error_symbol = '✠'
-                     "let g:syntastic_warning_symbol = '∆'
-                     "let g:syntastic_style_warning_symbol = '≈'
-                 NeoBundle 'scrooloose/nerdcommenter'
-                 "NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-                 "NeoBundle 'Lokaltog/vim-powerline'
-                     "let g:Powerline_symbols='fancy' " Powerline: fancy statusline (patched font)
-                 NeoBundle 'bling/vim-airline'
-                 NeoBundle 'w0ng/vim-hybrid'
-                 NeoBundle 'altercation/vim-colors-solarized'
-                     let g:solarized_termcolors=256
-                 NeoBundle 'stephenmckinney/vim-solarized-powerline'
-                 NeoBundle 'nanotech/jellybeans.vim'
-                 "NeoBundle 'mhinz/vim-signify'
-                     "let g:signify_disable_by_default = 0
-                     ""let g:signify_cursorhold_normal = 1
-                     ""let g:signify_cursorhold_insert = 1
-                 NeoBundle 'airblade/vim-gitgutter'
-                 "NeoBundle 'msanders/snipmate.vim'
-                 "NeoBundle 'https://github.com/SirVer/ultisnips.git' " why does this only work with the full url?
-                 NeoBundle 'maxbrunsfeld/vim-yankstack'
-                     nmap <leader>P <Plug>yankstack_substitute_newer_paste
-                     nmap <leader>p <Plug>yankstack_substitute_older_paste
-                 "NeoBundle 'nathanaelkane/vim-indent-guides'
-                 "NeoBundle 'Yggdroot/indentLine'
-                     "let g:indentLine_char = '.'
-                     "let g:indentLine_first_char='.'
-                     "let g:indentLine_showFirstIndentLevel=1
-                 "NeoBundle 'megaannum/self' " required for megaannum/forms
-                 "NeoBundle 'megaannum/forms' " Runs a bit slow..
-                 "NeoBundle 'mfumi/snake.vim'
-                 NeoBundle 'pangloss/vim-javascript'
-             " VIM.ORG SCRIPTS
-                 "NeoBundle 'L9' " Required for FuzzyFinder
-                 "NeoBundle 'FuzzyFinder'
-                 NeoBundle 'DrawIt'
-                 NeoBundle 'taglist.vim'
-                 "NeoBundle 'CmdlineCompl.vim' SEEMS OUTDATED
-             " NON GITHUB REPOS
-                 "NeoBundle 'git://git.wincent.com/command-t'
-             " NON GIT REPOS
-                 "NeoBundle 'http://svn.macports.org/repository/macports/contrib/mpvim/'
-                 "NeoBundle 'https://bitbucket.org/ns9tks/vim-fuzzyfinder'
+            " MY BUNDLES HERE:
+            " Along with bundle-specific settings.
+            " Note: You don't set neobundle setting in .gvimrc!
+            " ORIGINAL REPOS ON GITHUB
+                NeoBundle 'Shougo/vimproc', {
+                     \ 'build' : {
+                     \     'windows' : 'make -f make_mingw32.mak',
+                     \     'cygwin' : 'make -f make_cygwin.mak',
+                     \     'mac' : 'make -f make_mac.mak',
+                     \     'unix' : 'make -f make_unix.mak'
+                     \    }
+                     \ }
+                NeoBundle 'kchmck/vim-coffee-script'
+                NeoBundle 'tpope/vim-fugitive'
+                NeoBundle 'tpope/vim-markdown'
+                NeoBundle 'Lokaltog/vim-easymotion'
+                "NeoBundle 'mattn/zencoding-vim' " use emmet instead
+                NeoBundle 'mattn/emmet-vim'
+                "NeoBundle 'Valloric/YouCompleteMe' " TODO: Add build steps like for vimproc
+                NeoBundle 'scrooloose/nerdtree'
+                NeoBundle 'mhinz/vim-startify'
+                   let g:startify_session_dir = s:VIMROOT.'/session'
+                "NeoBundle 'mbbill/VimExplorer'
+                "NeoBundle 'yuratomo/gmail.vim'
+                   "silent! source `=s:VIMROOT."/.gmail"` " Source login info
+                NeoBundle 'kien/ctrlp.vim'
+                    let g:ctrlp_working_path_mode = 2 " CtrlP: use the nearest ancestor that contains one of these directories or files: .git/ .hg/ .svn/ .bzr/ _darcs/
+                    nnoremap <silent> <leader>sh :h<CR>:CtrlPTag<CR>
+                "NeoBundle 'scrooloose/syntastic'
+                    "let g:syntastic_mode_map = { 'mode': 'active' }
+                    "let g:syntastic_error_symbol = 'â'
+                    "let g:syntastic_style_error_symbol = 'â '
+                    "let g:syntastic_warning_symbol = 'â'
+                    "let g:syntastic_style_warning_symbol = 'â'
+                NeoBundle 'scrooloose/nerdcommenter'
+                "NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+                "NeoBundle 'Lokaltog/vim-powerline'
+                    "let g:Powerline_symbols='fancy' " Powerline: fancy statusline (patched font)
+                NeoBundle 'bling/vim-airline'
+                NeoBundle 'w0ng/vim-hybrid'
+                NeoBundle 'altercation/vim-colors-solarized'
+                    let g:solarized_termcolors=256
+                NeoBundle 'stephenmckinney/vim-solarized-powerline'
+                NeoBundle 'nanotech/jellybeans.vim'
+                "NeoBundle 'mhinz/vim-signify'
+                    "let g:signify_disable_by_default = 0
+                    ""let g:signify_cursorhold_normal = 1
+                    ""let g:signify_cursorhold_insert = 1
+                NeoBundle 'airblade/vim-gitgutter'
+                "NeoBundle 'msanders/snipmate.vim'
+                "NeoBundle 'https://github.com/SirVer/ultisnips.git' " why does this only work with the full url?
+                NeoBundle 'maxbrunsfeld/vim-yankstack'
+                    nmap <leader>P <Plug>yankstack_substitute_newer_paste
+                    nmap <leader>p <Plug>yankstack_substitute_older_paste
+                "NeoBundle 'nathanaelkane/vim-indent-guides'
+                "NeoBundle 'Yggdroot/indentLine'
+                    "let g:indentLine_char = '.'
+                    "let g:indentLine_first_char='.'
+                    "let g:indentLine_showFirstIndentLevel=1
+                "NeoBundle 'megaannum/self' " required for megaannum/forms
+                "NeoBundle 'megaannum/forms' " Runs a bit slow..
+                "NeoBundle 'mfumi/snake.vim'
+                NeoBundle 'pangloss/vim-javascript'
+            " VIM.ORG SCRIPTS
+                "NeoBundle 'L9' " Required for FuzzyFinder
+                "NeoBundle 'FuzzyFinder'
+                NeoBundle 'DrawIt'
+                if !(&term == "win32" || $TERM == "cygwin")
+                   NeoBundle 'taglist.vim'
+                endif
+                "NeoBundle 'CmdlineCompl.vim' SEEMS OUTDATED
+            " NON GITHUB REPOS
+                "NeoBundle 'git://git.wincent.com/command-t'
+            " NON GIT REPOS
+                "NeoBundle 'http://svn.macports.org/repository/macports/contrib/mpvim/'
+                "NeoBundle 'https://bitbucket.org/ns9tks/vim-fuzzyfinder'
 
-                 " For creating text-based-ui menus in vim:
-                 "NeoBundle 'svn://svn.code.sf.net/p/vimuiex/code/trunk', {
-                             "\'name': 'vxlib',
-                             "\'rtp': 'runtime/vxlib/'
-                             "\}
-                 "NeoBundle 'svn://svn.code.sf.net/p/vimuiex/code/trunk', {
-                             "\'name': 'vimuiex',
-                             "\'rtp': 'runtime/vimuiex/'
-                             "\}
-             " LOCAL PLUGINS
-                 "NeoBundle 'file:///home/user/path/to/plugin'
+                " For creating text-based-ui menus in vim:
+                "NeoBundle 'svn://svn.code.sf.net/p/vimuiex/code/trunk', {
+                            "\'name': 'vxlib',
+                            "\'rtp': 'runtime/vxlib/'
+                            "\}
+                "NeoBundle 'svn://svn.code.sf.net/p/vimuiex/code/trunk', {
+                            "\'name': 'vimuiex',
+                            "\'rtp': 'runtime/vimuiex/'
+                            "\}
+            " LOCAL PLUGINS
+                "NeoBundle 'file:///home/user/path/to/plugin'
 
-             " Required:
-             filetype plugin indent on
+            " Required:
+            filetype plugin indent on
 
-             " If there are uninstalled bundles found on startup,
-             " this will conveniently prompt you to install them.
-             NeoBundleCheck
+            " If there are uninstalled bundles found on startup,
+            " this will conveniently prompt you to install them.
+            NeoBundleCheck
 
-             " Brief help
-             " :NeoBundleList          - list configured bundles
-             " :NeoBundleInstall(!)    - install(update) bundles
-             " :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+            " Brief help
+            " :NeoBundleList          - list configured bundles
+            " :NeoBundleInstall(!)    - install(update) bundles
+            " :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused bundles
         " END NEOBUNDLE PLUGIN MANAGEMENT:
     endif
 
@@ -204,8 +210,8 @@ endif
       augroup vimrcEx
       au!
 
-      " For all text files set 'textwidth' to 78 characters.
-      autocmd FileType text setlocal textwidth=78
+      " For all text files set 'textwidth' to 80 characters.
+      autocmd FileType text setlocal textwidth=80
 
       " When editing a file, always jump to the last known cursor position.
       " Don't do it when the position is invalid or when inside an event handler
@@ -247,36 +253,45 @@ endif
         set numberwidth=1
         set nowrap
         set sidescroll=5
-        let &backupdir=s:VIMROOT.'/backup//'
-        let &directory=s:VIMROOT.'/swap//'
+        let &backupdir=s:VIMROOT.'/backup//' " double slash means make the filenames unique.
+        let &directory=s:VIMROOT.'/swap//' " double slash means make the filenames unique.
         if exists('&undofile') && exists('&undodir')
             set undofile
             let &undodir=s:VIMROOT.'/undo'
         endif
         set tabstop=8
         set expandtab
-        set shiftwidth=4 " Number of spaces for
-        set softtabstop=4 " ...each indent level
+        set shiftwidth=4 " Number of spaces for...
+        set softtabstop=4 " each indent level
+        set textwidth=80 " enable the...
+        set colorcolumn=+0 " right margin line.
         set ignorecase " Do case insensitive matching...
         set smartcase " ...except when using capital letters
         set incsearch " Incremental search
         set wildmenu " Better commandline tab completion
         set wildmode=longest:list,full " Complete longest common string and show the match list, then epand to first full match
         set laststatus=2               " Always show a status line
-        set statusline=%f%m%r%h%w\ [%n:%{&ff}/%Y]%=[0x\%04.4B][%03v][%p%%\ line\ %l\ of\ %L] " Show detailed information in status line
+        "set statusline=%f%m%r%h%w\ [%n:%{&ff}/%Y]%=[0x\%04.4B][%03v][%p%%\ line\ %l\ of\ %L] " custom status line. Not needed if using powerline or airline.
         set cursorline " highlight the current line.
+        "set cursorcolumn " highlight the current column.
         set virtualedit=onemore " so we can go one character past the last in normal mode.
         set showtabline=2 " 0 never show tab bar, 1 at least two tabs present, 2 always
         set scrolloff=0
-        set listchars=tab:\ \ ,trail:· " tell vim how to represent certain characters. Make the cursor on a tab space appear at the front of the tab space.
-        set list " enable the above character representation
+        "tell vim how to represent certain characters. Make the cursor on a tab space appear at the front of the tab space:
+            "if !(&term == "win32" || $TERM == "cygwin")
+                "set listchars=tab:\ \ ,trail:·
+            "else
+                set listchars=tab:˒\ ,trail:×,nbsp:·,conceal:¯,precedes:«,extends:»,eol:¬
+            "endif
+            set list " enable the above character representation
         set notimeout " no timeout for any multikey combos. I'm too slow at some. hehe
         filetype indent plugin on " enable filetype features.
         set showcmd " display incomplete command. I moved this here from Bram's example because it wasn't working before vundle.
-        set history=5000		" keep 5000 lines of command line history.
+        set history=9999		" how many lines of command line history to keep.
         set pastetoggle=<f12> " Toggle paste mode with <f12> for easy pasting without auto-formatting.
         set hidden " buffers keep their state when a new buffer is opened in the same view.
         set winminheight=0 " Show at least zero lines instead of at least one for horizontal splits.
+        set sessionoptions=blank,buffers,curdir,folds,help,resize,slash,tabpages,unix,winpos,winsize " :help sessionoptions
 
     " prevent the alternate buffer in Gnome Terminal, etc, so output works
     " like vim's internal :echo command. woo!
@@ -335,7 +350,7 @@ endif
                 highlight LineNr guifg=red
                 highlight MatchParen gui=bold guibg=black guifg=limegreen
                 if has("gui_gtk2")
-                    silent! set guifont=Ubuntu\ Mono\ for\ Powerline\ 11
+                    silent! set guifont=Ubuntu\ Mono\ for\ Powerline\ 18
                 elseif has("gui_win32")
                     silent! set guifont=Consolas:h11:cANSI
                 endif
@@ -586,7 +601,7 @@ endif
             nnoremap <Leader>max :call ToggleMaxWins()<CR>
 
 
-        " PREVIEW WINDOW TEST
+        " CHEAT SHEET WITH <F4>
             let g:MyVimTips="off"
             function! ToggleVimTips()
                 if g:MyVimTips == "on"
@@ -594,8 +609,10 @@ endif
                     pclose
                 else
                     let g:MyVimTips="on"
-                    " add a cheat sheet here to easily toggle with <F4>
-                    pedit ~/.vim-quicktip
+                    " add a cheat sheet here to be easily toggle with <F4>
+                    execute "pedit ".s:VIMROOT."/quicktip"
+                    " TODO: hard code the quicktip so it will work for whomever
+                    " copies my setup.
                 endif
             endfunction
 
