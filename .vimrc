@@ -4,7 +4,7 @@
 " TODO: Make a FileSeparator variable to handle each OS.
 
 scriptencoding utf-8 " make sure we use utf-8 before doing anything.
-behave mswin " awesome (but horrible name choice. "behave cua" would be nicer because I hate Windows. I just like treating the cursor like an I beam when selecting instead of a block.
+behave mswin " awesome (but horrible name choice. "behave cua" would be nicer. I dislike Windows. I just like treating the cursor like an I beam when selecting instead of a block.
 runtime! macros/matchit.vim " enabled awesome match abilities like HTML tag matching with %
 
 let s:VIMROOT = $HOME."/.vim"
