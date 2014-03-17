@@ -117,7 +117,13 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ".s:VIMROOT."/bundle/ directory exi
                 "NeoBundle 'megaannum/forms' " Runs a bit slow..
                 "NeoBundle 'mfumi/snake.vim'
                 NeoBundle 'pangloss/vim-javascript'
+                NeoBundle 'briancollins/vim-jst'
+                NeoBundle 'jimmyhchan/dustjs.vim'
+                NeoBundle 'sjl/gundo.vim'
+                NeoBundle 'mbbill/undotree'
             " VIM.ORG SCRIPTS
+                set cursorline " highlight the current line. Needed for the next plugin to work.
+                NeoBundle "CursorLineCurrentWindow"
                 "NeoBundle 'L9' " Required for FuzzyFinder
                 "NeoBundle 'FuzzyFinder'
                 NeoBundle 'DrawIt'
@@ -257,9 +263,11 @@ endif
         set sidescroll=5
         let &backupdir=s:VIMROOT.'/backup//' " double slash means make the filenames unique.
         let &directory=s:VIMROOT.'/swap//' " double slash means make the filenames unique.
-        if exists('&undofile') && exists('&undodir')
-            set undofile
-            let &undodir=s:VIMROOT.'/undo'
+        if has("persistent_undo")
+            if exists('&undofile') && exists('&undodir')
+                set undofile
+                let &undodir=s:VIMROOT.'/undo'
+            endif
         endif
         set tabstop=8
         set expandtab
