@@ -119,7 +119,7 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ".s:VIMROOT."/bundle/ directory exi
                 NeoBundle 'pangloss/vim-javascript'
                 NeoBundle 'briancollins/vim-jst'
                 NeoBundle 'jimmyhchan/dustjs.vim'
-                NeoBundle 'sjl/gundo.vim'
+                "NeoBundle 'sjl/gundo.vim'
                 NeoBundle 'mbbill/undotree'
             " VIM.ORG SCRIPTS
                 set cursorline " highlight the current line. Needed for the next plugin to work.
