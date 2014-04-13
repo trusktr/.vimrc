@@ -26,7 +26,8 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ".s:VIMROOT."/bundle/ directory exi
     if glob(s:VIMROOT."/bundle/neobundle.vim/") == "" " if NeoBundle doesn't exist
         if (match(system('which git'), "git not found") == -1) " if git is installed
             echo "Setting up plugin manager..."
-            silent! execute "!cd ".s:VIMROOT."/bundle/ && echo && git clone https://github.com/Shougo/neobundle.vim"
+            silent! execute "cd ".s:VIMROOT."/bundle/"
+            silent! execute "!echo && git clone https://github.com/Shougo/neobundle.vim"
             if glob(s:VIMROOT."/bundle/neobundle.vim/") == "" " if NeoBundle still doesn't exist
                 echo "Error: Unable to set up the plugin manager. Something went wrong with git (likely a connection problem). Restart Vim to try again."
             endif
