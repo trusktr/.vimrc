@@ -21,7 +21,8 @@ else
     exit
 endif
 
-if glob(s:VIMROOT."/bundle/") != "" " if the ".s:VIMROOT."/bundle/ directory exists.
+" if the ".s:VIMROOT."/bundle/ directory exists.
+if glob(s:VIMROOT."/bundle/") != ""
 
     if glob(s:VIMROOT."/bundle/neobundle.vim/") == "" " if NeoBundle doesn't exist
         if (match(system('which git'), "git not found") == -1) " if git is installed
@@ -44,6 +45,8 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ".s:VIMROOT."/bundle/ directory exi
                 " Required:
                 let &runtimepath.=",".s:VIMROOT."/bundle/neobundle.vim"
                 "execute 'set runtimepath+='.s:VIMROOT.'/bundle/neobundle.vim'
+                " ^^^ TODO: note why I did this.
+                let g:neobundle#install_process_timeout = 600
             endif
 
             " Required:
@@ -57,6 +60,7 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ".s:VIMROOT."/bundle/ directory exi
             " MY BUNDLES HERE:
             " Along with bundle-specific settings.
             " Note: You don't set neobundle setting in .gvimrc!
+
             " ORIGINAL REPOS ON GITHUB
                 NeoBundle 'Shougo/vimproc', {
                      \ 'build' : {
@@ -72,7 +76,33 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ".s:VIMROOT."/bundle/ directory exi
                 NeoBundle 'Lokaltog/vim-easymotion'
                 "NeoBundle 'mattn/zencoding-vim' " use emmet instead
                 NeoBundle 'mattn/emmet-vim'
-                "NeoBundle 'Valloric/YouCompleteMe' " TODO: Add build steps like for vimproc
+
+                " YouCompleteMe
+                if has("unix")
+                    " make sure you have cmake and python installed (and python support in vim). Add/remove the install command arguments as necessary. You need to have clang installed if you use the --system-libclang flag; if you don't use the flag the installer will download the binary from llvm.org. see YCM docs.
+                    NeoBundle 'Valloric/YouCompleteMe', {
+                         \ 'build' : {
+                         \     'mac' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
+                         \     'unix' : './install.sh --clang-completer --system-libclang --omnisharp-completer'
+                         \    }
+                         \ }
+                else
+                    if has("win32")
+                        " Windows user: have fun, good luck, or both. ;)
+                        " TODO: See here for starters on installing for Windows: http://stackoverflow.com/questions/18801354/c-family-semantic-autocompletion-plugins-for-vim-using-clang-clang-complete-yo
+                        NeoBundle 'Valloric/YouCompleteMe', {
+                             \ 'build' : {
+                             \     'windows' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
+                             \     'cygwin' : './install.sh --clang-completer --system-libclang --omnisharp-completer'
+                             \    }
+                             \ }
+                    endif
+                endif
+                    " TODO: download default ycm_extra)conf linked here: http://www.alexeyshmalko.com/2014/youcompleteme-ultimate-autocomplete-plugin-for-vim/
+                    let g:ycm_global_ycm_extra_conf = s:VIMROOT.'/.ycm_extra_conf.py'
+                    let g:ycm_collect_identifiers_from_tags_files = 1
+                    let g:ycm_seed_identifiers_with_syntax = 1
+
                 NeoBundle 'scrooloose/nerdtree'
                 NeoBundle 'mhinz/vim-startify'
                    let g:startify_session_dir = s:VIMROOT.'/session'
@@ -82,22 +112,35 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ".s:VIMROOT."/bundle/ directory exi
                 NeoBundle 'kien/ctrlp.vim'
                     let g:ctrlp_working_path_mode = 2 " CtrlP: use the nearest ancestor that contains one of these directories or files: .git/ .hg/ .svn/ .bzr/ _darcs/
                     nnoremap <silent> <leader>sh :h<CR>:CtrlPTag<CR>
-                "NeoBundle 'scrooloose/syntastic'
-                    "let g:syntastic_mode_map = { 'mode': 'active' }
-                    "let g:syntastic_error_symbol = 'â'
-                    "let g:syntastic_style_error_symbol = 'â '
-                    "let g:syntastic_warning_symbol = 'â'
-                    "let g:syntastic_style_warning_symbol = 'â'
+                NeoBundle 'scrooloose/syntastic'
+                    let g:syntastic_mode_map = { 'mode': 'active' }
+                    let g:syntastic_error_symbol = 'E'
+                    let g:syntastic_style_error_symbol = 'e'
+                    let g:syntastic_warning_symbol = 'W'
+                    let g:syntastic_style_warning_symbol = 'w'
                 NeoBundle 'scrooloose/nerdcommenter'
-                NeoBundle 'w0ng/vim-hybrid'
-                NeoBundle 'noahfrederick/vim-hemisu'
-                NeoBundle 'altercation/vim-colors-solarized'
-                    let g:solarized_termcolors=256
+
+                " COLORSCHEMES
+                    NeoBundle 'w0ng/vim-hybrid'
+                    "NeoBundle 'noahfrederick/vim-hemisu'
+                    "NeoBundle 'altercation/vim-colors-solarized'
+                        "let g:solarized_termcolors=256
+                        "set background=dark " specify whether you want the light theme or the dark theme.
+                    "NeoBundle 'jonathanfilip/vim-lucius'
+                    "NeoBundle 'jnurmine/Zenburn'
+                    "NeoBundle 'adlawson/vim-sorcerer'
+                    "NeoBundle 'zeis/vim-kolor'
+                    "NeoBundle 'jordwalke/flatlandia'
+                    "NeoBundle 'antlypls/vim-colors-codeschool'
+                    "NeoBundle 'morhetz/gruvbox'
+                    "NeoBundle '3DGlasses.vim'
+
                 "NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
                 "NeoBundle 'Lokaltog/vim-powerline'
                     "let g:Powerline_symbols='fancy' " Powerline: fancy statusline (patched font)
                 "NeoBundle 'stephenmckinney/vim-solarized-powerline'
                 NeoBundle 'bling/vim-airline'
+                    let g:airline#extensions#syntastic#enabled = 1
                 NeoBundle 'nanotech/jellybeans.vim'
                 "NeoBundle 'mhinz/vim-signify'
                     "let g:signify_disable_by_default = 0
@@ -122,6 +165,27 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ".s:VIMROOT."/bundle/ directory exi
                 NeoBundle 'jimmyhchan/dustjs.vim'
                 "NeoBundle 'sjl/gundo.vim'
                 NeoBundle 'mbbill/undotree'
+                "NeoBundle 'wesQ3/vim-windowswap' " easily swap window splits.
+                NeoBundle 'MattesGroeger/vim-bookmarks' " nice (annotated) bookmarks in your gutter.
+
+                " A bunch of filetype plugins. Put NerdCommenter after this to
+                " give prefernce to those shortcuts, otherwise this overrides
+                " many of them.
+                "NeoBundle 'WolfgangMehner/vim-plugins'
+                " ^^^ TODO: Many mapping conflicts.
+
+                NeoBundle 'ide'
+                " ^^^ Effing amazing. Great idea.
+
+                NeoBundle 'http://conque.googlecode.com/svn/trunk/', {
+                            \'name': 'conque',
+                        \}
+
+                NeoBundle 'majutsushi/tagbar'
+                NeoBundle 'gcmt/taboo.vim'
+                    let g:taboo_tab_format=" %N:%f%m "
+                    let g:taboo_renamed_tab_format=" %N:\"%l%m\" "
+
             " VIM.ORG SCRIPTS
                 set cursorline " highlight the current line. Needed for the next plugin to work.
                 NeoBundle "CursorLineCurrentWindow"
@@ -132,8 +196,11 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ".s:VIMROOT."/bundle/ directory exi
                    NeoBundle 'taglist.vim'
                 endif
                 "NeoBundle 'CmdlineCompl.vim' SEEMS OUTDATED
+                "NeoBundle 'hexman.vim'
+
             " NON GITHUB REPOS
                 "NeoBundle 'git://git.wincent.com/command-t'
+
             " NON GIT REPOS
                 "NeoBundle 'http://svn.macports.org/repository/macports/contrib/mpvim/'
                 "NeoBundle 'https://bitbucket.org/ns9tks/vim-fuzzyfinder'
@@ -142,11 +209,12 @@ if glob(s:VIMROOT."/bundle/") != "" " if the ".s:VIMROOT."/bundle/ directory exi
                 "NeoBundle 'svn://svn.code.sf.net/p/vimuiex/code/trunk', {
                             "\'name': 'vxlib',
                             "\'rtp': 'runtime/vxlib/'
-                            "\}
+                        "\}
                 "NeoBundle 'svn://svn.code.sf.net/p/vimuiex/code/trunk', {
                             "\'name': 'vimuiex',
                             "\'rtp': 'runtime/vimuiex/'
-                            "\}
+                        "\}
+
             " LOCAL PLUGINS
                 "NeoBundle 'file:///home/user/path/to/plugin'
 
@@ -220,7 +288,7 @@ endif
       au!
 
       " For all text files set 'textwidth' to 80 characters.
-      autocmd FileType text setlocal textwidth=80
+      "autocmd FileType text setlocal textwidth=80
 
       " When editing a file, always jump to the last known cursor position.
       " Don't do it when the position is invalid or when inside an event handler
@@ -274,8 +342,8 @@ endif
         set expandtab
         set shiftwidth=4 " Number of spaces for...
         set softtabstop=4 " each indent level
-        set textwidth=80 " enable the...
-        set colorcolumn=+0 " right margin line.
+        set textwidth=0 " At which column to wrap to the next line when typing.
+        set colorcolumn=0 " At which column to show the margin line. TODO: make a toggle to turn the column on and off.
         set ignorecase " Do case insensitive matching...
         set smartcase " ...except when using capital letters
         set incsearch " Incremental search
@@ -293,17 +361,18 @@ endif
             "if !(&term == "win32" || $TERM == "cygwin")
                 "set listchars=tab:\ \ ,trail:·
             "else
-                set listchars=tab:˒\ ,trail:×,nbsp:·,conceal:¯,precedes:«,extends:»,eol:¬
+                set listchars=tab:˒\ ,trail:×,nbsp:·,conceal:¯,eol:¬
             "endif
             set list " enable the above character representation
-        set notimeout " no timeout for any multikey combos. I'm too slow at some. hehe
+        set timeout
+        set timeoutlen=1000000 " Really long timeout length for any multikey combos so it seems like there's no timeout, but with some of the benefits of having a timeout. I don't like when partially typed commands dissappear without my permission.
         filetype indent plugin on " enable filetype features.
         set showcmd " display incomplete command. I moved this here from Bram's example because it wasn't working before vundle.
         set history=9999		" how many lines of command line history to keep.
         set pastetoggle=<f12> " Toggle paste mode with <f12> for easy pasting without auto-formatting.
         set hidden " buffers keep their state when a new buffer is opened in the same view.
         set winminheight=0 " Show at least zero lines instead of at least one for horizontal splits.
-        set sessionoptions=blank,buffers,curdir,folds,help,resize,slash,tabpages,unix,winpos,winsize " :help sessionoptions
+        set sessionoptions=blank,curdir,folds,help,resize,slash,tabpages,unix,winpos,winsize " :help sessionoptions
 
     " prevent the alternate buffer in Gnome Terminal, etc, so output works
     " like vim's internal :echo command. woo!
@@ -332,7 +401,7 @@ endif
     " Update the status line immediately when leaving INSERT or VISUAL mode by
     " pressing <esc>
         if ! has('gui_running')
-            set ttimeoutlen=10
+            set ttimeoutlen=10 " TODO: Does this interfere with the above set timeoutlen?
             augroup FastEscape
                 autocmd!
                 au InsertEnter * set timeout | set timeoutlen=0
@@ -347,28 +416,31 @@ endif
 
     " STYLE
         " look and feel (colorscheme, font, etc)
+        " FOR ALL ENVIRONMENTS
+            set guioptions=acegimrLbtT
         " FOR SPECIFIC ENVIRONMENTS
             if &term == "linux"
-                " nothing here yet
-            elseif &term == "xterm" || &term == "xterm-256color"
+                " nothing here yet. TODO: Find a good 16-color theme.
+            elseif &term == "xterm" || &term == "xterm-256color" || &term == "screen-256color"
                 " make the background color always transparent in xterm
                     "autocmd ColorScheme * highlight normal ctermbg=None
                 set t_Co=256 " enable full color
+                set t_ut= " disable clearing of the background. This is helpful in tmux and screen.
+                set ttymouse=xterm2 " use advanced mouse support even if not in xterm (e.g. if in screen/tmux).
                 silent! colorscheme hybrid
                 highlight LineNr ctermfg=red
-                highlight MatchParen cterm=bold ctermbg=none ctermfg=green
+                highlight MatchParen cterm=bold,underline ctermbg=none ctermfg=green
+                highlight TabLineSel ctermfg=yellow
+                highlight TabLineFill ctermfg=black
             elseif has("gui_running")
-                silent! colorscheme hybrid
                 highlight LineNr guifg=red
                 highlight MatchParen gui=bold guibg=black guifg=limegreen
                 if has("gui_gtk2")
-                    silent! set guifont=Ubuntu\ Mono\ for\ Powerline\ 18
+                    silent! set guifont=Ubuntu\ Mono\ for\ Powerline\ 13
                 elseif has("gui_win32")
                     silent! set guifont=Consolas:h11:cANSI
                 endif
             endif
-        " FOR ALL ENVIRONMENTS
-            set guioptions=acegimrLbtT
 
     " BEGIN KEYBINDINGS:
         " prevent me from using arrow keys. Grrrrr.
@@ -403,39 +475,48 @@ endif
                 "imap <c-j> <c-down>
                 "imap <c-k> <c-right>
 
-                nnoremap j h
-                nnoremap k j
-                nnoremap i k
-                nnoremap h i
-                xnoremap j h
-                xnoremap k j
-                xnoremap i k
-                xnoremap h i
+                " TODO TODO TODO TODO: Map all HJKL to IJKL conversion in one place
+                " no-recursively, then use the literal mapping for
+                " functionality.
+                noremap i k
+                noremap j h
+                noremap k j
+                noremap h i
                 nmap <c-i> <c-up>
                 nmap <c-j> <c-left>
                 nmap <c-k> <c-down>
                 nmap <c-l> <c-right>
-                imap <c-i> <c-up>
-                imap <c-j> <c-left>
-                imap <c-k> <c-down>
-                imap <c-l> <c-right>
                 if has("gui_running") " alt combinations have to be treated differently in gvim vs console vim.
                     imap <a-i> <up>
                     imap <a-j> <left>
                     imap <a-k> <down>
                     imap <a-l> <right>
+                    imap <c-a-i> <c-up>
+                    imap <c-a-j> <c-left>
+                    imap <c-a-k> <c-down>
+                    imap <c-a-l> <c-right>
                 else
                     imap i <up>
                     imap j <left>
                     imap k <down>
                     imap l <right>
+                    " TODO: the following doesn't work in terminal.
+                    imap <c-a-i> <c-up>
+                    imap <c-a-j> <c-left>
+                    imap <c-a-k> <c-down>
+                    imap <c-a-l> <c-right>
+                    " TODO: temporary for terminal until a solution exists:
+                    imap <c-i> <c-up>
+                    imap <c-j> <c-left>
+                    imap <c-k> <c-down>
+                    imap <c-l> <c-right>
                 endif
 
 
-            " make using ctrl+arrows to move by word.
+            " make using ctrl+arrows to move by word. TODO: Do programmatically
                 map <c-left> b
                 map <c-right> e
-                " TODO: Move cursor programmatically, not with maps to other keys.
+                " TODO: Move cursor programmatically with a function, not with maps to other keys. It will perform faster.
                 nmap <c-up> 10<up>
                 nmap <c-down> 10<down>
                 imap <c-up> <c-o>10<up>
@@ -533,6 +614,11 @@ endif
             inoremap <a-up> <esc>:m .-2<cr>==gi
             vnoremap <a-down> :m '>+1<cr>gv=gv
             vnoremap <a-up> :m '<-2<cr>gv=gv
+            " VVV TODO: map ijkl keys to hjkl keys instead, then map the hjkl keys to the actual action.
+            nnoremap <a-k> :m .+1<cr>==
+            nnoremap <a-i> :m .-2<cr>==
+            vnoremap <a-k> :m '>+1<cr>gv=gv
+            vnoremap <a-i> :m '<-2<cr>gv=gv
 
         " save with ctrl+s
             "imap <c-s> <c-o>:w<cr>
@@ -562,18 +648,34 @@ endif
 
         " BUFFER NAVIGATION
             " shift+ctrl+t to open new tabs.
-            "map <c-t> :tabnew<cr>
-            map <c-t> :tabnew<cr>:Startify<cr>
-        " alt+left/right to move between tabs.
-            map <a-right> gt
-            map <a-left> gT
+                "map <c-t> :tabnew<cr>
+                map <c-t> :tabnew<cr>:Startify<cr>
+            " alt+left/right to move between tabs in normal mode.
+                nmap <a-right> gt
+                nmap <a-left> gT
+                " Why don't the next two work in console?
+                noremap <a-l> gt
+                noremap <a-j> gT
+                " ^^^ TODO: map ijkl keys to hjkl keys instead, then map the hjkl keys to the actual action.
+                noremap l gt
+                noremap j gT
+            " quick buffer switching
+                nnoremap <leader>b :buffers<cr>:b<space>
+            " HJKL to IJKL split window commands.
+                nnoremap <c-w>i <c-w>k
+                nnoremap <c-w>k <c-w>j
+                nnoremap <c-w>j <c-w>h
+                nnoremap <c-w>h <c-w>i
+                nnoremap <c-w>I <c-w>K
+                nnoremap <c-w>K <c-w>J
+                nnoremap <c-w>J <c-w>H
+                nnoremap <c-w>H <c-w>I
+            " easier split window switching.
+                nnoremap <c-a-i> <c-w>k
+                nnoremap <c-a-k> <c-w>j
+                nnoremap <c-a-j> <c-w>h
+                nnoremap <c-a-l> <c-w>l
 
-            " TODO: ijkl
-            nnoremap <a-j> gt
-            nnoremap <a-l> gT
-
-        " quick buffer switching
-            nnoremap <leader>b :buffers<cr>:b<space>
     " END KEYBINDINGS:
 
     " COMMAND MAPS AND KEYMAPS TO CUSTOM FUNCTIONS:
@@ -591,7 +693,6 @@ endif
             endif
 
         " MAXIMIZE OR MINIMIZE CURRENT WINDOW
-        " TODO: DOESN"T WORK!!
         " toggles whether or not the current window is automatically zoomed
             function! ToggleMaxWins()
                 if exists('g:windowMax')
@@ -613,7 +714,7 @@ endif
             nnoremap <Leader>max :call ToggleMaxWins()<CR>
 
 
-        " CHEAT SHEET WITH <F4>
+        " CHEAT SHEET WITH <F4>. Put helpful content in VIMROOT/quicktip.
             let g:MyVimTips="off"
             function! ToggleVimTips()
                 if g:MyVimTips == "on"
@@ -624,7 +725,7 @@ endif
                     " add a cheat sheet here to be easily toggle with <F4>
                     execute "pedit ".s:VIMROOT."/quicktip"
                     " TODO: hard code the quicktip so it will work for whomever
-                    " copies my setup.
+                    " copies my setup?
                 endif
             endfunction
 
@@ -685,4 +786,3 @@ endif
     " END COMMAND MAPS AND SPECIAL FUNCTION MAPS:
 
 " END CUSTOM SETTINGS:
-
