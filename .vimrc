@@ -62,14 +62,15 @@ if glob(s:VIMROOT."/bundle/") != ""
             " Note: You don't set neobundle setting in .gvimrc!
 
             " ORIGINAL REPOS ON GITHUB
-                NeoBundle 'Shougo/vimproc', {
-                     \ 'build' : {
-                     \     'windows' : 'make -f make_mingw32.mak',
-                     \     'cygwin' : 'make -f make_cygwin.mak',
-                     \     'mac' : 'make -f make_mac.mak',
-                     \     'unix' : 'make -f make_unix.mak'
-                     \    }
-                     \ }
+                " TODO:
+                "NeoBundle 'Shougo/vimproc', {
+                     "\ 'build' : {
+                     "\     'windows' : 'make -f make_mingw32.mak',
+                     "\     'cygwin' : 'make -f make_cygwin.mak',
+                     "\     'mac' : 'make -f make_mac.mak',
+                     "\     'unix' : 'make -f make_unix.mak'
+                     "\    }
+                     "\ }
                 NeoBundle 'kchmck/vim-coffee-script'
                 NeoBundle 'tpope/vim-fugitive'
                 NeoBundle 'tpope/vim-markdown'
@@ -77,31 +78,31 @@ if glob(s:VIMROOT."/bundle/") != ""
                 "NeoBundle 'mattn/zencoding-vim' " use emmet instead
                 NeoBundle 'mattn/emmet-vim'
 
-                " YouCompleteMe
-                if has("unix")
-                    " make sure you have cmake and python installed (and python support in vim). Add/remove the install command arguments as necessary. You need to have clang installed if you use the --system-libclang flag; if you don't use the flag the installer will download the binary from llvm.org. see YCM docs.
-                    NeoBundle 'Valloric/YouCompleteMe', {
-                         \ 'build' : {
-                         \     'mac' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
-                         \     'unix' : './install.sh --clang-completer --system-libclang --omnisharp-completer'
-                         \    }
-                         \ }
-                else
-                    if has("win32")
-                        " Windows user: have fun, good luck, or both. ;)
-                        " TODO: See here for starters on installing for Windows: http://stackoverflow.com/questions/18801354/c-family-semantic-autocompletion-plugins-for-vim-using-clang-clang-complete-yo
-                        NeoBundle 'Valloric/YouCompleteMe', {
-                             \ 'build' : {
-                             \     'windows' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
-                             \     'cygwin' : './install.sh --clang-completer --system-libclang --omnisharp-completer'
-                             \    }
-                             \ }
-                    endif
-                endif
-                    " TODO: download default ycm_extra)conf linked here: http://www.alexeyshmalko.com/2014/youcompleteme-ultimate-autocomplete-plugin-for-vim/
-                    let g:ycm_global_ycm_extra_conf = s:VIMROOT.'/.ycm_extra_conf.py'
-                    let g:ycm_collect_identifiers_from_tags_files = 1
-                    let g:ycm_seed_identifiers_with_syntax = 1
+                "" TODO: YouCompleteMe
+                "if has("unix")
+                "    " make sure you have cmake and python installed (and python support in vim). Add/remove the install command arguments as necessary. You need to have clang installed if you use the --system-libclang flag; if you don't use the flag the installer will download the binary from llvm.org. see YCM docs.
+                "    NeoBundle 'Valloric/YouCompleteMe', {
+                "         \ 'build' : {
+                "         \     'mac' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
+                "         \     'unix' : './install.sh --clang-completer --system-libclang --omnisharp-completer'
+                "         \    }
+                "         \ }
+                "else
+                "    if has("win32")
+                "        " Windows user: have fun, good luck, or both. ;)
+                "        " TODO: See here for starters on installing for Windows: http://stackoverflow.com/questions/18801354/c-family-semantic-autocompletion-plugins-for-vim-using-clang-clang-complete-yo
+                "        NeoBundle 'Valloric/YouCompleteMe', {
+                "             \ 'build' : {
+                "             \     'windows' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
+                "             \     'cygwin' : './install.sh --clang-completer --system-libclang --omnisharp-completer'
+                "             \    }
+                "             \ }
+                "    endif
+                "endif
+                "    " TODO: download default ycm_extra)conf linked here: http://www.alexeyshmalko.com/2014/youcompleteme-ultimate-autocomplete-plugin-for-vim/
+                "    let g:ycm_global_ycm_extra_conf = s:VIMROOT.'/.ycm_extra_conf.py'
+                "    let g:ycm_collect_identifiers_from_tags_files = 1
+                "    let g:ycm_seed_identifiers_with_syntax = 1
 
                 NeoBundle 'scrooloose/nerdtree'
                 NeoBundle 'mhinz/vim-startify'
@@ -185,6 +186,10 @@ if glob(s:VIMROOT."/bundle/") != ""
                 NeoBundle 'gcmt/taboo.vim'
                     let g:taboo_tab_format=" %N:%f%m "
                     let g:taboo_renamed_tab_format=" %N:\"%l%m\" "
+
+                " Align stuff.
+                NeoBundle 'junegunn/vim-easy-align'
+                "NeoBundle 'godlygeek/tabular'
 
             " VIM.ORG SCRIPTS
                 set cursorline " highlight the current line. Needed for the next plugin to work.
@@ -419,26 +424,28 @@ endif
         " FOR ALL ENVIRONMENTS
             set guioptions=acegimrLbtT
         " FOR SPECIFIC ENVIRONMENTS
-            if &term == "linux"
+            if &term == "linux" " 16-color
                 " nothing here yet. TODO: Find a good 16-color theme.
-            elseif &term == "xterm" || &term == "xterm-256color" || &term == "screen-256color"
-                " make the background color always transparent in xterm
-                    "autocmd ColorScheme * highlight normal ctermbg=None
-                set t_Co=256 " enable full color
-                set t_ut= " disable clearing of the background. This is helpful in tmux and screen.
-                set ttymouse=xterm2 " use advanced mouse support even if not in xterm (e.g. if in screen/tmux).
+            else " 256-color
                 silent! colorscheme hybrid
-                highlight LineNr ctermfg=red
-                highlight MatchParen cterm=bold,underline ctermbg=none ctermfg=green
-                highlight TabLineSel ctermfg=yellow
-                highlight TabLineFill ctermfg=black
-            elseif has("gui_running")
-                highlight LineNr guifg=red
-                highlight MatchParen gui=bold guibg=black guifg=limegreen
-                if has("gui_gtk2")
-                    silent! set guifont=Ubuntu\ Mono\ for\ Powerline\ 13
-                elseif has("gui_win32")
-                    silent! set guifont=Consolas:h11:cANSI
+                if &term == "xterm" || &term == "xterm-256color" || &term == "screen-256color"
+                    " make the background color always transparent in xterm
+                        "autocmd ColorScheme * highlight normal ctermbg=None
+                    set t_Co=256 " enable full color
+                    set t_ut= " disable clearing of the background. This is helpful in tmux and screen.
+                    set ttymouse=xterm2 " use advanced mouse support even if not in xterm (e.g. if in screen/tmux).
+                    highlight LineNr ctermfg=red
+                    highlight MatchParen cterm=bold,underline ctermbg=none ctermfg=green
+                    highlight TabLineSel ctermfg=yellow
+                    highlight TabLineFill ctermfg=black
+                elseif has("gui_running")
+                    highlight LineNr guifg=red
+                    highlight MatchParen gui=bold guibg=black guifg=limegreen
+                    if has("gui_gtk2")
+                        silent! set guifont=Ubuntu\ Mono\ for\ Powerline\ 13
+                    elseif has("gui_win32")
+                        silent! set guifont=Consolas:h11:cANSI
+                    endif
                 endif
             endif
 
