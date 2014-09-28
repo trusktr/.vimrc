@@ -114,10 +114,10 @@ if glob(s:VIMROOT."/bundle/") != ""
                     let g:ctrlp_working_path_mode = 2 " CtrlP: use the nearest ancestor that contains one of these directories or files: .git/ .hg/ .svn/ .bzr/ _darcs/
                     nnoremap <silent> <leader>sh :h<CR>:CtrlPTag<CR>
                 NeoBundle 'scrooloose/syntastic'
-                    let g:syntastic_mode_map = { 'mode': 'active' }
-                    let g:syntastic_error_symbol = 'E'
-                    let g:syntastic_style_error_symbol = 'e'
-                    let g:syntastic_warning_symbol = 'W'
+                    let g:syntastic_mode_map             = { 'mode': 'active' }
+                    let g:syntastic_error_symbol         = 'E'
+                    let g:syntastic_style_error_symbol   = 'e'
+                    let g:syntastic_warning_symbol       = 'W'
                     let g:syntastic_style_warning_symbol = 'w'
                 NeoBundle 'scrooloose/nerdcommenter'
 
@@ -184,11 +184,12 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 NeoBundle 'majutsushi/tagbar'
                 NeoBundle 'gcmt/taboo.vim'
-                    let g:taboo_tab_format=" %N:%f%m "
-                    let g:taboo_renamed_tab_format=" %N:\"%l%m\" "
+                    let g:taboo_tab_format         = " %N:%f%m "
+                    let g:taboo_renamed_tab_format = " %N:\"%l%m\" "
 
                 " Align stuff.
                 NeoBundle 'junegunn/vim-easy-align'
+                    xmap <leader>a <Plug>(EasyAlign)
                 "NeoBundle 'godlygeek/tabular'
 
             " VIM.ORG SCRIPTS
