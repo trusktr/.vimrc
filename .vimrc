@@ -192,6 +192,9 @@ if glob(s:VIMROOT."/bundle/") != ""
                     xmap <leader>a <Plug>(EasyAlign)
                 "NeoBundle 'godlygeek/tabular'
 
+                "NeoBundle 'terryma/vim-multiple-cursors'
+                    "TODO: Make it work with IJKL. Perhaps using non-recursive mappings will fix it.
+
             " VIM.ORG SCRIPTS
                 set cursorline " highlight the current line. Needed for the next plugin to work.
                 NeoBundle "CursorLineCurrentWindow"
