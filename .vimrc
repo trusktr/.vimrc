@@ -123,6 +123,11 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 " COLORSCHEMES
                     NeoBundle 'w0ng/vim-hybrid'
+                    NeoBundle '3DGlasses.vim'
+                    "NeoBundle 'daylerees/colour-schemes', {'rtp': 'vim/colors'} Needs "colors" dir.
+                    NeoBundle 'djjcast/mirodark'
+                    "NeoBundle 'nicholasc/vim-seti' // doesn't work in terminal
+                    NeoBundle 'trusktr/seti.vim'
                     "NeoBundle 'noahfrederick/vim-hemisu'
                     "NeoBundle 'altercation/vim-colors-solarized'
                         "let g:solarized_termcolors=256
@@ -431,7 +436,7 @@ endif
             if &term == "linux" " 16-color
                 " nothing here yet. TODO: Find a good 16-color theme.
             else " 256-color
-                silent! colorscheme hybrid
+                silent! colorscheme seti
                 if &term == "xterm" || &term == "xterm-256color" || &term == "screen-256color"
                     " make the background color always transparent in xterm
                         "autocmd ColorScheme * highlight normal ctermbg=None
