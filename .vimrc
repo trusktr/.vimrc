@@ -44,65 +44,58 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 " Required:
                 let &runtimepath.=",".s:VIMROOT."/bundle/neobundle.vim"
-                "execute 'set runtimepath+='.s:VIMROOT.'/bundle/neobundle.vim'
-                " ^^^ TODO: note why I did this.
                 let g:neobundle#install_process_timeout = 600
             endif
 
             " Required:
-            call neobundle#rc(expand(s:VIMROOT.'/bundle/'))
+            call neobundle#begin(expand(s:VIMROOT.'/bundle/'))
 
-            " Let NeoBundle manage NeoBundle
-            " Required:
-            NeoBundleFetch 'Shougo/neobundle.vim'
+                " Let NeoBundle manage NeoBundle
+                " Required:
+                NeoBundleFetch 'Shougo/neobundle.vim'
 
 
-            " MY BUNDLES HERE:
-            " Along with bundle-specific settings.
-            " Note: You don't set neobundle setting in .gvimrc!
+                " MY BUNDLES HERE:
+                " Along with bundle-specific settings.
+                " Refer to |:NeoBundle-examples|.
+                " Note: You don't set neobundle setting in .gvimrc!
 
-            " ORIGINAL REPOS ON GITHUB
+                " EXAMPLES:
+                    " GITHUB REPOS:
+                        " NeoBundle 'username/repo'
+
+                    " VIMSCRIPTS.ORG SCRIPTS:
+                        " NeoBundle 'script-name'
+
+                    " NON GITHUB REPOS:
+                        "NeoBundle 'git://git.wincent.com/command-t'
+
+                    " NON GIT REPOS:
+                        "NeoBundle 'http://svn.macports.org/repository/macports/contrib/mpvim/'
+                        "NeoBundle 'https://bitbucket.org/ns9tks/vim-fuzzyfinder'
+
+                    " LOCAL PLUGINS
+                        "NeoBundle 'file:///home/user/path/to/plugin'
+
+                " Brief help
+                " :NeoBundleList          - list configured bundles
+                " :NeoBundleInstall(!)    - install(update) bundles
+                " :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+
                 " TODO:
-                "NeoBundle 'Shougo/vimproc', {
-                     "\ 'build' : {
-                     "\     'windows' : 'make -f make_mingw32.mak',
-                     "\     'cygwin' : 'make -f make_cygwin.mak',
-                     "\     'mac' : 'make -f make_mac.mak',
-                     "\     'unix' : 'make -f make_unix.mak'
-                     "\    }
-                     "\ }
-                NeoBundle 'kchmck/vim-coffee-script'
+                NeoBundle 'Shougo/vimproc.vim', {
+                     \ 'build' : {
+                     \     'windows' : 'tools\\update-dll-mingw',
+                     \     'cygwin' : 'make -f make_cygwin.mak',
+                     \     'mac' : 'make -f make_mac.mak',
+                     \     'linux' : 'make',
+                     \     'unix' : 'gmake',
+                     \    },
+                     \ }
+
                 NeoBundle 'tpope/vim-fugitive'
                 NeoBundle 'tpope/vim-markdown'
                 NeoBundle 'Lokaltog/vim-easymotion'
-                "NeoBundle 'mattn/zencoding-vim' " use emmet instead
-                NeoBundle 'mattn/emmet-vim'
-
-                "" TODO: YouCompleteMe
-                "if has("unix")
-                "    " make sure you have cmake and python installed (and python support in vim). Add/remove the install command arguments as necessary. You need to have clang installed if you use the --system-libclang flag; if you don't use the flag the installer will download the binary from llvm.org. see YCM docs.
-                "    NeoBundle 'Valloric/YouCompleteMe', {
-                "         \ 'build' : {
-                "         \     'mac' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
-                "         \     'unix' : './install.sh --clang-completer --system-libclang --omnisharp-completer'
-                "         \    }
-                "         \ }
-                "else
-                "    if has("win32")
-                "        " Windows user: have fun, good luck, or both. ;)
-                "        " TODO: See here for starters on installing for Windows: http://stackoverflow.com/questions/18801354/c-family-semantic-autocompletion-plugins-for-vim-using-clang-clang-complete-yo
-                "        NeoBundle 'Valloric/YouCompleteMe', {
-                "             \ 'build' : {
-                "             \     'windows' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
-                "             \     'cygwin' : './install.sh --clang-completer --system-libclang --omnisharp-completer'
-                "             \    }
-                "             \ }
-                "    endif
-                "endif
-                "    " TODO: download default ycm_extra)conf linked here: http://www.alexeyshmalko.com/2014/youcompleteme-ultimate-autocomplete-plugin-for-vim/
-                "    let g:ycm_global_ycm_extra_conf = s:VIMROOT.'/.ycm_extra_conf.py'
-                "    let g:ycm_collect_identifiers_from_tags_files = 1
-                "    let g:ycm_seed_identifiers_with_syntax = 1
 
                 NeoBundle 'scrooloose/nerdtree'
                 NeoBundle 'mhinz/vim-startify'
@@ -110,10 +103,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                 "NeoBundle 'mbbill/VimExplorer'
                 "NeoBundle 'yuratomo/gmail.vim'
                    "silent! source `=s:VIMROOT."/.gmail"` " Source login info
-                NeoBundle 'kien/ctrlp.vim'
-                    let g:ctrlp_working_path_mode = 2 " CtrlP: use the nearest ancestor that contains one of these directories or files: .git/ .hg/ .svn/ .bzr/ _darcs/
-                    nnoremap <silent> <leader>sh :h<CR>:CtrlPTag<CR>
-                NeoBundle 'scrooloose/syntastic'
+                NeoBundle 'scrooloose/syntastic' " All purpose syntax checking
                     let g:syntastic_mode_map             = { 'mode': 'active' }
                     let g:syntastic_error_symbol         = 'E'
                     let g:syntastic_style_error_symbol   = 'e'
@@ -123,15 +113,14 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 " COLORSCHEMES
                     NeoBundle 'w0ng/vim-hybrid'
-                    NeoBundle '3DGlasses.vim'
                     "NeoBundle 'daylerees/colour-schemes', {'rtp': 'vim/colors'} Needs "colors" dir.
                     NeoBundle 'djjcast/mirodark'
                     "NeoBundle 'nicholasc/vim-seti' // doesn't work in terminal
                     NeoBundle 'trusktr/seti.vim'
                     "NeoBundle 'noahfrederick/vim-hemisu'
-                    "NeoBundle 'altercation/vim-colors-solarized'
-                        "let g:solarized_termcolors=256
-                        "set background=dark " specify whether you want the light theme or the dark theme.
+                    NeoBundle 'altercation/vim-colors-solarized'
+                        let g:solarized_termcolors=256
+                        set background=dark " specify whether you want the light theme or the dark theme.
                     "NeoBundle 'jonathanfilip/vim-lucius'
                     "NeoBundle 'jnurmine/Zenburn'
                     "NeoBundle 'adlawson/vim-sorcerer'
@@ -139,7 +128,8 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "NeoBundle 'jordwalke/flatlandia'
                     "NeoBundle 'antlypls/vim-colors-codeschool'
                     "NeoBundle 'morhetz/gruvbox'
-                    "NeoBundle '3DGlasses.vim'
+                    NeoBundle '3DGlasses.vim'
+                    "NeoBundle 'goatslacker/mango.vim'
 
                 "NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
                 "NeoBundle 'Lokaltog/vim-powerline'
@@ -147,13 +137,18 @@ if glob(s:VIMROOT."/bundle/") != ""
                 "NeoBundle 'stephenmckinney/vim-solarized-powerline'
                 NeoBundle 'bling/vim-airline'
                     let g:airline#extensions#syntastic#enabled = 1
+                    let g:airline_left_sep=''
+                    let g:airline_right_sep=''
+                    let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing' ]
+                    let g:airline#extensions#whitespace#show_message = 0
+                    let g:airline#extensions#whitespace#trailing_format = 't%s'
+                    let g:airline#extensions#whitespace#mixed_indent_format = 'm%s'
                 NeoBundle 'nanotech/jellybeans.vim'
                 "NeoBundle 'mhinz/vim-signify'
                     "let g:signify_disable_by_default = 0
                     ""let g:signify_cursorhold_normal = 1
                     ""let g:signify_cursorhold_insert = 1
                 NeoBundle 'airblade/vim-gitgutter'
-                "NeoBundle 'msanders/snipmate.vim'
                 "NeoBundle 'https://github.com/SirVer/ultisnips.git' " why does this only work with the full url?
                 NeoBundle 'maxbrunsfeld/vim-yankstack'
                     nmap <leader>P <Plug>yankstack_substitute_newer_paste
@@ -166,11 +161,73 @@ if glob(s:VIMROOT."/bundle/") != ""
                 "NeoBundle 'megaannum/self' " required for megaannum/forms
                 "NeoBundle 'megaannum/forms' " Runs a bit slow..
                 "NeoBundle 'mfumi/snake.vim'
-                NeoBundle 'pangloss/vim-javascript'
-                NeoBundle 'briancollins/vim-jst'
-                NeoBundle 'jimmyhchan/dustjs.vim'
+
+                " COMPLETION
+                    NeoBundle 'SyntaxComplete'
+                    NeoBundle 'garbas/vim-snipmate'
+                    "" TODO: YouCompleteMe
+                    "if has("unix")
+                    "    " make sure you have cmake and python installed (and python support in vim). Add/remove the install command arguments as necessary. You need to have clang installed if you use the --system-libclang flag; if you don't use the flag the installer will download the binary from llvm.org. see YCM docs.
+                    "    NeoBundle 'Valloric/YouCompleteMe', {
+                    "         \ 'build' : {
+                    "         \     'mac' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
+                    "         \     'unix' : './install.sh --clang-completer --system-libclang --omnisharp-completer'
+                    "         \    }
+                    "         \ }
+                    "else
+                    "    if has("win32")
+                    "        " Windows user: have fun, good luck, or both. ;)
+                    "        " TODO: See here for starters on installing for Windows: http://stackoverflow.com/questions/18801354/c-family-semantic-autocompletion-plugins-for-vim-using-clang-clang-complete-yo
+                    "        NeoBundle 'Valloric/YouCompleteMe', {
+                    "             \ 'build' : {
+                    "             \     'windows' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
+                    "             \     'cygwin' : './install.sh --clang-completer --system-libclang --omnisharp-completer'
+                    "             \    }
+                    "             \ }
+                    "    endif
+                    "endif
+                    "    " TODO: download default ycm_extra)conf linked here: http://www.alexeyshmalko.com/2014/youcompleteme-ultimate-autocomplete-plugin-for-vim/
+                    "    let g:ycm_global_ycm_extra_conf = s:VIMROOT.'/.ycm_extra_conf.py'
+                    "    let g:ycm_collect_identifiers_from_tags_files = 1
+                    "    let g:ycm_seed_identifiers_with_syntax = 1
+
+                " JAVASCRIPT
+                    NeoBundle 'jelera/vim-javascript-syntax' " works in tandem with pangloss/vim-javascript
+                    "NeoBundle 'JavaScript-Indent' " seems to be outdated compared to pangloss/vim-javascript.
+                    NeoBundle 'pangloss/vim-javascript' " preferred, works in tandem with jelera/vim-javascript-syntax
+                    "NeoBundle 'drslump/vim-syntax-js' " replace various keywords in JavaScript with abbreviations and symbols
+                        "set conceallevel=2
+                        "set concealcursor=nc  " don't reveal the conceals unless on insert or visual modes
+                        "let g:syntax_js=['function', 'return', 'semicolon', 'comma', 'this', 'proto', 'solarized'] " which conceals to enable
+                    NeoBundle 'moll/vim-node'
+                    "NeoBundle 'walm/jshint.vim' " prefer Syntastic
+                    NeoBundle 'jamescarr/snipmate-nodejs' " requires garbas/vim-snipmate, dump the contents of snippets/javascript into the directory ~/.vim/snippets/javascript
+                    "NeoBundle 'myhere/vim-nodejs-complete' " use <c-x><c-o> to trigger completion.
+                    NeoBundle 'ahayman/vim-nodejs-complete' " use <c-x><c-o> to trigger completion. Fork of myhere's version, more up to date.
+                    NeoBundle 'sidorares/node-vim-debugger'
+                    NeoBundle 'thinca/vim-textobj-function-javascript' " What does this do?
+                    "echo "Be sure to install jshint for Syntastic syntax support. npm install -g jshint"
+
+                " COFFESCRIPT
+                    NeoBundle 'kchmck/vim-coffee-script'
+
+                " HTML
+                    "NeoBundle 'mattn/zencoding-vim' " deprecated, use mattn/emmet-vim instead
+                    NeoBundle 'mattn/emmet-vim'
+
+                " TEMPLATES
+                    NeoBundle 'briancollins/vim-jst'
+                    NeoBundle 'jimmyhchan/dustjs.vim'
+                    "NeoBundle 'mustache/vim-mustache-handlebars'
+                    NeoBundle 'nono/vim-handlebars' " This is deprecated in favor of mustache/vim-mustache-handlebars, but is working better with {{!-- comments --}}.
+                    NeoBundle 'digitaltoad/vim-jade'
+                    NeoBundle 'wavded/vim-stylus'
+
+                NeoBundle 'tpope/vim-surround' " surround selections with things like quotes, parens, brakcets, etc.
+
                 "NeoBundle 'sjl/gundo.vim'
                 NeoBundle 'mbbill/undotree'
+
                 "NeoBundle 'wesQ3/vim-windowswap' " easily swap window splits.
                 NeoBundle 'MattesGroeger/vim-bookmarks' " nice (annotated) bookmarks in your gutter.
 
@@ -193,31 +250,34 @@ if glob(s:VIMROOT."/bundle/") != ""
                     let g:taboo_renamed_tab_format = " %N:\"%l%m\" "
 
                 " Align stuff.
-                NeoBundle 'junegunn/vim-easy-align'
-                    xmap <leader>a <Plug>(EasyAlign)
-                "NeoBundle 'godlygeek/tabular'
+                    NeoBundle 'junegunn/vim-easy-align'
+                        xmap <leader>a <Plug>(EasyAlign)
+                    "NeoBundle 'godlygeek/tabular'
 
                 "NeoBundle 'terryma/vim-multiple-cursors'
                     "TODO: Make it work with IJKL. Perhaps using non-recursive mappings will fix it.
 
-            " VIM.ORG SCRIPTS
+                NeoBundle 'guns/xterm-color-table.vim'
+
                 set cursorline " highlight the current line. Needed for the next plugin to work.
                 NeoBundle "CursorLineCurrentWindow"
-                "NeoBundle 'L9' " Required for FuzzyFinder
-                "NeoBundle 'FuzzyFinder'
+
+                " SEARCH AND NAVIGATION
+                    NeoBundle 'kien/ctrlp.vim' " Alternative to wincent/command-t
+                        let g:ctrlp_working_path_mode = 2 " CtrlP: use the nearest ancestor that contains one of these directories or files: .git/ .hg/ .svn/ .bzr/ _darcs/
+                        nnoremap <silent> <leader>sh :h<CR>:CtrlPTag<CR>
+                    NeoBundle 'wincent/command-t' " Alternative to kien/ctrlp.vim, seems to have better matching
+                        let g:CommandTMaxHeight=10
+                    NeoBundle 'L9' " Required for FuzzyFinder
+                    NeoBundle 'FuzzyFinder' " requires L9
+                    NeoBundle 'mileszs/ack.vim' " in-vim replacement for grep.
+
                 NeoBundle 'DrawIt'
                 if !(&term == "win32" || $TERM == "cygwin")
                    NeoBundle 'taglist.vim'
                 endif
                 "NeoBundle 'CmdlineCompl.vim' SEEMS OUTDATED
                 "NeoBundle 'hexman.vim'
-
-            " NON GITHUB REPOS
-                "NeoBundle 'git://git.wincent.com/command-t'
-
-            " NON GIT REPOS
-                "NeoBundle 'http://svn.macports.org/repository/macports/contrib/mpvim/'
-                "NeoBundle 'https://bitbucket.org/ns9tks/vim-fuzzyfinder'
 
                 " For creating text-based-ui menus in vim:
                 "NeoBundle 'svn://svn.code.sf.net/p/vimuiex/code/trunk', {
@@ -229,8 +289,9 @@ if glob(s:VIMROOT."/bundle/") != ""
                             "\'rtp': 'runtime/vimuiex/'
                         "\}
 
-            " LOCAL PLUGINS
-                "NeoBundle 'file:///home/user/path/to/plugin'
+                NeoBundle 'PreserveNoEOL'
+
+            call neobundle#end()
 
             " Required:
             filetype plugin indent on
@@ -238,11 +299,6 @@ if glob(s:VIMROOT."/bundle/") != ""
             " If there are uninstalled bundles found on startup,
             " this will conveniently prompt you to install them.
             NeoBundleCheck
-
-            " Brief help
-            " :NeoBundleList          - list configured bundles
-            " :NeoBundleInstall(!)    - install(update) bundles
-            " :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused bundles
         " END NEOBUNDLE PLUGIN MANAGEMENT:
     endif
 
@@ -257,14 +313,14 @@ endif
     endif
 
     if has("vms")
-      set nobackup		" do not keep a backup file, use versions instead
+      set nobackup        " do not keep a backup file, use versions instead
     else
-      set backup		" keep a backup file
+      set backup        " keep a backup file
     endif
-    "set history=500		" keep 50 lines of command line history
-    set ruler		" show the cursor position all the time
-    set showcmd		" display incomplete commands
-    set incsearch		" do incremental searching
+    "set history=500        " keep 50 lines of command line history
+    set ruler        " show the cursor position all the time
+    set showcmd        " display incomplete commands
+    set incsearch " do incremental searching
 
     " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
     " let &guioptions = substitute(&guioptions, "t", "", "g")
@@ -318,7 +374,7 @@ endif
 
     else
 
-      set autoindent		" always set autoindenting on
+      set autoindent        " always set autoindenting on
 
     endif " has("autocmd")
 
@@ -382,7 +438,7 @@ endif
         set timeoutlen=1000000 " Really long timeout length for any multikey combos so it seems like there's no timeout, but with some of the benefits of having a timeout. I don't like when partially typed commands dissappear without my permission.
         filetype indent plugin on " enable filetype features.
         set showcmd " display incomplete command. I moved this here from Bram's example because it wasn't working before vundle.
-        set history=9999		" how many lines of command line history to keep.
+        set history=9999        " how many lines of command line history to keep.
         set pastetoggle=<f12> " Toggle paste mode with <f12> for easy pasting without auto-formatting.
         set hidden " buffers keep their state when a new buffer is opened in the same view.
         set winminheight=0 " Show at least zero lines instead of at least one for horizontal splits.
