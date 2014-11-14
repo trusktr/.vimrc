@@ -98,6 +98,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                 NeoBundle 'Lokaltog/vim-easymotion'
 
                 NeoBundle 'scrooloose/nerdtree'
+                    nnoremap <leader>f :NERDTreeToggle<enter>
                 NeoBundle 'mhinz/vim-startify'
                    let g:startify_session_dir = s:VIMROOT.'/session'
                 "NeoBundle 'mbbill/VimExplorer'
@@ -113,16 +114,16 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 " COLORSCHEMES
                     NeoBundle 'w0ng/vim-hybrid'
-                    "NeoBundle 'daylerees/colour-schemes', {'rtp': 'vim/colors'} Needs "colors" dir.
+                    NeoBundle 'daylerees/colour-schemes', { 'rtp': 'vim', }
                     NeoBundle 'djjcast/mirodark'
                     "NeoBundle 'nicholasc/vim-seti' // doesn't work in terminal
                     NeoBundle 'trusktr/seti.vim'
-                    "NeoBundle 'noahfrederick/vim-hemisu'
+                    NeoBundle 'noahfrederick/vim-hemisu'
                     NeoBundle 'altercation/vim-colors-solarized'
                         let g:solarized_termcolors=256
                         set background=dark " specify whether you want the light theme or the dark theme.
                     "NeoBundle 'jonathanfilip/vim-lucius'
-                    "NeoBundle 'jnurmine/Zenburn'
+                    NeoBundle 'jnurmine/Zenburn'
                     "NeoBundle 'adlawson/vim-sorcerer'
                     "NeoBundle 'zeis/vim-kolor'
                     "NeoBundle 'jordwalke/flatlandia'
@@ -130,6 +131,16 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "NeoBundle 'morhetz/gruvbox'
                     NeoBundle '3DGlasses.vim'
                     "NeoBundle 'goatslacker/mango.vim'
+                    NeoBundle 'jasonlong/lavalamp', {
+                        \ 'rtp': 'vim',
+                        \ 'build' : {
+                        \     'mac':   'mkdir ./vim/colors && cp -f ./vim/lavalamp.vim ./vim/colors/lavalamp.vim',
+                        \     'unix':  'mkdir ./vim/colors && cp -f ./vim/lavalamp.vim ./vim/colors/lavalamp.vim',
+                        \     'linux': 'mkdir ./vim/colors && cp -f ./vim/lavalamp.vim ./vim/colors/lavalamp.vim'
+                        \    }
+                        \ }
+
+                    NeoBundle 'trusktr/random.vim'
 
                 "NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
                 "NeoBundle 'Lokaltog/vim-powerline'
@@ -140,7 +151,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                     let g:airline_left_sep=''
                     let g:airline_right_sep=''
                     let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing' ]
-                    let g:airline#extensions#whitespace#show_message = 0
+                    let g:airline#extensions#whitespace#show_message = 1
                     let g:airline#extensions#whitespace#trailing_format = 't%s'
                     let g:airline#extensions#whitespace#mixed_indent_format = 'm%s'
                 NeoBundle 'nanotech/jellybeans.vim'
@@ -165,6 +176,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                 " COMPLETION
                     NeoBundle 'SyntaxComplete'
                     NeoBundle 'garbas/vim-snipmate'
+                    NeoBundle 'marcweber/vim-addon-mw-utils'
                     "" TODO: YouCompleteMe
                     "if has("unix")
                     "    " make sure you have cmake and python installed (and python support in vim). Add/remove the install command arguments as necessary. You need to have clang installed if you use the --system-libclang flag; if you don't use the flag the installer will download the binary from llvm.org. see YCM docs.
@@ -274,7 +286,7 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 NeoBundle 'DrawIt'
                 if !(&term == "win32" || $TERM == "cygwin")
-                   NeoBundle 'taglist.vim'
+                    NeoBundle 'taglist.vim'
                 endif
                 "NeoBundle 'CmdlineCompl.vim' SEEMS OUTDATED
                 "NeoBundle 'hexman.vim'
@@ -290,6 +302,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "\}
 
                 NeoBundle 'PreserveNoEOL'
+                    let g:PreserveNoEOL = 1
 
             call neobundle#end()
 
@@ -485,6 +498,13 @@ endif
 
 
     " STYLE
+        " TODO: random colorscheme.
+        "let colorschemes = ['zenburn', 'hybrid', 'solarized', 'hemisu', 'seti', '3dglasses']
+        "echo 'LENGTH OF ARRAY'
+        "echo len(colorschemes)
+        "let colorscheme = colorschemes[Random(0, len(colorschemes)-1)]
+        "echo colorscheme
+
         " look and feel (colorscheme, font, etc)
         " FOR ALL ENVIRONMENTS
             set guioptions=acegimrLbtT
@@ -492,20 +512,36 @@ endif
             if &term == "linux" " 16-color
                 " nothing here yet. TODO: Find a good 16-color theme.
             else " 256-color
-                silent! colorscheme seti
+                "execute "silent! colorscheme ".colorscheme
+                execute "silent! colorscheme hybrid"
                 if &term == "xterm" || &term == "xterm-256color" || &term == "screen-256color"
                     " make the background color always transparent in xterm
                         "autocmd ColorScheme * highlight normal ctermbg=None
                     set t_Co=256 " enable full color
                     set t_ut= " disable clearing of the background. This is helpful in tmux and screen.
                     set ttymouse=xterm2 " use advanced mouse support even if not in xterm (e.g. if in screen/tmux).
+
                     highlight LineNr ctermfg=red
                     highlight MatchParen cterm=bold,underline ctermbg=none ctermfg=green
                     highlight TabLineSel ctermfg=yellow
                     highlight TabLineFill ctermfg=black
+
                 elseif has("gui_running")
-                    highlight LineNr guifg=red
+                    execute "silent! colorscheme hybrid"
+                    " customize hybrid a little.
+                    highlight Comment guifg=#484848 | highlight Normal guifg=#999999
+                    highlight TabLine guifg=#333333 guibg=#777777 | highlight TabLineSel guifg=#FA7F7F
+
+                    set guioptions-=m  "remove menu bar
+                    set guioptions-=T  "remove toolbar
+                    set guioptions-=e  "use text-based tabs
+                    set guioptions-=b  "remove bottom scrollbar
+                    set guioptions-=r  "remove right-hand scroll bar
+                    set guioptions-=L  "remove left-hand scroll bar
+
+                    "highlight LineNr guifg=red
                     highlight MatchParen gui=bold guibg=black guifg=limegreen
+
                     if has("gui_gtk2")
                         silent! set guifont=Ubuntu\ Mono\ for\ Powerline\ 13
                     elseif has("gui_win32")
