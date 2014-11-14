@@ -139,6 +139,8 @@ if glob(s:VIMROOT."/bundle/") != ""
                         \     'linux': 'mkdir ./vim/colors && cp -f ./vim/lavalamp.vim ./vim/colors/lavalamp.vim'
                         \    }
                         \ }
+                    NeoBundle 'nanotech/jellybeans.vim'
+                    NeoBundle 'chriskempson/base16-vim'
 
                     NeoBundle 'trusktr/random.vim'
 
@@ -147,14 +149,19 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "let g:Powerline_symbols='fancy' " Powerline: fancy statusline (patched font)
                 "NeoBundle 'stephenmckinney/vim-solarized-powerline'
                 NeoBundle 'bling/vim-airline'
-                    let g:airline#extensions#syntastic#enabled = 1
+                    let g:airline_theme="base16"
                     let g:airline_left_sep=''
                     let g:airline_right_sep=''
+                    let g:airline#extensions#tabline#enabled = 1
+                    let g:airline#extensions#tabline#left_sep = ' '
+                    let g:airline#extensions#tabline#left_alt_sep = '|'
+                    "let g:airline#extensions#syntastic#enabled = 1
                     let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing' ]
                     let g:airline#extensions#whitespace#show_message = 1
                     let g:airline#extensions#whitespace#trailing_format = 't%s'
                     let g:airline#extensions#whitespace#mixed_indent_format = 'm%s'
-                NeoBundle 'nanotech/jellybeans.vim'
+                "NeoBundle 'molok/vim-smartusline'
+                    "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
                 "NeoBundle 'mhinz/vim-signify'
                     "let g:signify_disable_by_default = 0
                     ""let g:signify_cursorhold_normal = 1
@@ -514,8 +521,8 @@ endif
                 " nothing here yet. TODO: Find a good 16-color theme.
             else " 256-color
                 "execute "silent! colorscheme ".colorscheme
-                execute "silent! colorscheme hybrid"
                 if &term == "xterm" || &term == "xterm-256color" || &term == "screen-256color"
+                    execute "silent! colorscheme hybrid"
                     " make the background color always transparent in xterm
                         "autocmd ColorScheme * highlight normal ctermbg=None
                     set t_Co=256 " enable full color
@@ -528,10 +535,12 @@ endif
                     highlight TabLineFill ctermfg=black
 
                 elseif has("gui_running")
-                    execute "silent! colorscheme hybrid"
+                    execute "silent! colorscheme base16-eighties"
                     " customize hybrid a little.
-                    highlight Comment guifg=#484848 | highlight Normal guifg=#999999
-                    highlight TabLine guifg=#333333 guibg=#777777 | highlight TabLineSel guifg=#FA7F7F
+                    highlight Comment guifg=#484848
+                    highlight Normal guifg=#999999
+                    "highlight TabLine guifg=#333333 guibg=#777777
+                    "highlight TabLineSel guifg=#FA7F7F
 
                     set guioptions-=m  "remove menu bar
                     set guioptions-=T  "remove toolbar
