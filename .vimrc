@@ -270,7 +270,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "TODO: Make it work with IJKL. Perhaps using non-recursive mappings will fix it.
 
                 NeoBundle 'guns/xterm-color-table.vim'
-
+                NeoBundle 'digitaltoad/vim-jade'
                 set cursorline " highlight the current line. Needed for the next plugin to work.
                 NeoBundle "CursorLineCurrentWindow"
 
@@ -290,6 +290,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                 endif
                 "NeoBundle 'CmdlineCompl.vim' SEEMS OUTDATED
                 "NeoBundle 'hexman.vim'
+                NeoBundle 'ZoomWin'
 
                 " For creating text-based-ui menus in vim:
                 "NeoBundle 'svn://svn.code.sf.net/p/vimuiex/code/trunk', {
@@ -421,8 +422,8 @@ endif
                 let &undodir=s:VIMROOT.'/undo'
             endif
         endif
-        set tabstop=8
-        set expandtab
+        set expandtab " use spaces instead of tabs
+        set tabstop=4
         set shiftwidth=4 " Number of spaces for...
         set softtabstop=4 " each indent level
         set textwidth=0 " At which column to wrap to the next line when typing.
