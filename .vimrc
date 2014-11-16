@@ -142,7 +142,8 @@ if glob(s:VIMROOT."/bundle/") != ""
                     NeoBundle 'nanotech/jellybeans.vim'
                     NeoBundle 'chriskempson/base16-vim'
 
-                    NeoBundle 'trusktr/random.vim'
+                    NeoBundle 'Claperius/random-vim' " random number generator
+                    "NeoBundle 'trusktr/random-vim' " random number generator (my fork)
 
                 "NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
                 "NeoBundle 'Lokaltog/vim-powerline'
@@ -541,6 +542,8 @@ endif
                     highlight Normal guifg=#999999
                     "highlight TabLine guifg=#333333 guibg=#777777
                     "highlight TabLineSel guifg=#FA7F7F
+                    "highlight LineNr guifg=red
+                    highlight MatchParen gui=bold guibg=black guifg=limegreen
 
                     set guioptions-=m  "remove menu bar
                     set guioptions-=T  "remove toolbar
@@ -548,9 +551,6 @@ endif
                     set guioptions-=b  "remove bottom scrollbar
                     set guioptions-=r  "remove right-hand scroll bar
                     set guioptions-=L  "remove left-hand scroll bar
-
-                    "highlight LineNr guifg=red
-                    highlight MatchParen gui=bold guibg=black guifg=limegreen
 
                     if has("gui_gtk2")
                         silent! set guifont=Ubuntu\ Mono\ for\ Powerline\ 13
