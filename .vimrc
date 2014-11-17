@@ -783,6 +783,8 @@ endif
                 noremap j gT
             " quick buffer switching
                 nnoremap <leader>b :buffers<cr>:b<space>
+
+            " TODO: non-recursive mapping to IJKL.
             " HJKL to IJKL split window commands.
                 nnoremap <c-w>i <c-w>k
                 nnoremap <c-w>k <c-w>j
@@ -793,10 +795,10 @@ endif
                 nnoremap <c-w>J <c-w>H
                 nnoremap <c-w>H <c-w>I
             " easier split window switching.
-                nnoremap <c-a-i> <c-w>k
-                nnoremap <c-a-k> <c-w>j
-                nnoremap <c-a-j> <c-w>h
-                nnoremap <c-a-l> <c-w>l
+                nnoremap <c-s-i> <c-w>k
+                nnoremap <c-s-k> <c-w>j
+                nnoremap <c-s-j> <c-w>h
+                nnoremap <c-s-l> <c-w>l
 
     " END KEYBINDINGS:
 
