@@ -790,10 +790,17 @@ endif
                 nnoremap <c-w>k <c-w>j
                 nnoremap <c-w>j <c-w>h
                 nnoremap <c-w>h <c-w>i
+
+                nnoremap <c-w><c-i> <c-w><c-k>
+                nnoremap <c-w><c-k> <c-w><c-j>
+                nnoremap <c-w><c-j> <c-w><c-h>
+                nnoremap <c-w><c-h> <c-w><c-i>
+
                 nnoremap <c-w>I <c-w>K
                 nnoremap <c-w>K <c-w>J
                 nnoremap <c-w>J <c-w>H
                 nnoremap <c-w>H <c-w>I
+
             " easier split window switching.
                 nnoremap <c-s-i> <c-w>k
                 nnoremap <c-s-k> <c-w>j
