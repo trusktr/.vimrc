@@ -153,14 +153,18 @@ if glob(s:VIMROOT."/bundle/") != ""
                     let g:airline_theme="base16"
                     let g:airline_left_sep=''
                     let g:airline_right_sep=''
+
                     let g:airline#extensions#tabline#enabled = 1
                     let g:airline#extensions#tabline#left_sep = ' '
-                    let g:airline#extensions#tabline#left_alt_sep = '|'
+                    let g:airline#extensions#tabline#left_alt_sep = ' '
+
                     "let g:airline#extensions#syntastic#enabled = 1
+
                     let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing' ]
                     let g:airline#extensions#whitespace#show_message = 1
                     let g:airline#extensions#whitespace#trailing_format = 't%s'
                     let g:airline#extensions#whitespace#mixed_indent_format = 'm%s'
+
                 "NeoBundle 'molok/vim-smartusline'
                     "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
                 "NeoBundle 'mhinz/vim-signify'
@@ -248,7 +252,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                 "NeoBundle 'sjl/gundo.vim'
                 NeoBundle 'mbbill/undotree'
 
-                "NeoBundle 'wesQ3/vim-windowswap' " easily swap window splits.
+                NeoBundle 'wesQ3/vim-windowswap' " easily swap window splits.
                 NeoBundle 'MattesGroeger/vim-bookmarks' " nice (annotated) bookmarks in your gutter.
 
                 " A bunch of filetype plugins. Put NerdCommenter after this to
@@ -265,9 +269,9 @@ if glob(s:VIMROOT."/bundle/") != ""
                         \}
 
                 NeoBundle 'majutsushi/tagbar'
-                NeoBundle 'gcmt/taboo.vim'
-                    let g:taboo_tab_format         = " %N:%f%m "
-                    let g:taboo_renamed_tab_format = " %N:\"%l%m\" "
+                "NeoBundle 'gcmt/taboo.vim'
+                    "let g:taboo_tab_format         = " %N:%f%m "
+                    "let g:taboo_renamed_tab_format = " %N:\"%l%m\" "
 
                 " Align stuff.
                     NeoBundle 'junegunn/vim-easy-align'
