@@ -242,8 +242,8 @@ if glob(s:VIMROOT."/bundle/") != ""
                 " TEMPLATES
                     NeoBundle 'briancollins/vim-jst'
                     NeoBundle 'jimmyhchan/dustjs.vim'
-                    "NeoBundle 'mustache/vim-mustache-handlebars'
-                    NeoBundle 'nono/vim-handlebars' " This is deprecated in favor of mustache/vim-mustache-handlebars, but is working better with {{!-- comments --}}.
+                    "NeoBundle 'nono/vim-handlebars' " This is deprecated in favor of mustache/vim-mustache-handlebars
+                    NeoBundle 'mustache/vim-mustache-handlebars'
                     NeoBundle 'digitaltoad/vim-jade'
                     NeoBundle 'wavded/vim-stylus'
 
@@ -542,7 +542,7 @@ endif
                 elseif has("gui_running")
                     execute "silent! colorscheme base16-eighties"
                     " customize hybrid a little.
-                    highlight Comment guifg=#484848
+                    highlight Comment guifg=#585858
                     highlight Normal guifg=#999999
                     "highlight TabLine guifg=#333333 guibg=#777777
                     "highlight TabLineSel guifg=#FA7F7F
