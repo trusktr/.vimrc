@@ -98,7 +98,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                 NeoBundle 'Lokaltog/vim-easymotion'
 
                 NeoBundle 'scrooloose/nerdtree'
-                    nnoremap <leader>f :NERDTreeToggle<enter>
+                    nnoremap <leader>f :NERDTreeToggle<cr>
                 NeoBundle 'mhinz/vim-startify'
                    let g:startify_session_dir = s:VIMROOT.'/session'
                 "NeoBundle 'mbbill/VimExplorer'
@@ -141,6 +141,8 @@ if glob(s:VIMROOT."/bundle/") != ""
                         \ }
                     NeoBundle 'nanotech/jellybeans.vim'
                     NeoBundle 'chriskempson/base16-vim'
+                    NeoBundle 'xolox/vim-misc' " required by xolox/vim-colorscheme-switcher
+                    NeoBundle 'xolox/vim-colorscheme-switcher' " use the :RandomColorScheme commands! :D
 
                     NeoBundle 'Claperius/random-vim' " random number generator
                     "NeoBundle 'trusktr/random-vim' " random number generator (my fork)
@@ -187,8 +189,10 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 " COMPLETION
                     NeoBundle 'SyntaxComplete'
+                    NeoBundle 'tomtom/tlib_vim' " required by garbas/vim-snipmate
+                    NeoBundle 'marcweber/vim-addon-mw-utils' " required by garbas/vim-snipmate
                     NeoBundle 'garbas/vim-snipmate'
-                    NeoBundle 'marcweber/vim-addon-mw-utils'
+                    NeoBundle 'honza/vim-snippets'
                     "" TODO: YouCompleteMe
                     "if has("unix")
                     "    " make sure you have cmake and python installed (and python support in vim). Add/remove the install command arguments as necessary. You need to have clang installed if you use the --system-libclang flag; if you don't use the flag the installer will download the binary from llvm.org. see YCM docs.
@@ -229,6 +233,8 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "NeoBundle 'myhere/vim-nodejs-complete' " use <c-x><c-o> to trigger completion.
                     NeoBundle 'ahayman/vim-nodejs-complete' " use <c-x><c-o> to trigger completion. Fork of myhere's version, more up to date.
                     NeoBundle 'sidorares/node-vim-debugger'
+                    NeoBundle 'kana/vim-textobj-user' " required by kana/vim-textobj-function
+                    NeoBundle 'kana/vim-textobj-function' " required by thinca/vim-textobj-function-javascript
                     NeoBundle 'thinca/vim-textobj-function-javascript' " What does this do?
                     "echo "Be sure to install jshint for Syntastic syntax support. npm install -g jshint"
 
@@ -251,6 +257,8 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 "NeoBundle 'sjl/gundo.vim'
                 NeoBundle 'mbbill/undotree'
+                    let g:undotree_TreeNodeShape = '•'
+                    nnoremap <leader>u :UndotreeToggle<cr>
 
                 NeoBundle 'wesQ3/vim-windowswap' " easily swap window splits.
                 NeoBundle 'MattesGroeger/vim-bookmarks' " nice (annotated) bookmarks in your gutter.
@@ -316,6 +324,8 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 NeoBundle 'PreserveNoEOL'
                     let g:PreserveNoEOL = 1
+
+                NeoBundle 'vim-jp/vital.vim' " nice utility functions, including one to make tree objects.
 
             call neobundle#end()
 
@@ -604,7 +614,7 @@ endif
                 noremap j h
                 noremap k j
                 noremap h i
-                nmap <c-i> <c-up>
+                "nmap <c-i> <c-up>
                 nmap <c-j> <c-left>
                 nmap <c-k> <c-down>
                 nmap <c-l> <c-right>
@@ -628,12 +638,15 @@ endif
                     imap <c-a-k> <c-down>
                     imap <c-a-l> <c-right>
                     " TODO: temporary for terminal until a solution exists:
-                    imap <c-i> <c-up>
+                    "imap <c-i> <c-up>
                     imap <c-j> <c-left>
                     imap <c-k> <c-down>
                     imap <c-l> <c-right>
                 endif
 
+                " natural scrolling for up/down.
+                nnoremap <c-u> <c-d>
+                nnoremap <c-d> <c-u>
 
             " make using ctrl+arrows to move by word. TODO: Do programmatically
                 map <c-left> b
