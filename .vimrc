@@ -129,6 +129,12 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "NeoBundle 'jordwalke/flatlandia'
                     "NeoBundle 'antlypls/vim-colors-codeschool'
                     "NeoBundle 'morhetz/gruvbox'
+                        "" disable gruvbox italics, which causes line colors to be inverted
+                        "if !has("gui_running")
+                            "let g:gruvbox_italic=0
+                        "endif
+                        "silent !~/.vim/bundle/gruvbox/gruvbox_256palette_osx.sh " enable this for terminal support if you're using gruvbox in Mac OS X iterm2.
+                        "silent !~/.vim/bundle/gruvbox/gruvbox_256palette.sh     " enable this for terminal support if you're using gruvbox in 256-colore linux terminal.
                     NeoBundle '3DGlasses.vim'
                     "NeoBundle 'goatslacker/mango.vim'
                     NeoBundle 'jasonlong/lavalamp', {
@@ -251,7 +257,12 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "NeoBundle 'nono/vim-handlebars' " This is deprecated in favor of mustache/vim-mustache-handlebars
                     NeoBundle 'mustache/vim-mustache-handlebars'
                     NeoBundle 'digitaltoad/vim-jade'
-                    NeoBundle 'wavded/vim-stylus'
+
+                " CSS
+                    NeoBundle 'hail2u/vim-css3-syntax' " better CSS3 support.
+                    NeoBundle 'wavded/vim-stylus' " stylus css
+                    NeoBundle 'groenewege/vim-less' " less css support
+                    NeoBundle 'tpope/vim-haml' " haml, sass, and scss support
 
                 NeoBundle 'tpope/vim-surround' " surround selections with things like quotes, parens, brakcets, etc.
 
