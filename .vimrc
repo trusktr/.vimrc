@@ -162,9 +162,10 @@ if glob(s:VIMROOT."/bundle/") != ""
                     let g:airline_left_sep=''
                     let g:airline_right_sep=''
 
-                    let g:airline#extensions#tabline#enabled = 1
-                    let g:airline#extensions#tabline#left_sep = ' '
-                    let g:airline#extensions#tabline#left_alt_sep = ' '
+                    " disable if using a custom tab plugin like the following gcmt/taboo.vim
+                    "let g:airline#extensions#tabline#enabled = 1
+                    "let g:airline#extensions#tabline#left_sep = ' '
+                    "let g:airline#extensions#tabline#left_alt_sep = ' '
 
                     "let g:airline#extensions#syntastic#enabled = 1
 
@@ -172,6 +173,10 @@ if glob(s:VIMROOT."/bundle/") != ""
                     let g:airline#extensions#whitespace#show_message = 1
                     let g:airline#extensions#whitespace#trailing_format = 't%s'
                     let g:airline#extensions#whitespace#mixed_indent_format = 'm%s'
+
+                NeoBundle 'gcmt/taboo.vim'
+                    let g:taboo_tab_format         = " %N:%f%m "
+                    let g:taboo_renamed_tab_format = " %N:\"%l%m\" "
 
                 "NeoBundle 'molok/vim-smartusline'
                     "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
@@ -184,11 +189,19 @@ if glob(s:VIMROOT."/bundle/") != ""
                 NeoBundle 'maxbrunsfeld/vim-yankstack'
                     nmap <leader>P <Plug>yankstack_substitute_newer_paste
                     nmap <leader>p <Plug>yankstack_substitute_older_paste
-                "NeoBundle 'nathanaelkane/vim-indent-guides'
+
+                NeoBundle 'nathanaelkane/vim-indent-guides' " seems to preform better than Yggdroot/indentLine, but doesn't look as nice.
+                    let g:indent_guides_auto_colors = 1
+                    let g:indent_guides_color_change_percent = 3
+                    let g:indent_guides_guide_size = 1
+                    nnoremap <leader>il :IndentLinesToggle<cr>
                 "NeoBundle 'Yggdroot/indentLine'
-                    "let g:indentLine_char = '.'
-                    "let g:indentLine_first_char='.'
+                    "let g:indentLine_faster = 1
+                    "let g:indentLine_enabled = 0
+                    ""let g:indentLine_char = '.'
+                    ""let g:indentLine_first_char='.'
                     "let g:indentLine_showFirstIndentLevel=1
+
                 "NeoBundle 'megaannum/self' " required for megaannum/forms
                 "NeoBundle 'megaannum/forms' " Runs a bit slow..
                 "NeoBundle 'mfumi/snake.vim'
@@ -239,8 +252,11 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "NeoBundle 'myhere/vim-nodejs-complete' " use <c-x><c-o> to trigger completion.
                     NeoBundle 'ahayman/vim-nodejs-complete' " use <c-x><c-o> to trigger completion. Fork of myhere's version, more up to date.
                     NeoBundle 'sidorares/node-vim-debugger'
-                    NeoBundle 'kana/vim-textobj-user' " required by kana/vim-textobj-function
-                    NeoBundle 'kana/vim-textobj-function' " required by thinca/vim-textobj-function-javascript
+
+                    " TODO FIXME: messes up the object key because the mapping is recursive?
+                    "NeoBundle 'kana/vim-textobj-user' " required by kana/vim-textobj-function
+                    "NeoBundle 'kana/vim-textobj-function' " required by thinca/vim-textobj-function-javascript
+
                     NeoBundle 'thinca/vim-textobj-function-javascript' " What does this do?
                     "echo "Be sure to install jshint for Syntastic syntax support. npm install -g jshint"
 
@@ -280,17 +296,15 @@ if glob(s:VIMROOT."/bundle/") != ""
                 "NeoBundle 'WolfgangMehner/vim-plugins'
                 " ^^^ TODO: Many mapping conflicts.
 
-                NeoBundle 'ide'
+                "NeoBundle 'ide'
                 " ^^^ Effing amazing. Great idea.
+                " TODO: messes up tab switch mapping.
 
                 NeoBundle 'http://conque.googlecode.com/svn/trunk/', {
                             \'name': 'conque',
                         \}
 
                 NeoBundle 'majutsushi/tagbar'
-                "NeoBundle 'gcmt/taboo.vim'
-                    "let g:taboo_tab_format         = " %N:%f%m "
-                    "let g:taboo_renamed_tab_format = " %N:\"%l%m\" "
 
                 " Align stuff.
                     NeoBundle 'junegunn/vim-easy-align'
@@ -581,7 +595,12 @@ endif
                         silent! set guifont=Ubuntu\ Mono\ for\ Powerline\ 13
                     elseif has("gui_win32")
                         silent! set guifont=Consolas:h11:cANSI
+                    else
+                        silent! set guifont=courier
                     endif
+
+                    silent! set macmeta
+                    " TODO: ^^^ add detection of macvim.
                 endif
             endif
 
@@ -625,7 +644,7 @@ endif
                 noremap j h
                 noremap k j
                 noremap h i
-                "nmap <c-i> <c-up>
+                nmap <c-i> <c-up>
                 nmap <c-j> <c-left>
                 nmap <c-k> <c-down>
                 nmap <c-l> <c-right>
@@ -826,10 +845,16 @@ endif
                 nnoremap <c-w>H <c-w>I
 
             " easier split window switching.
-                nnoremap <c-s-i> <c-w>k
-                nnoremap <c-s-k> <c-w>j
-                nnoremap <c-s-j> <c-w>h
-                nnoremap <c-s-l> <c-w>l
+
+                " TODO FIXME: ctrl+shift doesn't work in MacVim, so using ctrl+alt for now.
+                "nnoremap <c-s-i> <c-w>k
+                "nnoremap <c-s-k> <c-w>j
+                "nnoremap <c-s-j> <c-w>h
+                "nnoremap <c-s-l> <c-w>l
+                nnoremap <c-a-i> <c-w>k
+                nnoremap <c-a-k> <c-w>j
+                nnoremap <c-a-j> <c-w>h
+                nnoremap <c-a-l> <c-w>l
 
     " END KEYBINDINGS:
 
