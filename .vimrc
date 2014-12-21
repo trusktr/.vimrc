@@ -504,6 +504,7 @@ endif
         set hidden " buffers keep their state when a new buffer is opened in the same view.
         set winminheight=0 " Show at least zero lines instead of at least one for horizontal splits.
         set sessionoptions=blank,curdir,folds,help,resize,slash,tabpages,unix,winpos,winsize " :help sessionoptions
+        set noequalalways " prevents splitting or closing windows from resizing all other windows.
 
     " prevent the alternate buffer in Gnome Terminal, etc, so output works
     " like vim's internal :echo command. woo!
