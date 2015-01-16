@@ -93,23 +93,33 @@ if glob(s:VIMROOT."/bundle/") != ""
                      \    },
                      \ }
 
+                NeoBundle 'mhinz/vim-startify'
+                   let g:startify_session_dir = s:VIMROOT.'/session'
+
                 NeoBundle 'tpope/vim-fugitive'
-                NeoBundle 'tpope/vim-markdown'
                 NeoBundle 'Lokaltog/vim-easymotion'
 
                 NeoBundle 'scrooloose/nerdtree'
                     nnoremap <leader>f :NERDTreeToggle<cr>
-                NeoBundle 'mhinz/vim-startify'
-                   let g:startify_session_dir = s:VIMROOT.'/session'
+
                 "NeoBundle 'mbbill/VimExplorer'
+
                 "NeoBundle 'yuratomo/gmail.vim'
                    "silent! source `=s:VIMROOT."/.gmail"` " Source login info
-                NeoBundle 'scrooloose/syntastic' " All purpose syntax checking
-                    let g:syntastic_mode_map             = { 'mode': 'active' }
-                    let g:syntastic_error_symbol         = 'E'
-                    let g:syntastic_style_error_symbol   = 'e'
-                    let g:syntastic_warning_symbol       = 'W'
-                    let g:syntastic_style_warning_symbol = 'w'
+
+                "NeoBundle 'scrooloose/syntastic' " All purpose syntax checking " SLOW
+                    "let g:syntastic_check_on_open        = 0
+                    "let g:syntastic_check_on_wq          = 0
+                    "let g:syntastic_auto_jump            = 2
+                    ""let g:syntastic_auto_loc_list        = 1
+                    "let g:syntastic_mode_map             = { 'mode': 'passive' }
+                    ""let g:syntastic_error_symbol         = 'E'
+                    "let g:syntastic_error_symbol         = "✗"
+                    "let g:syntastic_style_error_symbol   = 'e'
+                    ""let g:syntastic_warning_symbol       = 'W'
+                    "let g:syntastic_warning_symbol       = "∇"
+                    "let g:syntastic_style_warning_symbol = 'w'
+
                 NeoBundle 'scrooloose/nerdcommenter'
 
                 " COLORSCHEMES
@@ -153,39 +163,51 @@ if glob(s:VIMROOT."/bundle/") != ""
                     NeoBundle 'Claperius/random-vim' " random number generator
                     "NeoBundle 'trusktr/random-vim' " random number generator (my fork)
 
-                "NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-                "NeoBundle 'Lokaltog/vim-powerline'
-                    "let g:Powerline_symbols='fancy' " Powerline: fancy statusline (patched font)
-                "NeoBundle 'stephenmckinney/vim-solarized-powerline'
-                NeoBundle 'bling/vim-airline'
-                    let g:airline_theme="base16"
-                    let g:airline_left_sep=''
-                    let g:airline_right_sep=''
+                " Status Lines
+                    "NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+                    "NeoBundle 'Lokaltog/vim-powerline'
+                        "let g:Powerline_symbols='fancy' " Powerline: fancy statusline (patched font)
+                    "NeoBundle 'stephenmckinney/vim-solarized-powerline'
 
-                    " disable if using a custom tab plugin like the following gcmt/taboo.vim
-                    "let g:airline#extensions#tabline#enabled = 1
-                    "let g:airline#extensions#tabline#left_sep = ' '
-                    "let g:airline#extensions#tabline#left_alt_sep = ' '
+                    "NeoBundle 'bling/vim-airline' " SLOW
+                        "let g:airline_theme="base16"
+                        "let g:airline_left_sep=''
+                        "let g:airline_right_sep=''
 
-                    "let g:airline#extensions#syntastic#enabled = 1
+                        "" disable if using a custom tab plugin like the following gcmt/taboo.vim
+                        ""let g:airline#extensions#tabline#enabled = 1
+                        ""let g:airline#extensions#tabline#left_sep = ' '
+                        ""let g:airline#extensions#tabline#left_alt_sep = ' '
 
-                    let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing' ]
-                    let g:airline#extensions#whitespace#show_message = 1
-                    let g:airline#extensions#whitespace#trailing_format = 't%s'
-                    let g:airline#extensions#whitespace#mixed_indent_format = 'm%s'
+                        ""let g:airline#extensions#syntastic#enabled = 1
 
-                NeoBundle 'gcmt/taboo.vim'
-                    let g:taboo_tab_format         = " %N:%f%m "
-                    let g:taboo_renamed_tab_format = " %N:\"%l%m\" "
+                        "let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing' ]
+                        "let g:airline#extensions#whitespace#show_message = 1
+                        "let g:airline#extensions#whitespace#trailing_format = 't%s'
+                        "let g:airline#extensions#whitespace#mixed_indent_format = 'm%s'
 
-                "NeoBundle 'molok/vim-smartusline'
-                    "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
-                "NeoBundle 'mhinz/vim-signify'
-                    "let g:signify_disable_by_default = 0
-                    ""let g:signify_cursorhold_normal = 1
-                    ""let g:signify_cursorhold_insert = 1
-                NeoBundle 'airblade/vim-gitgutter'
+                    "NeoBundle 'molok/vim-smartusline'
+                        "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+
+                " Navigation/UI
+                    "NeoBundle 'gcmt/taboo.vim'
+                        "let g:taboo_tab_format         = " %N:%f%m "
+                        "let g:taboo_renamed_tab_format = " %N:\"%l%m\" "
+
+                    NeoBundle 'majutsushi/tagbar'
+
+                " Gutter stuff
+                    "NeoBundle 'mhinz/vim-signify'
+                        "let g:signify_disable_by_default = 1
+                        "let g:signify_cursorhold_normal = 1
+                        "let g:signify_cursorhold_insert = 1
+
+                    "NeoBundle 'airblade/vim-gitgutter' " SLOW
+                        "let g:gitgutter_realtime = 0
+                        "let g:gitgutter_eager = 0
+
                 "NeoBundle 'https://github.com/SirVer/ultisnips.git' " why does this only work with the full url?
+
                 NeoBundle 'maxbrunsfeld/vim-yankstack'
                     nmap <leader>P <Plug>yankstack_substitute_newer_paste
                     nmap <leader>p <Plug>yankstack_substitute_older_paste
@@ -195,6 +217,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                     let g:indent_guides_color_change_percent = 3
                     let g:indent_guides_guide_size = 1
                     nnoremap <leader>il :IndentLinesToggle<cr>
+
                 "NeoBundle 'Yggdroot/indentLine'
                     "let g:indentLine_faster = 1
                     "let g:indentLine_enabled = 0
@@ -212,6 +235,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                     NeoBundle 'marcweber/vim-addon-mw-utils' " required by garbas/vim-snipmate
                     NeoBundle 'garbas/vim-snipmate'
                     NeoBundle 'honza/vim-snippets'
+
                     "" TODO: YouCompleteMe
                     "if has("unix")
                     "    " make sure you have cmake and python installed (and python support in vim). Add/remove the install command arguments as necessary. You need to have clang installed if you use the --system-libclang flag; if you don't use the flag the installer will download the binary from llvm.org. see YCM docs.
@@ -257,22 +281,22 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "NeoBundle 'kana/vim-textobj-user' " required by kana/vim-textobj-function
                     "NeoBundle 'kana/vim-textobj-function' " required by thinca/vim-textobj-function-javascript
 
-                    NeoBundle 'thinca/vim-textobj-function-javascript' " What does this do?
+                    "NeoBundle 'thinca/vim-textobj-function-javascript' " What does this do?
+
                     "echo "Be sure to install jshint for Syntastic syntax support. npm install -g jshint"
 
                 " COFFESCRIPT
                     NeoBundle 'kchmck/vim-coffee-script'
 
-                " HTML
+                " HTML/TEMPLATES/MARKUP
                     "NeoBundle 'mattn/zencoding-vim' " deprecated, use mattn/emmet-vim instead
                     NeoBundle 'mattn/emmet-vim'
-
-                " TEMPLATES
                     NeoBundle 'briancollins/vim-jst'
                     NeoBundle 'jimmyhchan/dustjs.vim'
-                    "NeoBundle 'nono/vim-handlebars' " This is deprecated in favor of mustache/vim-mustache-handlebars
-                    NeoBundle 'mustache/vim-mustache-handlebars'
+                    "NeoBundle 'nono/vim-handlebars' " This is deprecated in favor of mustache/vim-mustache-handlebars " SLOW
+                    NeoBundle 'mustache/vim-mustache-handlebars' " SLOW
                     NeoBundle 'digitaltoad/vim-jade'
+                    NeoBundle 'tpope/vim-markdown'
 
                 " CSS
                     NeoBundle 'hail2u/vim-css3-syntax' " better CSS3 support.
@@ -300,11 +324,9 @@ if glob(s:VIMROOT."/bundle/") != ""
                 " ^^^ Effing amazing. Great idea.
                 " TODO: messes up tab switch mapping.
 
-                NeoBundle 'http://conque.googlecode.com/svn/trunk/', {
-                            \'name': 'conque',
-                        \}
-
-                NeoBundle 'majutsushi/tagbar'
+                "NeoBundle 'http://conque.googlecode.com/svn/trunk/', {
+                            "\'name': 'conque',
+                        "\}
 
                 " Align stuff.
                     NeoBundle 'junegunn/vim-easy-align'
@@ -315,24 +337,26 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "TODO: Make it work with IJKL. Perhaps using non-recursive mappings will fix it.
 
                 NeoBundle 'guns/xterm-color-table.vim'
-                NeoBundle 'digitaltoad/vim-jade'
-                set cursorline " highlight the current line. Needed for the next plugin to work.
+                    set cursorline " highlight the current line. Needed for the next plugin to work.
+
                 NeoBundle "CursorLineCurrentWindow"
 
                 " SEARCH AND NAVIGATION
-                    NeoBundle 'kien/ctrlp.vim' " Alternative to wincent/command-t
-                        let g:ctrlp_working_path_mode = 2 " CtrlP: use the nearest ancestor that contains one of these directories or files: .git/ .hg/ .svn/ .bzr/ _darcs/
-                        nnoremap <silent> <leader>sh :h<CR>:CtrlPTag<CR>
-                    NeoBundle 'wincent/command-t' " Alternative to kien/ctrlp.vim, seems to have better matching
-                        let g:CommandTMaxHeight=10
-                    NeoBundle 'L9' " Required for FuzzyFinder
-                    NeoBundle 'FuzzyFinder' " requires L9
-                    NeoBundle 'mileszs/ack.vim' " in-vim replacement for grep.
+                    "NeoBundle 'kien/ctrlp.vim' " Alternative to wincent/command-t
+                        "let g:ctrlp_working_path_mode = 2 " CtrlP: use the nearest ancestor that contains one of these directories or files: .git/ .hg/ .svn/ .bzr/ _darcs/
+                        "nnoremap <silent> <leader>sh :h<CR>:CtrlPTag<CR>
+                    "NeoBundle 'wincent/command-t' " Alternative to kien/ctrlp.vim, seems to have better matching
+                        "let g:CommandTMaxHeight=10
+                    "NeoBundle 'L9' " Required for FuzzyFinder
+                    "NeoBundle 'FuzzyFinder' " requires L9
+                    "NeoBundle 'mileszs/ack.vim' " in-vim replacement for grep.
 
                 NeoBundle 'DrawIt'
+
                 if !(&term == "win32" || $TERM == "cygwin")
                     NeoBundle 'taglist.vim'
                 endif
+
                 "NeoBundle 'CmdlineCompl.vim' SEEMS OUTDATED
                 "NeoBundle 'hexman.vim'
                 NeoBundle 'ZoomWin'
@@ -480,13 +504,108 @@ endif
         set incsearch " Incremental search
         set wildmenu " Better commandline tab completion
         set wildmode=longest:list,full " Complete longest common string and show the match list, then epand to first full match
+
         set laststatus=2               " Always show a status line
         "set statusline=%f%m%r%h%w\ [%n:%{&ff}/%Y]%=[0x\%04.4B][%03v][%p%%\ line\ %l\ of\ %L] " custom status line. Not needed if using powerline or airline.
+
+            function! InsertStatuslineColor(mode)
+                if a:mode == 'i'
+                    hi statusline guibg=#ef4d4a guifg=#222222 ctermfg=red
+                elseif a:mode == 'r'
+                    hi statusline guibg=#4e8dcb guifg=#222222 ctermfg=blue
+                else
+                    hi statusline guibg=#8a7cf4 guifg=#333333 ctermfg=purple
+                endif
+            endfunction
+
+            " default statusline color in Normal mode
+            au BufEnter * hi statusline guibg=#69bf64 guifg=#222222 ctermfg=green
+            au InsertLeave * hi statusline guibg=#69bf64 guifg=#222222 ctermfg=green
+
+            au BufEnter * hi statuslinenc guibg=#222222 guifg=#414141 ctermfg=8
+            au BufEnter * hi vertsplit guibg=#222222 guifg=#222222 ctermfg=8
+            au BufEnter * hi signcolumn guibg=#252525 ctermfg=8
+            au BufEnter * hi linenr guibg=#292929 guifg=#444444 ctermfg=8
+
+            au InsertEnter * call InsertStatuslineColor(v:insertmode)
+            au InsertChange * call InsertStatuslineColor(v:insertmode)
+
         set cursorline " highlight the current line.
         "set cursorcolumn " highlight the current column.
         set virtualedit=onemore " so we can go one character past the last in normal mode.
         set backspace=indent,eol,start " don't limit backspace to one line. Behaves like a modern editor in this regard.
+
         set showtabline=2 " 0 never show tab bar, 1 at least two tabs present, 2 always
+
+            " GUI tab labels with tab number, buffer name, number of windows
+            function! GuiTabLabel()
+                let label = ''
+                let bufnrlist = tabpagebuflist(v:lnum)
+                " Add '+' if one of the buffers in the tab page is modified
+                for bufnr in bufnrlist
+                    if getbufvar(bufnr, "&modified")
+                        let label = '+'
+                        break
+                    endif
+                endfor
+                " Append the tab number
+                let label .= v:lnum.': '
+                " Append the buffer name
+                let name = bufname(bufnrlist[tabpagewinnr(v:lnum) - 1])
+                if name == ''
+                    " give a name to no-name documents
+                    if &buftype=='quickfix'
+                        let name = '[Quickfix List]'
+                    else
+                        let name = '[No Name]'
+                    endif
+                else
+                    " get only the file name
+                    let name = fnamemodify(name,":t")
+                endif
+                let label .= name
+                " Append the number of windows in the tab page
+                let wincount = tabpagewinnr(v:lnum, '$')
+                return label . '  [' . wincount . ']'
+            endfunction
+            set guitablabel=%{GuiTabLabel()}
+
+            function MyTabLine()
+                let s = ''
+                let t = tabpagenr()
+                let i = 1
+                while i <= tabpagenr('$')
+                    let buflist = tabpagebuflist(i)
+                    let winnr = tabpagewinnr(i)
+                    let s .= '%' . i . 'T'
+                    let s .= (i == t ? '%1*' : '%2*')
+                    let s .= ' '
+                    let s .= i . ':'
+                    "let s .= winnr . '/' . tabpagewinnr(i,'$')
+                    let s .= '%*'
+                    let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
+                    let bufnr = buflist[winnr - 1]
+                    let file = bufname(bufnr)
+                    let buftype = getbufvar(bufnr, 'buftype')
+                    if buftype == 'nofile'
+                        if file =~ '\/.'
+                            let file = substitute(file, '.*\/\ze.', '', '')
+                        endif
+                    else
+                        let file = fnamemodify(file, ':p:t')
+                    endif
+                    if file == ''
+                        let file = 'new'
+                    endif
+                    let s .= file
+                    let i = i + 1
+                endwhile
+                let s .= '%T%#TabLineFill#%='
+                let s .= (tabpagenr('$') > 1 ? '%999XX' : 'X')
+                return s
+            endfunction
+            set tabline=%!MyTabLine()
+
         set scrolloff=0 " how many lines to keep before and after the cursor near the top or bottom of the view.
         "tell vim how to represent certain characters. Make the cursor on a tab space appear at the front of the tab space:
             "if !(&term == "win32" || $TERM == "cygwin")
@@ -495,7 +614,7 @@ endif
                 set listchars=tab:˒\ ,trail:×,nbsp:·,conceal:¯,eol:¬
             "endif
             set list " enable the above character representation
-        set timeout
+        set notimeout
         set timeoutlen=1000000 " Really long timeout length for any multikey combos so it seems like there's no timeout, but with some of the benefits of having a timeout. I don't like when partially typed commands dissappear without my permission.
         filetype indent plugin on " enable filetype features.
         set showcmd " display incomplete command. I moved this here from Bram's example because it wasn't working before vundle.
@@ -695,7 +814,6 @@ endif
                 map  <c-a> <esc>ggVG
                 map! <c-a> <esc>ggVG
             " Enter VISUAL mode by holding shift+arrows or ctrl+shift+arrows
-                map <c-c> <esc>
                 nnoremap <s-right> v<right>
                 xnoremap <s-right> <right>
                 inoremap <s-right> <c-o>v<right>
@@ -754,14 +872,11 @@ endif
             " ctrl+f to find.
                 "map  <c-f> <esc>/
                 "map! <c-f> <esc>/
-            " enter to find next ocurrences.
-                map <cr> n
-                map <s-cr> N
             " highlight all matches of current word, but do not move cursor to
             " the next or previous ocurrence likw * and # do.
-                nnoremap <leader>s :let @/ = expand('<cword>') <bar> echo @/ <bar> set hls<cr>
+                nnoremap <cr> :let @/ = expand('<cword>') <bar> echo @/ <bar> set hls<cr>
             " same thing as above, but highlights the visual selection.
-                xnoremap <leader>s "*y<esc>:let @/ = substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g") <bar> echo @/ <bar> set hls<cr>
+                xnoremap <cr> "*y<esc>:let @/ = substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g") <bar> echo @/ <bar> set hls<cr>
 
             " ctrl+c to control search highlight. ctrl+c doesn't do anything
             " in normal mode otherwise. Uncomment one of the two lines. The
@@ -771,6 +886,8 @@ endif
             " on or off, and searching does not automatically turn it back on.
                 "nnoremap <c-c> :nohlsearch<cr>
                 nnoremap <c-c> :if (&hlsearch == 1) \| set nohlsearch \| else \| set hlsearch \| endif <cr>
+
+                "xnoremap <c-c> <esc>
 
         " Move line or selection up or down with alt+up/down and indent based
         " on new location.
