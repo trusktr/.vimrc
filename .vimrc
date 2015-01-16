@@ -874,9 +874,9 @@ endif
                 "map! <c-f> <esc>/
             " highlight all matches of current word, but do not move cursor to
             " the next or previous ocurrence likw * and # do.
-                nnoremap <cr> :let @/ = expand('<cword>') <bar> echo @/ <bar> set hls<cr>
+                nnoremap <cr> :let searchTerm = '\<'.expand("<cword>").'\>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
             " same thing as above, but highlights the visual selection.
-                xnoremap <cr> "*y<esc>:let @/ = substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g") <bar> echo @/ <bar> set hls<cr>
+                xnoremap <cr> "*y<esc>:let searchTerm = substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> '/'.echo @/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
 
             " ctrl+c to control search highlight. ctrl+c doesn't do anything
             " in normal mode otherwise. Uncomment one of the two lines. The
