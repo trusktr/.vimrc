@@ -4,7 +4,7 @@
 " TODO: Make a FileSeparator variable to handle each OS.
 
 scriptencoding utf-8 " make sure we use utf-8 before doing anything.
-behave mswin " awesome (but horrible name choice. "behave cua" would be nicer. I dislike Windows.) Treats the cursor like an I beam when selecting text instead of a block, and if you have a block the I beam is basically the left edge of the block.
+"behave mswin " awesome (but horrible name choice. "behave cua" would be nicer. I dislike Windows.) Treats the cursor like an I beam when selecting text instead of a block, and if you have a block the I beam is basically the left edge of the block.
 runtime! macros/matchit.vim " enabled awesome match abilities like HTML tag matching with %
 
 let s:VIMROOT = $HOME."/.vim"
@@ -331,6 +331,22 @@ if glob(s:VIMROOT."/bundle/") != ""
                 " Align stuff.
                     NeoBundle 'junegunn/vim-easy-align'
                         xmap <leader>a <Plug>(EasyAlign)
+                        let g:easy_align_delimiters = {
+                        \     'a': {
+                        \         'pattern':       '\<as\>',
+                        \         'left_margin':   1,
+                        \         'right_margin':  1,
+                        \         'stick_to_left': 0
+                        \     },
+                        \     'f': {
+                        \         'pattern':       '\<from\>',
+                        \         'left_margin':   1,
+                        \         'right_margin':  1,
+                        \         'stick_to_left': 0
+                        \     }
+                        \ }
+
+
                     "NeoBundle 'godlygeek/tabular'
 
                 "NeoBundle 'terryma/vim-multiple-cursors'
@@ -371,8 +387,9 @@ if glob(s:VIMROOT."/bundle/") != ""
                             "\'rtp': 'runtime/vimuiex/'
                         "\}
 
-                NeoBundle 'PreserveNoEOL'
-                    let g:PreserveNoEOL = 1
+                " When enabled preserves line endings, otherwise vim always adds a newline to the end.
+                "NeoBundle 'PreserveNoEOL'
+                    "let g:PreserveNoEOL = 1
 
                 NeoBundle 'vim-jp/vital.vim' " nice utility functions, including one to make tree objects.
 
@@ -742,20 +759,6 @@ endif
             " movement like with arrow keys.
             " TODO: Make toggle between new modes and classic mode.
             " TODO: Make this into a plugin.
-                "nnoremap u k
-                "nnoremap k l
-                "nnoremap l u
-                "xnoremap u k
-                "xnoremap k l
-                "xnoremap l u
-                "nmap <c-u> <c-up>
-                "nmap <c-h> <c-left>
-                "nmap <c-j> <c-down>
-                "nmap <c-k> <c-right>
-                "imap <c-u> <c-up>
-                "imap <c-h> <c-left>
-                "imap <c-j> <c-down>
-                "imap <c-k> <c-right>
 
                 " TODO TODO TODO TODO: Map all HJKL to IJKL conversion in one place
                 " no-recursively, then use the literal mapping for
@@ -764,55 +767,63 @@ endif
                 noremap j h
                 noremap k j
                 noremap h i
-                nmap <c-i> <c-up>
-                nmap <c-j> <c-left>
-                nmap <c-k> <c-down>
-                nmap <c-l> <c-right>
+
+            " make using ctrl+arrows to move by word. TODO: Do programmatically
+                " TODO: Move cursor programmatically with a function, not with maps to other keys. It will perform faster.
+                map <c-left> b
+                map <c-right> e
+                map <c-up> 10<up>
+                map <c-down> 10<down>
+
+                map <c-i> <c-up>
+                map <c-j> <c-left>
+                map <c-k> <c-down>
+                map <c-l> <c-right>
+
+                imap <c-up> <c-o>10<up>
+                imap <c-left> <c-o>b
+                imap <c-down> <c-o>10<down>
+                imap <c-right> <c-o>e
+
+                " TODO: remove tab when terminal works properly.
+                imap <c-i> <c-up>
+                imap <tab> <c-up>
+                imap <c-j> <c-left>
+                imap <c-k> <c-down>
+                imap <c-l> <c-right>
+
+                " TODO: the following doesn't work in terminal.
+                imap <c-a-i> <c-up>
+                imap <c-a-j> <c-left>
+                imap <c-a-k> <c-down>
+                imap <c-a-l> <c-right>
+
+                "map <s-left> B
+                "map <s-right> E
+
                 if has("gui_running") " alt combinations have to be treated differently in gvim vs console vim.
                     imap <a-i> <up>
                     imap <a-j> <left>
                     imap <a-k> <down>
                     imap <a-l> <right>
-                    imap <c-a-i> <c-up>
-                    imap <c-a-j> <c-left>
-                    imap <c-a-k> <c-down>
-                    imap <c-a-l> <c-right>
                 else
                     imap i <up>
                     imap j <left>
                     imap k <down>
                     imap l <right>
-                    " TODO: the following doesn't work in terminal.
-                    imap <c-a-i> <c-up>
-                    imap <c-a-j> <c-left>
-                    imap <c-a-k> <c-down>
-                    imap <c-a-l> <c-right>
-                    " TODO: temporary for terminal until a solution exists:
-                    "imap <c-i> <c-up>
-                    imap <c-j> <c-left>
-                    imap <c-k> <c-down>
-                    imap <c-l> <c-right>
+
+                    " Mac OS X iterm2
+                    imap ˆ <up>
+                    imap ∆ <left>
+                    imap ˚ <down>
+                    imap ¬ <right>
                 endif
 
                 " natural scrolling for up/down.
                 nnoremap <c-u> <c-d>
                 nnoremap <c-d> <c-u>
 
-            " make using ctrl+arrows to move by word. TODO: Do programmatically
-                map <c-left> b
-                map <c-right> e
-                " TODO: Move cursor programmatically with a function, not with maps to other keys. It will perform faster.
-                nmap <c-up> 10<up>
-                nmap <c-down> 10<down>
-                imap <c-up> <c-o>10<up>
-                imap <c-down> <c-o>10<down>
-                "map <s-left> B
-                "map <s-right> E
-
         " SELECTION
-            " ctrl+a to enter VISUAL and select all.
-                map  <c-a> <esc>ggVG
-                map! <c-a> <esc>ggVG
             " Enter VISUAL mode by holding shift+arrows or ctrl+shift+arrows
                 nnoremap <s-right> v<right>
                 xnoremap <s-right> <right>
@@ -842,6 +853,7 @@ endif
                 nmap <s-end> v<end>
                 nnoremap <c-s-home> vgg0
                 nnoremap <c-s-end> vG<end>
+
             " exit VISUAL when shift not held.
                 "xnoremap <right> <esc><right>
                 "xnoremap <left> <esc><left>
