@@ -138,23 +138,23 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "NeoBundle 'zeis/vim-kolor'
                     "NeoBundle 'jordwalke/flatlandia'
                     "NeoBundle 'antlypls/vim-colors-codeschool'
-                    "NeoBundle 'morhetz/gruvbox'
-                        "" disable gruvbox italics, which causes line colors to be inverted
-                        "if !has("gui_running")
-                            "let g:gruvbox_italic=0
-                        "endif
-                        "silent !~/.vim/bundle/gruvbox/gruvbox_256palette_osx.sh " enable this for terminal support if you're using gruvbox in Mac OS X iterm2.
-                        "silent !~/.vim/bundle/gruvbox/gruvbox_256palette.sh     " enable this for terminal support if you're using gruvbox in 256-colore linux terminal.
-                    NeoBundle '3DGlasses.vim'
-                    "NeoBundle 'goatslacker/mango.vim'
-                    NeoBundle 'jasonlong/lavalamp', {
-                        \ 'rtp': 'vim',
-                        \ 'build' : {
-                        \     'mac':   'mkdir ./vim/colors && cp -f ./vim/lavalamp.vim ./vim/colors/lavalamp.vim',
-                        \     'unix':  'mkdir ./vim/colors && cp -f ./vim/lavalamp.vim ./vim/colors/lavalamp.vim',
-                        \     'linux': 'mkdir ./vim/colors && cp -f ./vim/lavalamp.vim ./vim/colors/lavalamp.vim'
-                        \    }
-                        \ }
+                    NeoBundle 'morhetz/gruvbox'
+                        " disable gruvbox italics, which causes line colors to be inverted
+                        if !has("gui_running")
+                            let g:gruvbox_italic=0
+                        endif
+                        silent !~/.vim/bundle/gruvbox/gruvbox_256palette_osx.sh " enable this for terminal support if you're using gruvbox in Mac OS X iterm2.
+                        silent !~/.vim/bundle/gruvbox/gruvbox_256palette.sh     " enable this for terminal support if you're using gruvbox in 256-colore linux terminal.
+                    "NeoBundle '3DGlasses.vim'
+                    NeoBundle 'goatslacker/mango.vim'
+                    "NeoBundle 'jasonlong/lavalamp', {
+                        "\ 'rtp': 'vim',
+                        "\ 'build' : {
+                        "\     'mac':   'mkdir ./vim/colors && cp -f ./vim/lavalamp.vim ./vim/colors/lavalamp.vim',
+                        "\     'unix':  'mkdir ./vim/colors && cp -f ./vim/lavalamp.vim ./vim/colors/lavalamp.vim',
+                        "\     'linux': 'mkdir ./vim/colors && cp -f ./vim/lavalamp.vim ./vim/colors/lavalamp.vim'
+                        "\    }
+                        "\ }
                     NeoBundle 'nanotech/jellybeans.vim'
                     NeoBundle 'chriskempson/base16-vim'
                     NeoBundle 'xolox/vim-misc' " required by xolox/vim-colorscheme-switcher
@@ -628,7 +628,7 @@ endif
             "if !(&term == "win32" || $TERM == "cygwin")
                 "set listchars=tab:\ \ ,trail:·
             "else
-                set listchars=tab:˒\ ,trail:×,nbsp:·,conceal:¯,eol:¬
+                set listchars=tab:˒\ ,trail:×,nbsp:·,conceal:¯,eol:\ 
             "endif
             set list " enable the above character representation
         set notimeout
