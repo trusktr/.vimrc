@@ -699,13 +699,15 @@ endif
                 " nothing here yet. TODO: Find a good 16-color theme.
             else " 256-color
                 "execute "silent! colorscheme ".colorscheme
-                if &term == "xterm" || &term == "xterm-256color" || &term == "screen-256color"
-                    execute "silent! colorscheme hybrid"
+                if &term == "xterm" || &term == "xterm-256color" || &term == "screen-256color" || &term == "nvim"
                     " make the background color always transparent in xterm
                         "autocmd ColorScheme * highlight normal ctermbg=None
                     set t_Co=256 " enable full color
                     set t_ut= " disable clearing of the background. This is helpful in tmux and screen.
                     set ttymouse=xterm2 " use advanced mouse support even if not in xterm (e.g. if in screen/tmux).
+
+                    "execute "silent! colorscheme hybrid"
+                    execute "silent! colorscheme bubblegum"
 
                     highlight LineNr ctermfg=red
                     highlight MatchParen cterm=bold,underline ctermbg=none ctermfg=green
