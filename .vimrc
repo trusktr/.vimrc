@@ -1093,6 +1093,7 @@ endif
                 endif
             endfunction
 
+            command JsonFormat %!python -m json.tool
     " END COMMAND MAPS AND SPECIAL FUNCTION MAPS:
 
 " END CUSTOM SETTINGS:
