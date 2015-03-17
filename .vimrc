@@ -159,9 +159,10 @@ if glob(s:VIMROOT."/bundle/") != ""
                     NeoBundle 'chriskempson/base16-vim'
                     NeoBundle 'xolox/vim-misc' " required by xolox/vim-colorscheme-switcher
                     NeoBundle 'xolox/vim-colorscheme-switcher' " use the :RandomColorScheme commands! :D
+                    NeoBundle 'baskerville/bubblegum'
 
-                    NeoBundle 'Claperius/random-vim' " random number generator
-                    "NeoBundle 'trusktr/random-vim' " random number generator (my fork)
+                NeoBundle 'Claperius/random-vim' " random number generator
+                "NeoBundle 'trusktr/random-vim' " random number generator (my fork)
 
                 " Status Lines
                     "NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
