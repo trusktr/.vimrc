@@ -640,6 +640,7 @@ endif
         set pastetoggle=<f12> " Toggle paste mode with <f12> for easy pasting without auto-formatting.
         set hidden " buffers keep their state when a new buffer is opened in the same view.
         set winminheight=0 " Show at least zero lines instead of at least one for horizontal splits.
+        set winminwidth=0 " Show at least zero columns instead of at least one for vertical splits.
         set sessionoptions=blank,curdir,folds,help,resize,slash,tabpages,unix,winpos,winsize " :help sessionoptions
         set noequalalways " prevents splitting or closing windows from resizing all other windows.
 
