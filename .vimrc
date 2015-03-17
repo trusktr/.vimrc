@@ -652,11 +652,11 @@ endif
         "autocmd CmdwinLeave * let &t_te=old_t_te | let let &t_ti=old_t_ti
 
     " prevent the cursor from moving one space left after leaving insert.
-    " DONE: make this work with <c-o> while in INSERT
-        let CursorColumnI = 0 "the cursor column position in INSERT
-        autocmd InsertEnter * let CursorColumnI = col('.')
-        autocmd CursorMovedI * let CursorColumnI = col('.')
-        autocmd InsertLeave * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif
+    " TODO: make this work with <c-o> while in INSERT
+        "let CursorColumnI = 0 "the cursor column position in INSERT
+        "autocmd InsertEnter * let CursorColumnI = col('.')
+        "autocmd CursorMovedI * let CursorColumnI = col('.')
+        "autocmd InsertLeave * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif
 
     " remove trailing spaces.
         " On Save:
