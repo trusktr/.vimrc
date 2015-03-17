@@ -629,7 +629,7 @@ endif
             "if !(&term == "win32" || $TERM == "cygwin")
                 "set listchars=tab:\ \ ,trail:·
             "else
-                set listchars=tab:˒\ ,trail:×,nbsp:·,conceal:¯,eol:\ 
+                set listchars=tab:˒\ ,trail:×,nbsp:·,conceal:¯
             "endif
             set list " enable the above character representation
         set notimeout
