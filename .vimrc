@@ -756,7 +756,7 @@ endif
             "imap <left> isuckatvi
             "imap <right> isuckatvi
 
-        " MOVEMENT
+        " MOVEMENT {
             " make uhjk like arrow keys and move undo to l.
             " TODO: make sure this is consistent across modes including when
             " waiting for keystroke combinations and when using ctrl for
@@ -772,60 +772,81 @@ endif
                 noremap k j
                 noremap h i
 
-            " make using ctrl+arrows to move by word. TODO: Do programmatically
-                " TODO: Move cursor programmatically with a function, not with maps to other keys. It will perform faster.
-                map <c-left> b
-                map <c-right> e
-                map <c-up> 10<up>
-                map <c-down> 10<down>
+                noremap <c-i> <c-k>
+                noremap <c-j> <c-h>
+                noremap <c-k> <c-j>
+                noremap <c-h> <c-i>
 
-                map <c-i> <c-up>
+                noremap <s-i> <s-k>
+                noremap <s-j> <s-h>
+                noremap <s-k> <s-j>
+                noremap <s-h> <s-i>
+
+                noremap <c-s-i> <c-s-k>
+                noremap <c-s-j> <c-s-h>
+                noremap <c-s-k> <c-s-j>
+                noremap <c-s-h> <c-s-i>
+
+            " ctrl+direction in NORMAL to move word by word or 10 lines by 10 lines
+            " TODO: Move cursor programmatically with a function, not with maps to other keys. It will perform faster.
                 map <c-j> <c-left>
                 map <c-k> <c-down>
+                map <c-i> <c-up>
                 map <c-l> <c-right>
 
-                imap <c-up> <c-o>10<up>
-                imap <c-left> <c-o>b
-                imap <c-down> <c-o>10<down>
-                imap <c-right> <c-o>e
+                noremap <c-left> b
+                noremap <c-down> 10<down>
+                noremap <c-up> 10<up>
+                noremap <c-right> e
 
+            " ctrl+direction in INSERT to move word by word or 10 lines by 10 lines
                 " TODO: remove tab when terminal works properly.
-                imap <c-i> <c-up>
-                imap <tab> <c-up>
                 imap <c-j> <c-left>
                 imap <c-k> <c-down>
+                imap <c-i> <c-up>
+                imap <tab> <c-up>
                 imap <c-l> <c-right>
 
                 " TODO: the following doesn't work in terminal.
-                imap <c-a-i> <c-up>
                 imap <c-a-j> <c-left>
                 imap <c-a-k> <c-down>
+                imap <c-a-i> <c-up>
                 imap <c-a-l> <c-right>
 
-                "map <s-left> B
-                "map <s-right> E
+                inoremap <c-left> <c-o>b
+                inoremap <c-down> <c-o>10<down>
+                inoremap <c-up> <c-o>10<up>
+                inoremap <c-right> <c-o>e
 
-                if has("gui_running") " alt combinations have to be treated differently in gvim vs console vim.
-                    imap <a-i> <up>
-                    imap <a-j> <left>
-                    imap <a-k> <down>
-                    imap <a-l> <right>
-                else
-                    imap i <up>
-                    imap j <left>
-                    imap k <down>
-                    imap l <right>
+            " alt+direction in INSERT to move char by char or line by line
+                imap j <a-j>
+                imap k <a-k>
+                imap i <a-i>
+                imap l <a-l>
 
-                    " Mac OS X iterm2
-                    imap ˆ <up>
-                    imap ∆ <left>
-                    imap ˚ <down>
-                    imap ¬ <right>
-                endif
+                " Mac OS X
+                imap ∆ <a-j>
+                imap ˚ <a-k>
+                imap ˆ <a-i>
+                imap ¬ <a-l>
 
-                " natural scrolling for up/down.
-                nnoremap <c-u> <c-d>
-                nnoremap <c-d> <c-u>
+                imap ê <a-j>
+                imap ë <a-k>
+                imap é <a-i>
+                imap ì <a-l>
+
+                inoremap <a-j> <left>
+                inoremap <a-k> <down>
+                inoremap <a-i> <up>
+                inoremap <a-l> <right>
+
+            "map <s-left> B
+            "map <s-right> E
+
+            " natural scrolling for up/down.
+                "nnoremap <c-u> <c-d>
+                "nnoremap <c-d> <c-u>
+        " } MOVEMENT
 
         " SELECTION
             " Enter VISUAL mode by holding shift+arrows or ctrl+shift+arrows
@@ -871,7 +892,8 @@ endif
         " deleting with ctrl
             imap <c-bs> <c-w>
             imap <c-h> <c-w>
-            " no ctrl+backspace for now. :(
+
+            " no ctrl+backspace in terminals for now. :(
             imap <c-del> <c-o>de
             imap [3;5~ <c-o>de
 
@@ -888,6 +910,7 @@ endif
             " ctrl+f to find.
                 "map  <c-f> <esc>/
                 "map! <c-f> <esc>/
+
             " highlight all matches of current word, but do not move cursor to
             " the next or previous ocurrence likw * and # do.
                 nnoremap <cr> :silent! let searchTerm = '\<'.expand("<cword>").'\>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
@@ -900,28 +923,27 @@ endif
             " toggling, but a subsequent search or typing n or N will turn it
             " back on automatically. The second one toggles search highlight
             " on or off, and searching does not automatically turn it back on.
-                "nnoremap <c-c> :nohlsearch<cr>
                 nnoremap <c-c> :if (&hlsearch == 1) \| set nohlsearch \| else \| set hlsearch \| endif <cr>
-
-                "xnoremap <c-c> <esc>
 
         " Move line or selection up or down with alt+up/down and indent based
         " on new location.
+            " TODO TODO TODO TODO: Map all HJKL to IJKL conversion in one place
+            nmap <a-k> <a-down>
+            nmap <a-i> <a-up>
+            vmap <a-k> <a-down>
+            vmap <a-i> <a-up>
+
             nnoremap <a-down> :m .+1<cr>==
             nnoremap <a-up> :m .-2<cr>==
+            " alt+arrows doesn't work in OS X terminals.
             inoremap <a-down> <esc>:m .+1<cr>==gi
             inoremap <a-up> <esc>:m .-2<cr>==gi
             vnoremap <a-down> :m '>+1<cr>gv=gv
             vnoremap <a-up> :m '<-2<cr>gv=gv
-            " VVV TODO: map ijkl keys to hjkl keys instead, then map the hjkl keys to the actual action.
-            nnoremap <a-k> :m .+1<cr>==
-            nnoremap <a-i> :m .-2<cr>==
-            vnoremap <a-k> :m '>+1<cr>gv=gv
-            vnoremap <a-i> :m '<-2<cr>gv=gv
 
         " save with ctrl+s
             "imap <c-s> <c-o>:w<cr>
-            map <c-s> :w<cr>
+            noremap <c-s> :w<cr>
 
         " toggle comments. Requires scrooloose/nerdcommenter plugin.
             let commented = 0
@@ -933,36 +955,41 @@ endif
 
         " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
         " which is the default
-            nmap Y y$
+            nnoremap Y y$
 
         " Make p paste CUA style like gedit, notepad, etc (e.g. pastes then
-        " the cursor is at the end of the paste).
-            nmap p p`]
-        " paste copied line literally, at cursor position. TODO: Strip
+        " the cursor is at the end of the paste). Note: Seems to be the
+        " default behavior now.
+            nnoremap p p`]
+            xnoremap p p`]
+
+        " pasteitesp copied line literally, at cursor position. TODO: Strip
         " whitespace.
-            nmap \p i<c-r>"<c-o>0<bs><c-c>
+            nnoremap <leader>p i<c-r>"<c-o>0<bs><c-c>
 
         " backspace in normal mode.
-            "nmap <bs> X
+            "nnoremap <bs> X
 
         " BUFFER NAVIGATION
             " shift+ctrl+t to open new tabs.
-                "map <c-t> :tabnew<cr>
-                map <c-t> :tabnew<cr>:Startify<cr>
+                noremap <c-t> :tabnew<cr>
+                "noremap <c-t> :tabnew<cr>:Startify<cr>
+
             " alt+left/right to move between tabs in normal mode.
-                nmap <a-right> gt
-                nmap <a-left> gT
                 " Why don't the next two work in console?
-                noremap <a-l> gt
-                noremap <a-j> gT
-                " ^^^ TODO: map ijkl keys to hjkl keys instead, then map the hjkl keys to the actual action.
-                noremap l gt
-                noremap j gT
+                " TODO TODO TODO TODO: Map all HJKL to IJKL conversion in one place
+                map <a-j> <a-left>
+                map <a-l> <a-right>
+                map j <a-left>
+                map l <a-right>
+                nnoremap <a-left> gT
+                nnoremap <a-right> gt
+
             " quick buffer switching
                 nnoremap <leader>b :buffers<cr>:b<space>
 
-            " TODO: non-recursive mapping to IJKL.
-            " HJKL to IJKL split window commands.
+            " TODO TODO TODO TODO: Map all HJKL to IJKL conversion in one place
+            " HJKL to IJKL window commands.
                 nnoremap <c-w>i <c-w>k
                 nnoremap <c-w>k <c-w>j
                 nnoremap <c-w>j <c-w>h
@@ -981,13 +1008,13 @@ endif
             " easier split window switching.
 
                 " TODO FIXME: ctrl+shift doesn't work in MacVim, so using ctrl+alt for now.
-                "nnoremap <c-s-i> <c-w>k
-                "nnoremap <c-s-k> <c-w>j
                 "nnoremap <c-s-j> <c-w>h
+                "nnoremap <c-s-k> <c-w>j
+                "nnoremap <c-s-i> <c-w>k
                 "nnoremap <c-s-l> <c-w>l
-                nnoremap <c-a-i> <c-w>k
-                nnoremap <c-a-k> <c-w>j
                 nnoremap <c-a-j> <c-w>h
+                nnoremap <c-a-k> <c-w>j
+                nnoremap <c-a-i> <c-w>k
                 nnoremap <c-a-l> <c-w>l
 
     " END KEYBINDINGS:
