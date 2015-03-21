@@ -282,7 +282,11 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "NeoBundle 'kana/vim-textobj-user' " required by kana/vim-textobj-function
                     "NeoBundle 'kana/vim-textobj-function' " required by thinca/vim-textobj-function-javascript
 
-                    "NeoBundle 'thinca/vim-textobj-function-javascript' " What does this do?
+                    " Adds a function text object for javascript that selects
+                    " everything inside a function, similar to the { object
+                    " except you can be in a deeply nested block and still
+                    " select the whole function.
+                    "NeoBundle 'thinca/vim-textobj-function-javascript'
 
                     "echo "Be sure to install jshint for Syntastic syntax support. npm install -g jshint"
 
@@ -292,6 +296,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                 " HTML/TEMPLATES/MARKUP
                     "NeoBundle 'mattn/zencoding-vim' " deprecated, use mattn/emmet-vim instead
                     NeoBundle 'mattn/emmet-vim'
+                        let g:user_emmet_leader_key='<leader>'
                     NeoBundle 'briancollins/vim-jst'
                     NeoBundle 'jimmyhchan/dustjs.vim'
                     "NeoBundle 'nono/vim-handlebars' " This is deprecated in favor of mustache/vim-mustache-handlebars " SLOW
@@ -550,7 +555,7 @@ endif
 
         set cursorline " highlight the current line.
         "set cursorcolumn " highlight the current column.
-        set virtualedit=onemore " so we can go one character past the last in normal mode.
+        set virtualedit=block " so we can go one character past the last in normal mode.
         set backspace=indent,eol,start " don't limit backspace to one line. Behaves like a modern editor in this regard.
 
         set showtabline=2 " 0 never show tab bar, 1 at least two tabs present, 2 always
@@ -888,6 +893,10 @@ endif
                 "xnoremap <c-left> <esc>b
                 "xnoremap <c-up> <esc>10<up>
                 "xnoremap <c-down> <esc>10<down>
+
+            " proper $ in VISUAL mode, goes to the last char.
+                " TODO: handle HJKL vs IJKL
+                xnoremap $ g$h
 
         " deleting with ctrl
             imap <c-bs> <c-w>
