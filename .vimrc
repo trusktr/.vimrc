@@ -279,14 +279,14 @@ if glob(s:VIMROOT."/bundle/") != ""
                     NeoBundle 'sidorares/node-vim-debugger'
 
                     " TODO FIXME: messes up the object key because the mapping is recursive?
-                    "NeoBundle 'kana/vim-textobj-user' " required by kana/vim-textobj-function
-                    "NeoBundle 'kana/vim-textobj-function' " required by thinca/vim-textobj-function-javascript
+                    NeoBundle 'kana/vim-textobj-user' " required by kana/vim-textobj-function
+                    NeoBundle 'kana/vim-textobj-function' " required by thinca/vim-textobj-function-javascript
 
                     " Adds a function text object for javascript that selects
                     " everything inside a function, similar to the { object
                     " except you can be in a deeply nested block and still
                     " select the whole function.
-                    "NeoBundle 'thinca/vim-textobj-function-javascript'
+                    NeoBundle 'thinca/vim-textobj-function-javascript'
 
                     "echo "Be sure to install jshint for Syntastic syntax support. npm install -g jshint"
 
@@ -772,20 +772,22 @@ endif
                 " TODO TODO TODO TODO: Map all HJKL to IJKL conversion in one place
                 " no-recursively, then use the literal mapping for
                 " functionality.
-                noremap i k
-                noremap j h
-                noremap k j
-                noremap h i
+                set langmap=hHjkKi;iIhjJk
 
                 noremap <c-i> <c-k>
                 noremap <c-j> <c-h>
                 noremap <c-k> <c-j>
                 noremap <c-h> <c-i>
 
-                noremap <s-i> <s-k>
-                noremap <s-j> <s-h>
-                noremap <s-k> <s-j>
-                noremap <s-h> <s-i>
+                noremap <a-i> <a-k>
+                noremap <a-j> <a-h>
+                noremap <a-k> <a-j>
+                noremap <a-h> <a-i>
+
+                noremap <c-a-i> <c-a-k>
+                noremap <c-a-j> <c-a-h>
+                noremap <c-a-k> <c-a-j>
+                noremap <c-a-h> <c-a-i>
 
                 noremap <c-s-i> <c-s-k>
                 noremap <c-s-j> <c-s-h>
@@ -933,6 +935,8 @@ endif
             " back on automatically. The second one toggles search highlight
             " on or off, and searching does not automatically turn it back on.
                 nnoremap <c-c> :if (&hlsearch == 1) \| set nohlsearch \| else \| set hlsearch \| endif <cr>
+
+            " TODO: turn on highlight after a search.
 
         " Move line or selection up or down with alt+up/down and indent based
         " on new location.
