@@ -120,6 +120,23 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "let g:syntastic_warning_symbol       = "∇"
                     "let g:syntastic_style_warning_symbol = 'w'
 
+                NeoBundle 'benekastah/neomake' " Makers for various file types. Includes jshint for JavaScript.
+                    let g:neomake_javascript_jshint_maker = {
+                        \ 'args': ['--verbose'],
+                        \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)'
+                        \ }
+                    let g:neomake_javascript_enabled_makers = ['jshint']
+                    let g:neomake_error_sign = {
+                        \ 'text': '✗',
+                        \ 'texthl': 'ErrorMsg',
+                        \ }
+                    let g:neomake_warning_sign = {
+                        \ 'text': '∇',
+                        \ 'texthl': 'WarningMsg',
+                        \ }
+
+                    autocmd FileType javascript :autocmd BufWritePost <buffer> :Neomake
+
                 NeoBundle 'scrooloose/nerdcommenter'
 
                 " COLORSCHEMES
