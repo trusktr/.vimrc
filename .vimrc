@@ -127,7 +127,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                         \ }
                     let g:neomake_javascript_enabled_makers = ['jshint']
                     let g:neomake_error_sign = {
-                        \ 'text': '✗',
+                        \ 'text': '✖',
                         \ 'texthl': 'ErrorMsg',
                         \ }
                     let g:neomake_warning_sign = {
@@ -135,7 +135,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                         \ 'texthl': 'WarningMsg',
                         \ }
 
-                    autocmd FileType javascript :autocmd BufWritePost <buffer> :Neomake
+                    autocmd FileType javascript :autocmd BufWritePost <buffer> :silent Neomake
 
                 NeoBundle 'scrooloose/nerdcommenter'
 
@@ -305,6 +305,10 @@ if glob(s:VIMROOT."/bundle/") != ""
                     " select the whole function.
                     NeoBundle 'thinca/vim-textobj-function-javascript'
 
+                    " JSX
+                        "NeoBundle 'jsx/jsx.vim'
+                        NeoBundle 'mxw/vim-jsx'
+
                     "echo "Be sure to install jshint for Syntastic syntax support. npm install -g jshint"
 
                 " COFFESCRIPT
@@ -415,6 +419,13 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "let g:PreserveNoEOL = 1
 
                 NeoBundle 'vim-jp/vital.vim' " nice utility functions, including one to make tree objects.
+
+                "NeoBundle 'kana/vim-gf-user'
+                "NeoBundle 'kana/vim-textobj-user'
+                "NeoBundle 'kana/vim-smartword'
+                "NeoBundle 'kana/vim-textobj-function'
+
+                NeoBundle 'zoomwintab.vim'
 
             call neobundle#end()
 
