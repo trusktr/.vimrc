@@ -780,14 +780,14 @@ endif
 
     " BEGIN KEYBINDINGS:
         " prevent me from using arrow keys. Grrrrr.
-            "map <up> iisuckatvi
-            "map <down> iisuckatvi
-            "map <left> iisuckatvi
-            "map <right> iisuckatvi
-            "imap <up> isuckatvi
-            "imap <down> isuckatvi
-            "imap <left> isuckatvi
-            "imap <right> isuckatvi
+            map <up> :startinsert<cr>I suck at Vim.
+            map <down> :startinsert<cr>I suck at Vim.
+            map <left> :startinsert<cr>I suck at Vim.
+            map <right> :startinsert<cr>I suck at Vim.
+            imap <up> I suck at Vim.
+            imap <down> I suck at Vim.
+            imap <left> I suck at Vim.
+            imap <right> I suck at Vim.
 
         " MOVEMENT {
             " make uhjk like arrow keys and move undo to l.
