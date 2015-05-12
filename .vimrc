@@ -741,7 +741,7 @@ endif
                     set ttymouse=xterm2 " use advanced mouse support even if not in xterm (e.g. if in screen/tmux).
 
                     "execute "silent! colorscheme hybrid"
-                    execute "silent! colorscheme bubblegum"
+                    execute "silent! colorscheme bubblegum-256-dark"
 
                     highlight LineNr ctermfg=red
                     highlight MatchParen cterm=bold,underline ctermbg=none ctermfg=green
