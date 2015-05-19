@@ -140,6 +140,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                 NeoBundle 'scrooloose/nerdcommenter'
 
                 " COLORSCHEMES
+                " TODO: Mark which ones support term, gui, or both.
                     NeoBundle 'w0ng/vim-hybrid'
                     NeoBundle 'daylerees/colour-schemes', { 'rtp': 'vim', }
                     NeoBundle 'djjcast/mirodark'
@@ -154,7 +155,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "NeoBundle 'adlawson/vim-sorcerer'
                     "NeoBundle 'zeis/vim-kolor'
                     "NeoBundle 'jordwalke/flatlandia'
-                    "NeoBundle 'antlypls/vim-colors-codeschool'
+                    NeoBundle 'antlypls/vim-colors-codeschool'
                     NeoBundle 'morhetz/gruvbox'
                         " disable gruvbox italics, which causes line colors to be inverted
                         if !has("gui_running")
@@ -926,7 +927,7 @@ endif
 
             " proper $ in VISUAL mode, goes to the last char.
                 " TODO: handle HJKL vs IJKL
-                xnoremap $ g$h
+                xnoremap $ $j
 
         " deleting with ctrl
             imap <c-bs> <c-w>
