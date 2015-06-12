@@ -739,7 +739,9 @@ endif
                         "autocmd ColorScheme * highlight normal ctermbg=None
                     set t_Co=256 " enable full color
                     set t_ut= " disable clearing of the background. This is helpful in tmux and screen.
-                    set ttymouse=xterm2 " use advanced mouse support even if not in xterm (e.g. if in screen/tmux).
+                    if exists("&ttymouse")
+                        set ttymouse=xterm2 " use advanced mouse support even if not in xterm (e.g. if in screen/tmux).
+                    endif
 
                     "execute "silent! colorscheme hybrid"
                     execute "silent! colorscheme bubblegum-256-dark"
