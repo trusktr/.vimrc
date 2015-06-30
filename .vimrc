@@ -221,9 +221,9 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "let g:signify_cursorhold_normal = 1
                         "let g:signify_cursorhold_insert = 1
 
-                    "NeoBundle 'airblade/vim-gitgutter' " SLOW
-                        "let g:gitgutter_realtime = 0
-                        "let g:gitgutter_eager = 0
+                    NeoBundle 'airblade/vim-gitgutter' " SLOW
+                        let g:gitgutter_realtime = 0
+                        let g:gitgutter_eager = 0
 
                 "NeoBundle 'https://github.com/SirVer/ultisnips.git' " why does this only work with the full url?
 
@@ -306,11 +306,15 @@ if glob(s:VIMROOT."/bundle/") != ""
                     " select the whole function.
                     NeoBundle 'thinca/vim-textobj-function-javascript'
 
-                    " JSX
-                        "NeoBundle 'jsx/jsx.vim'
-                        NeoBundle 'mxw/vim-jsx'
+                    " Use the same js beautifier from jsbeautifier.org
+                    NeoBundle "maksimr/vim-jsbeautify"
+                        command JsBeautify call JsBeautify()
 
                     "echo "Be sure to install jshint for Syntastic syntax support. npm install -g jshint"
+
+                " JSX
+                    "NeoBundle 'jsx/jsx.vim'
+                    NeoBundle 'mxw/vim-jsx'
 
                 " COFFESCRIPT
                     NeoBundle 'kchmck/vim-coffee-script'
@@ -718,7 +722,8 @@ endif
         endif
 
 
-    " STYLE
+    " STYLE (look and feel, colorscheme, font, etc)
+
         " TODO: random colorscheme.
         "let colorschemes = ['zenburn', 'hybrid', 'solarized', 'hemisu', 'seti', '3dglasses']
         "echo 'LENGTH OF ARRAY'
@@ -726,15 +731,19 @@ endif
         "let colorscheme = colorschemes[Random(0, len(colorschemes)-1)]
         "echo colorscheme
 
-        " look and feel (colorscheme, font, etc)
         " FOR ALL ENVIRONMENTS
             set guioptions=acegimrLbtT
+
         " FOR SPECIFIC ENVIRONMENTS
+        " TODO: Handle nvim in all cases.
             if &term == "linux" " 16-color
                 " nothing here yet. TODO: Find a good 16-color theme.
+
             else " 256-color
+
                 "execute "silent! colorscheme ".colorscheme
-                if &term == "xterm" || &term == "xterm-256color" || &term == "screen-256color" || &term == "nvim"
+
+                if &term == "xterm" || &term == "xterm-256color" || &term == "screen-256color" || &term == "nvim" " TODO: detect terminal UI vs GUI in nvim.
                     " make the background color always transparent in xterm
                         "autocmd ColorScheme * highlight normal ctermbg=None
                     set t_Co=256 " enable full color
@@ -743,23 +752,15 @@ endif
                         set ttymouse=xterm2 " use advanced mouse support even if not in xterm (e.g. if in screen/tmux).
                     endif
 
-                    "execute "silent! colorscheme hybrid"
-                    execute "silent! colorscheme bubblegum-256-dark"
+                    execute "silent! colorscheme hybrid"
+                    "execute "silent! colorscheme bubblegum-256-dark"
 
                     highlight LineNr ctermfg=red
                     highlight MatchParen cterm=bold,underline ctermbg=none ctermfg=green
                     highlight TabLineSel ctermfg=yellow
                     highlight TabLineFill ctermfg=black
 
-                elseif has("gui_running")
-                    execute "silent! colorscheme base16-eighties"
-                    " customize hybrid a little.
-                    highlight Comment guifg=#585858
-                    highlight Normal guifg=#999999
-                    "highlight TabLine guifg=#333333 guibg=#777777
-                    "highlight TabLineSel guifg=#FA7F7F
-                    "highlight LineNr guifg=red
-                    highlight MatchParen gui=bold guibg=black guifg=limegreen
+                elseif has("gui_running") " MacVim, Gvim
 
                     set guioptions-=m  "remove menu bar
                     set guioptions-=T  "remove toolbar
@@ -779,6 +780,36 @@ endif
                     silent! set macmeta
                     " TODO: ^^^ add detection of macvim.
                 endif
+
+                if &term == "nvim" || has("gui_running")
+                    let g:terminal_color_0  = '#2e3436'
+                    let g:terminal_color_1  = '#cc0000'
+                    let g:terminal_color_2  = '#4e9a06'
+                    let g:terminal_color_3  = '#c4a000'
+                    let g:terminal_color_4  = '#3465a4'
+                    let g:terminal_color_5  = '#75507b'
+                    let g:terminal_color_6  = '#0b939b'
+                    let g:terminal_color_7  = '#d3d7cf'
+                    let g:terminal_color_8  = '#555753'
+                    let g:terminal_color_9  = '#ef2929'
+                    let g:terminal_color_10 = '#8ae234'
+                    let g:terminal_color_11 = '#fce94f'
+                    let g:terminal_color_12 = '#729fcf'
+                    let g:terminal_color_13 = '#ad7fa8'
+                    let g:terminal_color_14 = '#00f5e9'
+                    let g:terminal_color_15 = '#eeeeec'
+
+                    set background=dark
+                    execute "silent! colorscheme base16-eighties"
+                    " customize hybrid a little.
+                    highlight Comment guifg=#585858
+                    highlight Normal guifg=#999999
+                    "highlight TabLine guifg=#333333 guibg=#777777
+                    "highlight TabLineSel guifg=#FA7F7F
+                    "highlight LineNr guifg=red
+                    highlight MatchParen gui=bold guibg=black guifg=limegreen
+                endif
+
             endif
 
     " BEGIN KEYBINDINGS:
