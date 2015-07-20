@@ -735,7 +735,6 @@ endif
             set guioptions=acegimrLbtT
 
         " FOR SPECIFIC ENVIRONMENTS
-        " TODO: Handle nvim in all cases.
             if &term == "linux" " 16-color
                 " nothing here yet. TODO: Find a good 16-color theme.
 
@@ -743,7 +742,8 @@ endif
 
                 "execute "silent! colorscheme ".colorscheme
 
-                if &term == "xterm" || &term == "xterm-256color" || &term == "screen-256color" || &term == "nvim" " TODO: detect terminal UI vs GUI in nvim.
+                if &term == "xterm" || &term == "xterm-256color" || &term == "screen-256color" || (&term == "nvim" && !has("gui_running"))
+
                     " make the background color always transparent in xterm
                         "autocmd ColorScheme * highlight normal ctermbg=None
                     set t_Co=256 " enable full color
@@ -760,7 +760,7 @@ endif
                     highlight TabLineSel ctermfg=yellow
                     highlight TabLineFill ctermfg=black
 
-                elseif has("gui_running") " MacVim, Gvim
+                elseif has("gui_running") " MacVim, Gvim, nvim with gui
 
                     set guioptions-=m  "remove menu bar
                     set guioptions-=T  "remove toolbar
@@ -779,9 +779,7 @@ endif
 
                     silent! set macmeta
                     " TODO: ^^^ add detection of macvim.
-                endif
 
-                if &term == "nvim" || has("gui_running")
                     let g:terminal_color_0  = '#2e3436'
                     let g:terminal_color_1  = '#cc0000'
                     let g:terminal_color_2  = '#4e9a06'
@@ -812,7 +810,7 @@ endif
 
             endif
 
-    if &term == "nvim"
+    if &term == "nvim" "TODO: detect terminal UI vs GUI in nvim.
         let g:terminal_scrollback_buffer_size = 100000
     endif
 
