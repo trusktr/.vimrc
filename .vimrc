@@ -812,6 +812,10 @@ endif
 
             endif
 
+    if &term == "nvim"
+        let g:terminal_scrollback_buffer_size = 100000
+    endif
+
     " BEGIN KEYBINDINGS:
         " prevent me from using arrow keys. Grrrrr.
             map <up> :startinsert<cr>I suck at Vim.
@@ -996,7 +1000,7 @@ endif
             " toggling, but a subsequent search or typing n or N will turn it
             " back on automatically. The second one toggles search highlight
             " on or off, and searching does not automatically turn it back on.
-                nnoremap <c-c> :if (&hlsearch == 1) \| set nohlsearch \| else \| set hlsearch \| endif <cr>
+                nnoremap <silent> <c-c> :if (&hlsearch == 1) \| set nohlsearch \| else \| set hlsearch \| endif<cr>
 
             " TODO: turn on highlight after a search.
 
