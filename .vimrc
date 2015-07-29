@@ -760,6 +760,10 @@ endif
                     highlight TabLineSel ctermfg=yellow
                     highlight TabLineFill ctermfg=black
 
+                    if &term == "nvim"
+                        tnoremap <c-;><c-n> <c-\><c-n>
+                    endif
+
                 elseif has("gui_running") " MacVim, Gvim, nvim with gui
 
                     set guioptions-=m  "remove menu bar
@@ -988,9 +992,9 @@ endif
 
             " highlight all matches of current word, but do not move cursor to
             " the next or previous ocurrence likw * and # do.
-                nnoremap <cr> :silent! let searchTerm = '\<'.expand("<cword>").'\>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
+                nnoremap <silent> <cr> :let searchTerm = '\<'.expand("<cword>").'\>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
             " same thing as above, but highlights the visual selection.
-                xnoremap <cr> "*y:silent! let searchTerm = substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
+                xnoremap <silent> <cr> "*y:silent! let searchTerm = substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
 
             " ctrl+c to control search highlight. ctrl+c doesn't do anything
             " in normal mode otherwise. Uncomment one of the two lines. The
