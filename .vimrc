@@ -227,9 +227,10 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 "NeoBundle 'https://github.com/SirVer/ultisnips.git' " why does this only work with the full url?
 
-                NeoBundle 'maxbrunsfeld/vim-yankstack'
-                    nmap <leader>P <Plug>yankstack_substitute_newer_paste
-                    nmap <leader>p <Plug>yankstack_substitute_older_paste
+                " Has a bug, perhaps update and try again later...
+                "NeoBundle 'maxbrunsfeld/vim-yankstack'
+                    "nmap <leader>P <Plug>yankstack_substitute_newer_paste
+                    "nmap <leader>p <Plug>yankstack_substitute_older_paste
 
                 NeoBundle 'nathanaelkane/vim-indent-guides' " seems to preform better than Yggdroot/indentLine, but doesn't look as nice.
                     let g:indent_guides_auto_colors = 1
@@ -799,7 +800,7 @@ endif
                     elseif has("gui_win32")
                         silent! set guifont=Consolas:h11:cANSI
                     else
-                        silent! set guifont=courier
+                        silent! set guifont=courier 13
                     endif
 
                     silent! set macmeta
@@ -1055,19 +1056,26 @@ endif
             xnoremap Q gq
             nnoremap Q gqap
 
-        " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
-        " which is the default
-            nnoremap Y y$
+        " COPY/PASTE
+            " Make "* behave the same on all OSes. In linux, "* uses the
+            " SECONDARY register for pasting with a mouse middle click, but I
+            " never use that. In OS X, "* uses the same register as "+, which
+            " is the behavior I like.
+                noremap "* "+
 
-        " Make p paste CUA style like gedit, notepad, etc (e.g. pastes then
-        " the cursor is at the end of the paste). Note: Seems to be the
-        " default behavior now.
-            nnoremap p p`]
-            xnoremap p p`]
+            " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
+            " which is the default
+                nnoremap Y y$
 
-        " pasteitesp copied line literally, at cursor position. TODO: Strip
-        " whitespace.
-            nnoremap <leader>p i<c-r>"<c-o>0<bs><c-c>
+            " Make p paste CUA style like gedit, notepad, etc (e.g. pastes then
+            " the cursor is at the end of the paste). Note: Seems to be the
+            " default behavior now.
+                nnoremap p p`]
+                xnoremap p p`]
+
+            " pasteitesp copied line literally, at cursor position. TODO: Strip
+            " whitespace.
+                nnoremap <leader>p i<c-r>"<c-o>0<bs><c-c>
 
         " backspace in normal mode.
             "nnoremap <bs> X
