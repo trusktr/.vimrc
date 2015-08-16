@@ -292,8 +292,11 @@ if glob(s:VIMROOT."/bundle/") != ""
                     NeoBundle 'moll/vim-node'
                     "NeoBundle 'walm/jshint.vim' " prefer Syntastic
                     NeoBundle 'jamescarr/snipmate-nodejs' " requires garbas/vim-snipmate, dump the contents of snippets/javascript into the directory ~/.vim/snippets/javascript
+
                     "NeoBundle 'myhere/vim-nodejs-complete' " use <c-x><c-o> to trigger completion.
-                    NeoBundle 'ahayman/vim-nodejs-complete' " use <c-x><c-o> to trigger completion. Fork of myhere's version, more up to date.
+                    "NeoBundle 'ahayman/vim-nodejs-complete' " use <c-x><c-o> to trigger completion. Fork of myhere's version, more up to date.
+                    " XXX ^ This causes some files to crash and never open.
+
                     NeoBundle 'sidorares/node-vim-debugger'
 
                     " TODO FIXME: messes up the object key because the mapping is recursive?
@@ -374,6 +377,18 @@ if glob(s:VIMROOT."/bundle/") != ""
                         \         'pattern':       '\<from\>',
                         \         'left_margin':   1,
                         \         'right_margin':  1,
+                        \         'stick_to_left': 0
+                        \     },
+                        \     '(': {
+                        \         'pattern':       '(',
+                        \         'left_margin':   1,
+                        \         'right_margin':  0,
+                        \         'stick_to_left': 0
+                        \     },
+                        \     '[': {
+                        \         'pattern':       '[',
+                        \         'left_margin':   1,
+                        \         'right_margin':  0,
                         \         'stick_to_left': 0
                         \     }
                         \ }
@@ -752,13 +767,19 @@ endif
                         set ttymouse=xterm2 " use advanced mouse support even if not in xterm (e.g. if in screen/tmux).
                     endif
 
-                    execute "silent! colorscheme hybrid"
-                    "execute "silent! colorscheme bubblegum-256-dark"
+                    "execute "silent! colorscheme hybrid"
+                    execute "silent! colorscheme bubblegum-256-dark"
 
+                    " based on bubblegum:
+                    highlight CursorLine ctermfg=NONE
+                    highlight MatchParen ctermfg=yellow ctermbg=NONE
+
+                    " based on hybrid:
                     highlight LineNr ctermfg=red
                     highlight MatchParen cterm=bold,underline ctermbg=none ctermfg=green
-                    highlight TabLineSel ctermfg=yellow
+                    highlight TabLineSel cterm=bold ctermfg=yellow
                     highlight TabLineFill ctermfg=black
+                    highlight TabLine ctermbg=darkgray ctermfg=black
 
                     if &term == "nvim"
                         tnoremap <c-;><c-n> <c-\><c-n>
@@ -808,8 +829,8 @@ endif
                     highlight Normal guifg=#999999
                     "highlight TabLine guifg=#333333 guibg=#777777
                     "highlight TabLineSel guifg=#FA7F7F
-                    "highlight LineNr guifg=red
                     highlight MatchParen gui=bold guibg=black guifg=limegreen
+                    "highlight LineNr guifg=red
                 endif
 
             endif
