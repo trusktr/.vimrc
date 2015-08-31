@@ -716,8 +716,8 @@ endif
                         set ttymouse=xterm2 " use advanced mouse support even if not in xterm (e.g. if in screen/tmux).
                     endif
 
-                    "execute "silent! colorscheme hybrid"
-                    execute "silent! colorscheme bubblegum-256-dark"
+                    execute "silent! colorscheme hybrid"
+                    "execute "silent! colorscheme bubblegum-256-dark"
 
                     " based on bubblegum:
                     highlight CursorLine ctermfg=NONE
