@@ -5,7 +5,9 @@
 
 scriptencoding utf-8 " make sure we use utf-8 before doing anything.
 "behave mswin " awesome (but horrible name choice. "behave cua" would be nicer. I dislike Windows.) Treats the cursor like an I beam when selecting text instead of a block, and if you have a block the I beam is basically the left edge of the block.
+let loaded_matchit = 1
 runtime! macros/matchit.vim " enabled awesome match abilities like HTML tag matching with %
+    " TODO: Fix ugly reposition of view during match.
 
 set nocompatible " be iMproved
 
@@ -800,7 +802,7 @@ endif
             imap <right> I suck at Vim.
 
         " MOVEMENT {
-            " make uhjk like arrow keys and move undo to l.
+            " make ijkl like arrow keys.
             " TODO: make sure this is consistent across modes including when
             " waiting for keystroke combinations and when using ctrl for
             " movement like with arrow keys.
