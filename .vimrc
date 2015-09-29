@@ -722,15 +722,19 @@ endif
                     "execute "silent! colorscheme bubblegum-256-dark"
 
                     " based on bubblegum:
-                    highlight CursorLine ctermfg=NONE
-                    highlight MatchParen ctermfg=yellow ctermbg=NONE
+                    if (g:colors_name == 'bubblegum-256-dark')
+                        highlight CursorLine ctermfg=NONE
+                        highlight MatchParen ctermfg=yellow ctermbg=NONE
+                    endif
 
                     " based on hybrid:
-                    highlight LineNr ctermfg=red
-                    highlight MatchParen cterm=bold,underline ctermbg=none ctermfg=green
-                    highlight TabLineSel cterm=bold ctermfg=yellow
-                    highlight TabLineFill ctermfg=black
-                    highlight TabLine ctermbg=darkgray ctermfg=black
+                    if (g:colors_name == 'hybrid')
+                        highlight LineNr ctermfg=red
+                        highlight MatchParen cterm=bold,underline ctermbg=none ctermfg=yellow
+                        highlight TabLineSel cterm=bold ctermfg=yellow
+                        highlight TabLineFill ctermfg=black
+                        highlight TabLine ctermbg=darkgray ctermfg=black
+                    endif
 
                     if &term == "nvim"
                         tnoremap <c-;><c-n> <c-\><c-n>
