@@ -259,9 +259,33 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "    let g:ycm_seed_identifiers_with_syntax = 1
 
                 " JAVASCRIPT
+                    "Plug 'JavaScript-Indent' " outdated compared to pangloss/vim-javascript (prefer that).
+
+                    " The following syntax plugins all work together. The order they are specified might affect the outcome a
+                    " little (highlight colors could vary, etc, similar to cascading style sheets).
                     Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' } " works in tandem with pangloss/vim-javascript
-                    "Plug 'JavaScript-Indent' " seems to be outdated compared to pangloss/vim-javascript.
+                    Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' } " supports latest language features.
+                    Plug 'othree/yajs.vim', { 'for': 'javascript' } " JavaScript syntax plugin
                     Plug 'pangloss/vim-javascript', { 'for': 'javascript' } " preferred, works in tandem with jelera/vim-javascript-syntax
+
+                    " Tern is slow. It will be loaded when the commands are
+                    " first executed instead of at the beginning. XXX Why
+                    " doesn't the "on" setting work?
+                    Plug 'ternjs/tern_for_vim', {
+                    \    'do': 'npm install',
+                    \    'on': [
+                    \        'TernDef',
+                    \        'TernDefPreview',
+                    \        'TernDefSplit',
+                    \        'TernDefTab',
+                    \        'TernDoc',
+                    \        'TernDocBrowse',
+                    \        'TernRefs',
+                    \        'TernRename',
+                    \        'TernType'
+                    \    ]
+                    \}
+
                     "Plug 'drslump/vim-syntax-js' " replace various keywords in JavaScript with abbreviations and symbols
                         "set conceallevel=2
                         "set concealcursor=nc  " don't reveal the conceals unless on insert or visual modes
@@ -274,15 +298,16 @@ if glob(s:VIMROOT."/bundle/") != ""
                         " XXX ^ This causes some files to crash and never open.
                     Plug 'sidorares/node-vim-debugger', { 'for': 'javascript' }
 
-                    " TODO FIXME: messes up the object key because the mapping is recursive?
-                    Plug 'kana/vim-textobj-user', { 'for': 'javascript' } " required by kana/vim-textobj-function
-                    Plug 'kana/vim-textobj-function', { 'for': 'javascript' } " required by thinca/vim-textobj-function-javascript
-
                     " Adds a function text object for javascript that selects
                     " everything inside a function, similar to the { object
                     " except you can be in a deeply nested block and still
                     " select the whole function.
-                    Plug 'thinca/vim-textobj-function-javascript', { 'for': 'javascript' }
+
+                        " TODO FIXME: messes up the object key because the mapping is recursive?
+                        "Plug 'kana/vim-textobj-user', { 'for': 'javascript' } " required by kana/vim-textobj-function
+                        "Plug 'kana/vim-textobj-function', { 'for': 'javascript' } " required by thinca/vim-textobj-function-javascript
+
+                        "Plug 'thinca/vim-textobj-function-javascript', { 'for': 'javascript' }
 
                     " Use the same js beautifier from jsbeautifier.org
                     Plug 'maksimr/vim-jsbeautify', { 'on': 'JsBeautify' }
@@ -296,6 +321,10 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 " COFFEESCRIPT
                     Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
+
+                " QML
+                    Plug 'peterhoeg/vim-qml'
+                    "Plug 'calincru/qml.vim'
 
                 " HTML/TEMPLATES/MARKUP
                     "Plug 'mattn/zencoding-vim' " deprecated, use mattn/emmet-vim instead
@@ -401,6 +430,8 @@ if glob(s:VIMROOT."/bundle/") != ""
                 "Plug 'kana/vim-textobj-user'
                 "Plug 'kana/vim-smartword'
                 "Plug 'kana/vim-textobj-function'
+
+                Plug 'google/vim-searchindex'
 
             call plug#end()
 
@@ -525,7 +556,10 @@ endif
         set smartcase " ...except when using capital letters
         set incsearch " Incremental search
         set wildmenu " Better commandline tab completion
-        set wildmode=longest:list,full " Complete longest common string and show the match list, then epand to first full match
+
+        " TODO: For some reason, this doesn't apply until I set it manually.
+        " Neovim issue: ...
+        set wildmode=longest:list,full " Complete longest common string and show the match list, then expand to the first full match
 
         set laststatus=2               " Always show a status line
         "set statusline=%f%m%r%h%w\ [%n:%{&ff}/%Y]%=[0x\%04.4B][%03v][%p%%\ line\ %l\ of\ %L] " custom status line. Not needed if using powerline or airline.
@@ -718,6 +752,7 @@ endif
                         set ttymouse=xterm2 " use advanced mouse support even if not in xterm (e.g. if in screen/tmux).
                     endif
 
+                    set background=dark
                     execute "silent! colorscheme hybrid"
                     "execute "silent! colorscheme bubblegum-256-dark"
 
@@ -968,6 +1003,7 @@ endif
 
             " highlight all matches of current word, but do not move cursor to
             " the next or previous ocurrence likw * and # do.
+                "nnoremap <silent> <cr> :let searchTerm = '\<'.expand("<cword>").'\>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> :call TargetOn()<cr>
                 nnoremap <silent> <cr> :let searchTerm = '\<'.expand("<cword>").'\>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
             " same thing as above, but highlights the visual selection.
                 xnoremap <silent> <cr> "*y:silent! let searchTerm = substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
@@ -978,6 +1014,29 @@ endif
             " toggling, but a subsequent search or typing n or N will turn it
             " back on automatically. The second one toggles search highlight
             " on or off, and searching does not automatically turn it back on.
+                "set hlsearch " start with highlight on
+                "set cursorcolumn " start with the vertucal cursor column.
+                function! TargetToggle()
+                    if(&hlsearch == 1)
+                        call TargetOff()
+                    else
+                        call TargetOn()
+                    endif
+                endfunc
+
+                function! TargetOff()
+                    set nohlsearch
+                    set nocursorcolumn
+                endfunc
+
+                function! TargetOn()
+                    echo &hlsearch
+                    set hlsearch
+                    set cursorcolumn
+                endfunc
+
+                "nnoremap <silent> <c-c> :call TargetToggle()<cr>
+
                 nnoremap <silent> <c-c> :if (&hlsearch == 1) \| set nohlsearch \| else \| set hlsearch \| endif<cr>
 
             " TODO: turn on highlight after a search.
@@ -1024,8 +1083,8 @@ endif
             " Make p paste CUA style like gedit, notepad, etc (e.g. pastes then
             " the cursor is at the end of the paste). Note: Seems to be the
             " default behavior now.
-                nnoremap p p`]
-                xnoremap p p`]
+                "nnoremap p p`]
+                "xnoremap p p`]
 
             " pasteitesp copied line literally, at cursor position. TODO: Strip
             " whitespace.
