@@ -3,6 +3,7 @@
 
 " TODO: Make a FileSeparator variable to handle each OS.
 
+
 scriptencoding utf-8 " make sure we use utf-8 before doing anything.
 "behave mswin " awesome (but horrible name choice. "behave cua" would be nicer. I dislike Windows.) Treats the cursor like an I beam when selecting text instead of a block, and if you have a block the I beam is basically the left edge of the block.
 let loaded_matchit = 1
@@ -97,7 +98,6 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "Plug 'noahfrederick/vim-hemisu'
                     "Plug 'altercation/vim-colors-solarized'
                         "let g:solarized_termcolors=256
-                        "set background=dark " specify whether you want the light theme or the dark theme.
                     "Plug 'jonathanfilip/vim-lucius'
                     "Plug 'jnurmine/Zenburn'
                     "Plug 'adlawson/vim-sorcerer'
@@ -203,10 +203,13 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 "Plug 'https://github.com/SirVer/ultisnips.git' " why does this only work with the full url?
 
-                " Has a bug, perhaps update and try again later...
-                "Plug 'maxbrunsfeld/vim-yankstack'
-                    "nmap <leader>P <Plug>yankstack_substitute_newer_paste
-                    "nmap <leader>p <Plug>yankstack_substitute_older_paste
+                " Keep a stack of yanks (ctrl+p and ctrl+n to switch to previous or next yank)
+                    Plug 'vim-scripts/YankRing.vim'
+                        nnoremap <leader>yr :YRShow<cr>
+                    "Plug 'maxbrunsfeld/vim-yankstack'
+                        "nmap <c-n> <Plug>yankstack_substitute_newer_paste
+                        "nmap <c-p> <Plug>yankstack_substitute_older_paste
+                    "Plug 'svermeulen/vim-easyclip' " ctrl+p/n not working.
 
                 Plug 'nathanaelkane/vim-indent-guides', { 'on': 'IndentLinesToggle' } " seems to preform better than Yggdroot/indentLine, but doesn't look as nice.
                     let g:indent_guides_auto_colors = 1
@@ -231,6 +234,17 @@ if glob(s:VIMROOT."/bundle/") != ""
                     Plug 'marcweber/vim-addon-mw-utils' " required by garbas/vim-snipmate
                     Plug 'garbas/vim-snipmate'
                     Plug 'honza/vim-snippets'
+
+                    " bracket completion
+                        Plug 'cohama/lexima.vim' " Same as delimitMate, but also completes unclosed brakcets when pressing enter for new line.
+                        "Plug 'Raimondi/delimitMate'
+                            "let delimitMate_expand_cr = 2
+                            "let delimitMate_expand_space = 1
+                        "Plug 'Townk/vim-autoclose' " No dot redo support
+                        "Plug 'jiangmiao/auto-pairs' " No dot redo support
+
+                        " complements bracket completion
+                        Plug 'tpope/vim-surround' " surround selections with things like quotes, parens, brakcets, etc.
 
                     "" TODO: YouCompleteMe, make function for Plug.
                     "if has("unix")
@@ -342,8 +356,6 @@ if glob(s:VIMROOT."/bundle/") != ""
                     Plug 'wavded/vim-stylus', { 'for': 'stylus' } " stylus css
                     Plug 'groenewege/vim-less', { 'for': 'less' } " less css support
                     Plug 'tpope/vim-haml', { 'for': ['haml', 'sass', 'scss'] } " haml, sass, and scss support
-
-                Plug 'tpope/vim-surround' " surround selections with things like quotes, parens, brakcets, etc.
 
                 "Plug 'sjl/gundo.vim'
                 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
@@ -526,12 +538,15 @@ endif
 " END VIM SUGGESTED DEFAULT SETTINGS BY BRAM MOOLENAR:
 
 " BEGIN CUSTOM SETTINGS:
+    " TODO: Put everything either in a plugin above, or in a file in the custom
+    " folder, sourced below:
+        silent! source `=s:VIMROOT."/custom/something.vim"` " Source login info
 
     " TODO: Put this somewhere!! Skip to the next line with same indentation.
     " Nice.
         "nnore <leader>x :call search('^'.matchstr(getline('.'),'^\s*').'\S','We')<CR>
 
-    " general settings.
+    " OPTIONS.
         set wrapscan
         set whichwrap=b,s,<,>,[,],h,l
         set number
@@ -752,8 +767,12 @@ endif
                         set ttymouse=xterm2 " use advanced mouse support even if not in xterm (e.g. if in screen/tmux).
                     endif
 
+                    " Some vim plugins set this, some don't, so lets make sure it exists before setting a color.
+                    let g:colors_name = ''
+
                     set background=dark
                     execute "silent! colorscheme hybrid"
+                    "execute "silent! colorscheme solarized"
                     "execute "silent! colorscheme bubblegum-256-dark"
 
                     " based on bubblegum:
@@ -1075,6 +1094,7 @@ endif
             " never use that. In OS X, "* uses the same register as "+, which
             " is the behavior I like.
                 noremap "* "+
+                inoremap <c-r>* <c-r>+
 
             " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
             " which is the default
@@ -1206,7 +1226,7 @@ endif
                     endif
                 endfunc
 
-                nnoremap <C-n> :call NumberToggle()<cr>
+                nnoremap <leader>n :call NumberToggle()<cr>
                 autocmd FocusLost * :set norelativenumber
                 autocmd FocusGained * :set relativenumber
                 autocmd InsertEnter * :set norelativenumber
@@ -1249,6 +1269,9 @@ endif
 
         " Beautify json.
             command JsonFormat %!python -m json.tool
+
+        " Reverse all lines.
+            command Reverse g/^/m0
 
         " Delete all hidden buffers.
         function! DeleteInactiveBufs()
