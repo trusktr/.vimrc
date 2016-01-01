@@ -696,6 +696,7 @@ endif
         set winminwidth=0 " Show at least zero columns instead of at least one for vertical splits.
         set sessionoptions=blank,curdir,folds,help,resize,slash,tabpages,unix,winpos,winsize " :help sessionoptions
         set noequalalways " prevents splitting or closing windows from resizing all other windows.
+        set clipboard=unnamedplus " Makes vim yank and paste to/from the system clipboard without having to use "* or "+. It's useful if you switch between separate instances of vim, and when you have a system clipboard stack so you can keep find previous clipboard entries. If you don't have a clipboard stack, you might like to disable this and use something like vim-yankstack instead.
 
     " prevent the alternate buffer in Gnome Terminal, etc, so output works
     " like vim's internal :echo command. woo!
