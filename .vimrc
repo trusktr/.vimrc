@@ -164,7 +164,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "let g:taboo_tab_format         = " %N:%f%m "
                         "let g:taboo_renamed_tab_format = " %N:\"%l%m\" "
 
-                    Plug 'mhinz/vim-startify', { 'on': ['Startify', 'SSave', 'SLoad'] }
+                    Plug 'mhinz/vim-startify' ", { 'on': ['Startify', 'SSave', 'SLoad'] }
                        let g:startify_session_dir = s:VIMROOT.'/session'
 
                     Plug 'tpope/vim-fugitive'
