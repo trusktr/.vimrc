@@ -884,25 +884,26 @@ endif
                 " functionality.
                 set langmap=hHjkKi;iIhjJk
 
-                noremap <c-i> <c-k>
-                noremap <c-j> <c-h>
-                noremap <c-k> <c-j>
-                noremap <c-h> <c-i>
+                " TODO: We need this if in neovim <0.1.2, or in vim.
+                "noremap <c-i> <c-k>
+                "noremap <c-j> <c-h>
+                "noremap <c-k> <c-j>
+                "noremap <c-h> <c-i>
 
-                noremap <a-i> <a-k>
-                noremap <a-j> <a-h>
-                noremap <a-k> <a-j>
-                noremap <a-h> <a-i>
+                "noremap <a-i> <a-k>
+                "noremap <a-j> <a-h>
+                "noremap <a-k> <a-j>
+                "noremap <a-h> <a-i>
 
-                noremap <c-a-i> <c-a-k>
-                noremap <c-a-j> <c-a-h>
-                noremap <c-a-k> <c-a-j>
-                noremap <c-a-h> <c-a-i>
+                "noremap <c-a-i> <c-a-k>
+                "noremap <c-a-j> <c-a-h>
+                "noremap <c-a-k> <c-a-j>
+                "noremap <c-a-h> <c-a-i>
 
-                noremap <c-s-i> <c-s-k>
-                noremap <c-s-j> <c-s-h>
-                noremap <c-s-k> <c-s-j>
-                noremap <c-s-h> <c-s-i>
+                "noremap <c-s-i> <c-s-k>
+                "noremap <c-s-j> <c-s-h>
+                "noremap <c-s-k> <c-s-j>
+                "noremap <c-s-h> <c-s-i>
 
             " ctrl+direction in NORMAL to move word by word or 10 lines by 10 lines
             " TODO: Move cursor programmatically with a function, not with maps to other keys. It will perform faster.
@@ -1133,9 +1134,9 @@ endif
             " alt+left/right to move between tabs in normal mode.
                 " Why don't the next two work in console?
                 " TODO TODO TODO TODO: Map all HJKL to IJKL conversion in one place
-                map <a-j> <a-left>
+                map <a-h> <a-left>
                 map <a-l> <a-right>
-                map j <a-left>
+                map h <a-left>
                 map l <a-right>
                 nnoremap <a-left> gT
                 nnoremap <a-right> gt
