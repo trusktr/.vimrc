@@ -26,6 +26,7 @@ else
     exit
 endif
 
+" BEGIN PLUGIN_MANAGEMENT {
 " if the ".s:VIMROOT."/bundle/ directory exists.
 if glob(s:VIMROOT."/bundle/") != ""
 
@@ -91,6 +92,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                 " COLORSCHEMES
                 " TODO: Mark which ones support term, gui, or both.
                     Plug 'w0ng/vim-hybrid'
+                    Plug 'trusktr/seti.vim'
                     "Plug 'daylerees/colour-schemes', { 'rtp': 'vim', }
                     "Plug 'djjcast/mirodark'
                     "Plug 'nicholasc/vim-seti' // doesn't work in terminal
@@ -204,8 +206,8 @@ if glob(s:VIMROOT."/bundle/") != ""
                 "Plug 'https://github.com/SirVer/ultisnips.git' " why does this only work with the full url?
 
                 " Keep a stack of yanks (ctrl+p and ctrl+n to switch to previous or next yank)
-                    Plug 'vim-scripts/YankRing.vim'
-                        nnoremap <leader>yr :YRShow<cr>
+                    "Plug 'vim-scripts/YankRing.vim' " seems to conflict with the unnamedplus clipboard setting. I'm using Gnome Clipboard stack extension anyways.
+                        "nnoremap <leader>yr :YRShow<cr>
                     "Plug 'maxbrunsfeld/vim-yankstack'
                         "nmap <c-n> <Plug>yankstack_substitute_newer_paste
                         "nmap <c-p> <Plug>yankstack_substitute_older_paste
@@ -235,8 +237,16 @@ if glob(s:VIMROOT."/bundle/") != ""
                     Plug 'garbas/vim-snipmate'
                     Plug 'honza/vim-snippets'
 
+                    if has('nvim') && has("python3")
+                        Plug 'Shougo/deoplete.nvim' " neovim with python support only
+                        "let g:deoplete#enable_at_startup = 1
+                    endif
+
+                    Plug 'junegunn/fzf', { 'do': './install --all' }
+                    Plug 'junegunn/fzf.vim'
+
                     " bracket completion
-                        Plug 'cohama/lexima.vim' " Same as delimitMate, but also completes unclosed brakcets when pressing enter for new line.
+                        "Plug 'cohama/lexima.vim' " Same as delimitMate, but also completes unclosed brakcets when pressing enter for new line.
                         "Plug 'Raimondi/delimitMate'
                             "let delimitMate_expand_cr = 2
                             "let delimitMate_expand_space = 1
@@ -452,6 +462,7 @@ if glob(s:VIMROOT."/bundle/") != ""
     endif
 
 endif
+" END PLUGIN_MANAGEMENT {
 
 
 " BEGIN VIM SUGGESTED DEFAULT SETTINGS BY BRAM MOOLENAR:
@@ -691,7 +702,7 @@ endif
         set showcmd " display incomplete command. I moved this here from Bram's example because it wasn't working before vundle.
         set history=9999        " how many lines of command line history to keep.
         set pastetoggle=<f12> " Toggle paste mode with <f12> for easy pasting without auto-formatting.
-        set hidden " buffers keep their state when a new buffer is opened in the same view.
+
         set winminheight=0 " Show at least zero lines instead of at least one for horizontal splits.
         set winminwidth=0 " Show at least zero columns instead of at least one for vertical splits.
         set sessionoptions=blank,curdir,folds,help,resize,slash,tabpages,unix,winpos,winsize " :help sessionoptions
@@ -1274,10 +1285,12 @@ endif
         " Reverse all lines.
             command Reverse g/^/m0
 
+        " BEGIN BUFFERS
+        set nohidden
+        autocmd BufNew,BufNewFile,BufRead * setlocal bufhidden=delete
         " Delete all hidden buffers.
         function! DeleteInactiveBufs()
             "From tabpagebuflist() help, get a list of all buffers in all tabs
-            let tablist = []
             for i in range(tabpagenr('$'))
                 call extend(tablist, tabpagebuflist(i + 1))
             endfor
@@ -1295,6 +1308,7 @@ endif
             echomsg nWipeouts . ' buffer(s) wiped out'
         endfunction
         command BuffDeleteHidden :call DeleteInactiveBufs()
+        " END BUFFERS
 
     " END COMMAND MAPS AND SPECIAL FUNCTION MAPS:
 
