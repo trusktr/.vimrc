@@ -423,9 +423,9 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 Plug 'DrawIt'
 
-                if !(&term == "win32" || $TERM == "cygwin")
-                    Plug 'taglist.vim'
-                endif
+                "if !(&term == "win32" || $TERM == "cygwin")
+                    "Plug 'taglist.vim'
+                "endif
 
                 "Plug 'CmdlineCompl.vim' SEEMS OUTDATED
                 "Plug 'hexman.vim'
