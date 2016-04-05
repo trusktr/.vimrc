@@ -1081,6 +1081,12 @@ endif
             vmap <a-k> <a-down>
             vmap <a-i> <a-up>
 
+            " OS X
+            nmap ˚ <a-down>
+            nmap ˆ <a-up>
+            vmap ˚ <a-down>
+            vmap ˆ <a-up>
+
             nnoremap <a-down> :m .+1<cr>==
             nnoremap <a-up> :m .-2<cr>==
             " alt+arrows doesn't work in OS X terminals.
@@ -1138,6 +1144,11 @@ endif
                 map <a-l> <a-right>
                 map h <a-left>
                 map l <a-right>
+
+                " Mac OS X
+                map ∆ <a-left>
+                map ¬ <a-right>
+
                 nnoremap <a-left> gT
                 nnoremap <a-right> gt
 
