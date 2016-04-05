@@ -70,7 +70,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "let g:syntastic_warning_symbol       = "∇"
                     "let g:syntastic_style_warning_symbol = 'w'
 
-                Plug 'benekastah/neomake' " Makers for various file types. Includes jshint for JavaScript.
+                Plug 'benekastah/neomake' " Makers for various file types. Includes jshint for JavaScript. TODO: auto-install jshint.
                     let g:neomake_javascript_jshint_maker = {
                         \ 'args': ['--verbose'],
                         \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)'
@@ -315,7 +315,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "set concealcursor=nc  " don't reveal the conceals unless on insert or visual modes
                         "let g:syntax_js=['function', 'return', 'semicolon', 'comma', 'this', 'proto', 'solarized'] " which conceals to enable
                     Plug 'moll/vim-node', { 'for': 'javascript' }
-                    "Plug 'walm/jshint.vim' " prefer Syntastic
+                    "Plug 'walm/jshint.vim' " prefer NeoMake with added jshint config.
                     Plug 'jamescarr/snipmate-nodejs', { 'for': 'javascript' } " requires garbas/vim-snipmate, dump the contents of snippets/javascript into the directory ~/.vim/snippets/javascript
                     "Plug 'myhere/vim-nodejs-complete' " use <c-x><c-o> to trigger completion.
                     "Plug 'ahayman/vim-nodejs-complete', { 'for': 'javascript' } " use <c-x><c-o> to trigger completion. Fork of myhere's version, more up to date.
@@ -336,8 +336,6 @@ if glob(s:VIMROOT."/bundle/") != ""
                     " Use the same js beautifier from jsbeautifier.org
                     Plug 'maksimr/vim-jsbeautify', { 'on': 'JsBeautify' }
                         command JsBeautify call JsBeautify()
-
-                    "echo "Be sure to install jshint for Syntastic syntax support. npm install -g jshint"
 
                 " JSX
                     "Plug 'jsx/jsx.vim', { 'for': 'javascript.jsx' }
@@ -425,9 +423,9 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 Plug 'DrawIt'
 
-                if !(&term == "win32" || $TERM == "cygwin")
-                    Plug 'taglist.vim'
-                endif
+                "if !(&term == "win32" || $TERM == "cygwin")
+                    "Plug 'taglist.vim'
+                "endif
 
                 "Plug 'CmdlineCompl.vim' SEEMS OUTDATED
                 "Plug 'hexman.vim'
