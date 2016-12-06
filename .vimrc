@@ -70,12 +70,18 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "let g:syntastic_warning_symbol       = "∇"
                     "let g:syntastic_style_warning_symbol = 'w'
 
-                Plug 'benekastah/neomake' " Makers for various file types. Includes jshint for JavaScript. TODO: auto-install jshint.
-                    let g:neomake_javascript_jshint_maker = {
-                        \ 'args': ['--verbose'],
-                        \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)'
-                        \ }
-                    let g:neomake_javascript_enabled_makers = ['jshint']
+                Plug 'benekastah/neomake' " Makers for various file types. TODO: auto install tool (jshint, eslint).
+
+                    " jshint config
+                    "let g:neomake_javascript_enabled_makers = ['jshint']
+                    "let g:neomake_javascript_jshint_maker = {
+                        "\ 'args': ['--verbose'],
+                        "\ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)'
+                        "\ }
+
+                    " eslint config
+                    let g:neomake_javascript_enabled_makers = ['eslint']
+
                     let g:neomake_error_sign = {
                         \ 'text': '✖',
                         \ 'texthl': 'ErrorMsg',
@@ -198,7 +204,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "let g:signify_cursorhold_normal = 1
                         "let g:signify_cursorhold_insert = 1
 
-                    Plug 'airblade/vim-gitgutter', { 'on': 'GitGutterToggle' }
+                    Plug 'airblade/vim-gitgutter' ", { 'on': 'GitGutterToggle' }
                         nnoremap <leader>g :GitGutterToggle<cr>
                         let g:gitgutter_realtime = 0
                         let g:gitgutter_eager = 0
@@ -453,6 +459,16 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 Plug 'google/vim-searchindex'
 
+                " TODO: Other plugins to try:
+                " - https://rhysd.github.io/#vim-plugin
+
+                Plug 't9md/vim-textmanip'
+                    " needs custom shortcuts. Merge with my alt+movement below.
+
+                " Elm
+                Plug 'lambdatoast/elm.vim'
+
+
             call plug#end()
 
             " Required:
@@ -586,6 +602,8 @@ endif
         set wildmode=longest:list,full " Complete longest common string and show the match list, then expand to the first full match
 
         set laststatus=2               " Always show a status line
+
+        " TODO: make a better status line.
         "set statusline=%f%m%r%h%w\ [%n:%{&ff}/%Y]%=[0x\%04.4B][%03v][%p%%\ line\ %l\ of\ %L] " custom status line. Not needed if using powerline or airline.
 
             function! InsertStatuslineColor(mode)
@@ -600,8 +618,6 @@ endif
 
             " default statusline color in Normal mode
             au BufEnter * hi statusline guibg=#69bf64 guifg=#222222 ctermfg=green
-            au InsertLeave * hi statusline guibg=#69bf64 guifg=#222222 ctermfg=green
-
             au BufEnter * hi statuslinenc guibg=#222222 guifg=#414141 ctermfg=8
             au BufEnter * hi vertsplit guibg=#222222 guifg=#222222 ctermfg=8
             au BufEnter * hi signcolumn guibg=#252525 ctermfg=8
@@ -609,6 +625,26 @@ endif
 
             au InsertEnter * call InsertStatuslineColor(v:insertmode)
             au InsertChange * call InsertStatuslineColor(v:insertmode)
+
+            " doesn't work in NeoVim 0.1.2
+            au InsertLeave * hi statusline guibg=#69bf64 guifg=#222222 ctermfg=green
+            " workaround:
+            au CursorMoved * hi statusline guibg=#69bf64 guifg=#222222 ctermfg=green
+
+            " Update the status line immediately when leaving INSERT or VISUAL mode by
+            " pressing <esc>
+                "if ! has('gui_running')
+                "    set ttimeoutlen=10 " XXX: Does this interfere with timeoutlen? Why do we need this?
+                "    augroup FastEscape
+                "        autocmd!
+                "        au InsertEnter * set timeout | set timeoutlen=10000
+                "        au InsertLeave * set timeoutlen=10000 | set notimeout
+                "        " TODO: Make this work with VISUAL also. No VisualEnter/Leave
+                "        " autocmds though. :(
+                "        "au VisualEnter * set timeout | set timeoutlen=0
+                "        "au VisualLeave * set timeoutlen=10000 | set timeout
+                "    augroup END
+                "endif
 
         set cursorline " highlight the current line.
         "set cursorcolumn " highlight the current column.
@@ -695,7 +731,9 @@ endif
             "endif
             set list " enable the above character representation
         set notimeout
-        set timeoutlen=1000000 " Really long timeout length for any multikey combos so it seems like there's no timeout, but with some of the benefits of having a timeout. I don't like when partially typed commands dissappear without my permission.
+        set timeoutlen=10000 " default 1000. This makes vim wait for you to finish a multi-key combo, but with the benefits of having a timeout (if set timeout).
+        set ttimeout
+        set ttimeoutlen=1000 " default 1000
         filetype indent plugin on " enable filetype features.
         set showcmd " display incomplete command. I moved this here from Bram's example because it wasn't working before vundle.
         set history=9999        " how many lines of command line history to keep.
@@ -730,21 +768,6 @@ endif
         " With Keymap:
             " TODO: Return cursor to original position without losing `` marks.
             map <leader>d<space> :%s/\s\+$//g<cr>
-
-    " Update the status line immediately when leaving INSERT or VISUAL mode by
-    " pressing <esc>
-        if ! has('gui_running')
-            set ttimeoutlen=10 " TODO: Does this interfere with the above set timeoutlen?
-            augroup FastEscape
-                autocmd!
-                au InsertEnter * set timeout | set timeoutlen=0
-                au InsertLeave * set timeoutlen=1000 | set notimeout
-                " TODO: Make this work with VISUAL also. No VisualEnter/Leave
-                " autocmds though. :(
-                "au VisualEnter * set timeout | set timeoutlen=0
-                "au InsertLeave * set timeoutlen=1000 | set notimeout
-            augroup END
-        endif
 
 
     " STYLE (look and feel, colorscheme, font, etc)
@@ -859,6 +882,39 @@ endif
     endif
 
     " BEGIN KEYBINDINGS:
+
+        " edit the yanked file. f.e. yy to copy a line containing a file name,
+        " the <leader>e to edit that file.
+            noremap <leader>e :e <c-r>"<bs><cr>
+
+        " OS X: command -> control
+            map <d-a> <c-a>
+            map <d-b> <c-b>
+            map <d-c> <c-c>
+            map <d-d> <c-d>
+            map <d-e> <c-e>
+            map <d-f> <c-f>
+            map <d-g> <c-g>
+            map <d-h> <c-h>
+            map <d-i> <c-i>
+            map <d-j> <c-j>
+            map <d-k> <c-k>
+            map <d-l> <c-l>
+            map <d-m> <c-m>
+            map <d-n> <c-n>
+            map <d-o> <c-o>
+            map <d-p> <c-p>
+            map <d-q> <c-q>
+            map <d-r> <c-r>
+            map <d-s> <c-s>
+            map <d-t> <c-t>
+            map <d-u> <c-u>
+            map <d-v> <c-v>
+            map <d-w> <c-w>
+            map <d-x> <c-x>
+            map <d-y> <c-y>
+            map <d-z> <c-z>
+
         " prevent me from using arrow keys. Grrrrr.
             map <up> :startinsert<cr>I suck at Vim.
             map <down> :startinsert<cr>I suck at Vim.
@@ -870,91 +926,153 @@ endif
             imap <right> I suck at Vim.
 
         " MOVEMENT {
-            " make ijkl like arrow keys.
-            " TODO: make sure this is consistent across modes including when
-            " waiting for keystroke combinations and when using ctrl for
-            " movement like with arrow keys.
-            " TODO: Make toggle between new modes and classic mode.
-            " TODO: Make this into a plugin.
+            " IJKL like arrow keys. {
+                " TODO: make sure this is consistent across modes including when
+                " waiting for keystroke combinations and when using ctrl for
+                " movement like with arrow keys.
+                " TODO: Make toggle between new modes and classic mode.
+                " TODO: Make this into a plugin.
 
-                " TODO TODO TODO TODO: Map all HJKL to IJKL conversion in one place
-                " no-recursively, then use the literal mapping for
+                " TODO TODO TODO TODO: Map all HJKL to IJKL conversion in one
+                " place no-recursively, then use literal HJKL mappings for all
                 " functionality.
-                set langmap=hHjkKi;iIhjJk
+                "set langmap=hHjkKi;iIhjJk
 
-                " TODO: We need this if in neovim <0.1.2, or in vim.
-                "noremap <c-i> <c-k>
-                "noremap <c-j> <c-h>
-                "noremap <c-k> <c-j>
-                "noremap <c-h> <c-i>
+                " TODO: We need this if in neovim <0.1.2, or in vim. Somehow
+                " detect if langmap works or not?
+                    " TODO: file bug about langmap on NeoVim.
 
-                "noremap <a-i> <a-k>
-                "noremap <a-j> <a-h>
-                "noremap <a-k> <a-j>
-                "noremap <a-h> <a-i>
+                " IJKL: {
+                    " when lagmap doesn't work
+                        "noremap <c-i> <c-k>
+                        "noremap <c-j> <c-h>
+                        "noremap <c-k> <c-j>
+                        "noremap <c-h> <c-i>
 
-                "noremap <c-a-i> <c-a-k>
-                "noremap <c-a-j> <c-a-h>
-                "noremap <c-a-k> <c-a-j>
-                "noremap <c-a-h> <c-a-i>
+                        "noremap <a-i> <a-k>
+                        "noremap <a-j> <a-h>
+                        "noremap <a-k> <a-j>
+                        "noremap <a-h> <a-i>
 
-                "noremap <c-s-i> <c-s-k>
-                "noremap <c-s-j> <c-s-h>
-                "noremap <c-s-k> <c-s-j>
-                "noremap <c-s-h> <c-s-i>
+                        "noremap <c-a-i> <c-a-k>
+                        "noremap <c-a-j> <c-a-h>
+                        "noremap <c-a-k> <c-a-j>
+                        "noremap <c-a-h> <c-a-i>
 
-            " ctrl+direction in NORMAL to move word by word or 10 lines by 10 lines
-            " TODO: Move cursor programmatically with a function, not with maps to other keys. It will perform faster.
-                map <c-j> <c-left>
-                map <c-k> <c-down>
-                map <c-i> <c-up>
-                map <c-l> <c-right>
+                        "noremap <c-s-i> <c-s-k>
+                        "noremap <c-s-j> <c-s-h>
+                        "noremap <c-s-k> <c-s-j>
+                        "noremap <c-s-h> <c-s-i>
 
-                noremap <c-left> b
-                noremap <c-down> 10<down>
-                noremap <c-up> 10<up>
-                noremap <c-right> e
+                    "when langmap works, nothing to do
+                " }
+            " }
 
-            " ctrl+direction in INSERT to move word by word or 10 lines by 10 lines
-                " TODO: remove tab when terminal works properly.
-                imap <c-j> <c-left>
-                imap <c-k> <c-down>
-                imap <c-i> <c-up>
-                imap <tab> <c-up>
-                imap <c-l> <c-right>
+            " MODIFIER+DIRECTION {
 
-                " TODO: the following doesn't work in terminal.
-                imap <c-a-j> <c-left>
-                imap <c-a-k> <c-down>
-                imap <c-a-i> <c-up>
-                imap <c-a-l> <c-right>
+                " ctrl+direction in NORMAL to move word by word or 10 lines by 10 lines
+                " TODO: Move cursor programmatically with a function, not with maps to other keys. It will perform faster.
 
-                inoremap <c-left> <c-o>b
-                inoremap <c-down> <c-o>10<down>
-                inoremap <c-up> <c-o>10<up>
-                inoremap <c-right> <c-o>e
+                    " IJKL: {
+                        " when langmap doesn't work
+                            "map <c-j> <c-left>
+                            "map <c-k> <c-down>
+                            "map <c-i> <c-up>
+                            "map <c-l> <c-right>
 
-            " alt+direction in INSERT to move char by char or line by line
-                imap j <a-j>
-                imap k <a-k>
-                imap i <a-i>
-                imap l <a-l>
+                        " when lagmap works
 
-                " Mac OS X
-                imap ∆ <a-j>
-                imap ˚ <a-k>
-                imap ˆ <a-i>
-                imap ¬ <a-l>
+                            " this one doesn't work.
+                            map <c-h> <c-left>
+                            " workaround. TODO: file bug?
+                            nmap <BS> <c-h>
+                            xmap <BS> <c-h>
 
-                imap ê <a-j>
-                imap ë <a-k>
-                imap é <a-i>
-                imap ì <a-l>
+                            " But these work.
+                            map <c-j> <c-down>
+                            map <c-k> <c-up>
+                            map <c-l> <c-right>
+                    " }
 
-                inoremap <a-j> <left>
-                inoremap <a-k> <down>
-                inoremap <a-i> <up>
-                inoremap <a-l> <right>
+                    noremap <c-left> b
+                    noremap <c-down> 10<down>
+                    noremap <c-up> 10<up>
+                    noremap <c-right> e
+
+                " ctrl+direction in INSERT to move word by word or 10 lines by 10 lines
+
+                    " IJKL: {
+                        " when langmap doesn't work
+                        " TODO: remove tab when terminal works properly.
+                        "imap <c-j> <c-left>
+                        "imap <c-k> <c-down>
+                        "imap <c-i> <c-up>
+                        "imap <tab> <c-up>
+                        "imap <c-l> <c-right>
+
+                        " when langmap works
+                        imap <c-h> <c-left>
+                        imap <c-j> <c-down>
+                        imap <c-k> <c-up>
+                        imap <c-l> <c-right>
+                    " }
+
+                    " IJKL: {
+                        " when langmap doesn't work
+                        " FIXME: the following doesn't work in terminal.
+                        "imap <c-a-j> <c-left>
+                        "imap <c-a-k> <c-down>
+                        "imap <c-a-i> <c-up>
+                        "imap <c-a-l> <c-right>
+
+                        " when langmap works
+                        imap <c-a-h> <c-left>
+                        imap <c-a-j> <c-down>
+                        imap <c-a-k> <c-up>
+                        imap <c-a-l> <c-right>
+                    " }
+
+                    " TODO: move cursor programmatically instead of using <c-o>
+                    inoremap <c-left> <c-o>b
+                    inoremap <c-down> <c-o>10<down>
+                    inoremap <c-up> <c-o>10<up>
+                    inoremap <c-right> <c-o>e
+
+                " alt+direction in INSERT to move char by char or line by line
+                    " Some environments (terminals) output escape followed by letter instead of alt+letter
+                        imap j <a-j>
+                        imap k <a-k>
+                        imap i <a-i>
+                        imap l <a-l>
+                        imap h <a-h>
+
+                    " Mac OS X (alt+letters output certain symbols in OS X)
+                        imap ∆ <a-j>
+                        imap ˚ <a-k>
+                        imap ˆ <a-i>
+                        imap ¬ <a-l>
+                        imap ˙ <a-h>
+
+                        imap ê <a-j>
+                        imap ë <a-k>
+                        imap é <a-i>
+                        imap ì <a-l>
+                        " TODO <a-h>
+
+                    " IJKL: {
+                        " when langmap doesn't work
+                        "inoremap <a-j> <left>
+                        "inoremap <a-k> <down>
+                        "inoremap <a-i> <up>
+                        "inoremap <a-l> <right>
+
+                        " when langmap works
+                        inoremap <a-h> <left>
+                        inoremap <a-j> <down>
+                        inoremap <a-k> <up>
+                        inoremap <a-l> <right>
+                    " }
+            " }
 
             "map <s-left> B
             "map <s-right> E
@@ -964,7 +1082,7 @@ endif
                 "nnoremap <c-d> <c-u>
         " } MOVEMENT
 
-        " SELECTION
+        " SELECTION {
             " Enter VISUAL mode by holding shift+arrows or ctrl+shift+arrows
                 nnoremap <s-right> v<right>
                 xnoremap <s-right> <right>
@@ -1005,15 +1123,23 @@ endif
                 "xnoremap <c-up> <esc>10<up>
                 "xnoremap <c-down> <esc>10<down>
 
-            " proper $ in VISUAL mode, goes to the last char.
-                " TODO: handle HJKL vs IJKL
-                xnoremap $ $j
+            " $ in VISUAL mode goes to the last char, not the newline char.
+            " IJKL: {
+                " TODO: move cursor programmatically instead of with movement keys, then langmap setting won't matter.
 
-        " deleting with ctrl
+                " when langmap doesn't work
+                "xnoremap $ $j
+
+                " when langmap works
+                xnoremap $ $h
+            " }
+        " } SELECTION
+
+        " backspace/delete with ctrl
+        " no ctrl+backspace/delete in terminals for now. :(
             imap <c-bs> <c-w>
-            imap <c-h> <c-w>
+            "imap <c-h> <c-w>
 
-            " no ctrl+backspace in terminals for now. :(
             imap <c-del> <c-o>de
             imap [3;5~ <c-o>de
 
@@ -1024,7 +1150,7 @@ endif
             imap <expr> <home> search('^\s\+\%#', 'n') ? '<c-o>0' : '<c-o>_'
 
         " end key goes past last letter in NORMAL mode with :set virtualedit=onemore.
-            nmap <end> <end><right>
+            "nmap <end> <end><right>
 
         " SEARCHING
             " ctrl+f to find.
@@ -1073,17 +1199,27 @@ endif
 
         " Move line or selection up or down with alt+up/down and indent based
         " on new location.
-            " TODO TODO TODO TODO: Map all HJKL to IJKL conversion in one place
-            nmap <a-k> <a-down>
-            nmap <a-i> <a-up>
-            vmap <a-k> <a-down>
-            vmap <a-i> <a-up>
+            " IJKL: {
+                " when langmap doesn't work
+                "nmap <a-k> <a-down>
+                "nmap <a-i> <a-up>
+                "vmap <a-k> <a-down>
+                "vmap <a-i> <a-up>
+
+                " when langmap works
+                nmap <a-j> <a-down>
+                nmap <a-k> <a-up>
+                vmap <a-j> <a-down>
+                vmap <a-k> <a-up>
+            " }
 
             " OS X
-            nmap ˚ <a-down>
-            nmap ˆ <a-up>
-            vmap ˚ <a-down>
-            vmap ˆ <a-up>
+            nmap ˆ <a-i>
+            nmap ∆ <a-j>
+            nmap ˚ <a-k>
+            vmap ˆ <a-i>
+            vmap ∆ <a-j>
+            vmap ˚ <a-k>
 
             nnoremap <a-down> :m .+1<cr>==
             nnoremap <a-up> :m .-2<cr>==
@@ -1106,12 +1242,13 @@ endif
             nnoremap Q gqap
 
         " COPY/PASTE
-            " Make "* behave the same on all OSes. In linux, "* uses the
+            " Make `"*` behave the same on all OSes. In linux, `"*` uses the
             " SECONDARY register for pasting with a mouse middle click, but I
-            " never use that. In OS X, "* uses the same register as "+, which
-            " is the behavior I like.
+            " never use that. In OS X, `"*` uses the same register as `"+`,
+            " which is the behavior I like.
                 noremap "* "+
                 inoremap <c-r>* <c-r>+
+                " TODO: handle command/search mode.
 
             " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
             " which is the default
@@ -1136,51 +1273,83 @@ endif
                 "noremap <c-t> :tabnew<cr>:Startify<cr>
 
             " alt+left/right to move between tabs in normal mode.
-                " Why don't the next two work in console?
-                " TODO TODO TODO TODO: Map all HJKL to IJKL conversion in one place
+                " IJKL: {
+                    "  when langmap doesn't work
+                        "map j <a-h>
+                        "map l <a-l>
+
+                        "" Mac OS X
+                        "map ∆ <a-h>
+                        "map ¬ <a-l>
+
+                    " when langmap works
+                        map h <a-h>
+                        map l <a-l>
+
+                        " Mac OS X
+                        map ˙ <a-h>
+                        map ¬ <a-l>
+                " }
+
                 map <a-h> <a-left>
                 map <a-l> <a-right>
-                map h <a-left>
-                map l <a-right>
-
-                " Mac OS X
-                map ∆ <a-left>
-                map ¬ <a-right>
 
                 nnoremap <a-left> gT
                 nnoremap <a-right> gt
 
             " quick buffer switching
-                nnoremap <leader>b :buffers<cr>:b<space>
+                " native way
+                "nnoremap <leader>b :buffers<cr>:b<space>
 
-            " TODO TODO TODO TODO: Map all HJKL to IJKL conversion in one place
+                " using fzf plugin!
+                nnoremap <leader>b :Buffers<cr>
+
             " HJKL to IJKL window commands.
-                nnoremap <c-w>i <c-w>k
-                nnoremap <c-w>k <c-w>j
-                nnoremap <c-w>j <c-w>h
-                nnoremap <c-w>h <c-w>i
+            " IJKL: {
+                " when langmap doesn't work
+                    "nnoremap <c-w>j <c-w>h
+                    "nnoremap <c-w>k <c-w>j
+                    "nnoremap <c-w>i <c-w>k
+                    "nnoremap <c-w>h <c-w>i
 
-                nnoremap <c-w><c-i> <c-w><c-k>
-                nnoremap <c-w><c-k> <c-w><c-j>
-                nnoremap <c-w><c-j> <c-w><c-h>
-                nnoremap <c-w><c-h> <c-w><c-i>
+                    "nnoremap <c-w><c-j> <c-w><c-h>
+                    "nnoremap <c-w><c-k> <c-w><c-j>
+                    "nnoremap <c-w><c-i> <c-w><c-k>
+                    "nnoremap <c-w><c-h> <c-w><c-i>
 
-                nnoremap <c-w>I <c-w>K
-                nnoremap <c-w>K <c-w>J
-                nnoremap <c-w>J <c-w>H
-                nnoremap <c-w>H <c-w>I
+                    "nnoremap <c-w>J <c-w>H
+                    "nnoremap <c-w>K <c-w>J
+                    "nnoremap <c-w>I <c-w>K
+                    "nnoremap <c-w>H <c-w>I
+
+                " when langmap works, nothing to do.
+            " }
 
             " easier split window switching.
+                " IJKL: {
 
-                " TODO FIXME: ctrl+shift doesn't work in MacVim, so using ctrl+alt for now.
-                "nnoremap <c-s-j> <c-w>h
-                "nnoremap <c-s-k> <c-w>j
-                "nnoremap <c-s-i> <c-w>k
-                "nnoremap <c-s-l> <c-w>l
-                nnoremap <c-a-j> <c-w>h
-                nnoremap <c-a-k> <c-w>j
-                nnoremap <c-a-i> <c-w>k
-                nnoremap <c-a-l> <c-w>l
+                    " when langmap doesn't work
+                        "" FIXME: ctrl+shift doesn't work in MacVim, so using ctrl+alt for now.
+                        ""nnoremap <c-s-j> <c-w>h
+                        ""nnoremap <c-s-k> <c-w>j
+                        ""nnoremap <c-s-i> <c-w>k
+                        ""nnoremap <c-s-l> <c-w>l
+                        "nnoremap <c-a-j> <c-w>h
+                        "nnoremap <c-a-k> <c-w>j
+                        "nnoremap <c-a-i> <c-w>k
+                        "nnoremap <c-a-l> <c-w>l
+
+                    " when langmap works
+                        " FIXME: ctrl+shift doesn't work in MacVim, so using ctrl+alt for now.
+                        "nnoremap <c-s-h> <c-w>h
+                        "nnoremap <c-s-j> <c-w>j
+                        "nnoremap <c-s-k> <c-w>k
+                        "nnoremap <c-s-l> <c-w>l
+                        nnoremap <c-a-h> <c-w>h
+                        nnoremap <c-a-j> <c-w>j
+                        nnoremap <c-a-k> <c-w>k
+                        nnoremap <c-a-l> <c-w>l
+                " }
 
     " END KEYBINDINGS:
 
