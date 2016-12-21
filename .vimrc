@@ -1417,11 +1417,38 @@ endif
                     endif
                 endfunc
 
+                function! SetRelativeNumber()
+                    if(&buftype == 'terminal')
+                        return
+                    endif
+
+                    if(&number)
+                        set relativenumber
+                    endif
+                endfunc
+
+                function! SetNoRelativeNumber()
+                    if(&buftype == 'terminal')
+                        return
+                    endif
+
+                    if(&number)
+                        set norelativenumber
+                    endif
+                endfunc
+
                 nnoremap <leader>n :call NumberToggle()<cr>
-                autocmd FocusLost * :set norelativenumber
-                autocmd FocusGained * :set relativenumber
-                autocmd InsertEnter * :set norelativenumber
-                autocmd InsertLeave * :set relativenumber
+                " TODO: Use a function to detect NeoVim terminal buffers and
+                " not do anything in those buffers.
+                autocmd FocusLost * :call SetNoRelativeNumber()
+                autocmd FocusGained * :call SetRelativeNumber()
+                autocmd InsertEnter * :call SetNoRelativeNumber()
+
+                " doesn't work in NeoVim 0.1.2
+                autocmd InsertLeave * :call SetRelativeNumber()
+                " workaround:
+                autocmd CursorMoved * :call SetRelativeNumber()
+
             endif
 
         " TOGGLE LITERATE MODE
