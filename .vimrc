@@ -361,7 +361,9 @@ if glob(s:VIMROOT."/bundle/") != ""
                     Plug 'briancollins/vim-jst', { 'for': 'html.ejs' }
                     "Plug 'jimmyhchan/dustjs.vim'
                     "Plug 'nono/vim-handlebars' " This is deprecated in favor of mustache/vim-mustache-handlebars " SLOW
-                    Plug 'mustache/vim-mustache-handlebars', { 'for': 'html.handlebars' } " SLOW
+                    "Plug 'mustache/vim-mustache-handlebars', { 'for': 'html.handlebars' } " SLOW
+                    Plug 'trusktr/vim-mustache-handlebars', { 'for': 'html.handlebars' } " SLOW
+                        let g:mustache_abbreviations = 1
                     Plug 'digitaltoad/vim-jade', { 'for': 'jade' }
                     Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 
