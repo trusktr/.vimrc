@@ -255,6 +255,18 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                     Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
                         nnoremap <leader>f :NERDTreeToggle<cr>
+                        " quit when NERDTree is the only buffer.
+                        "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+                        function! NERDTreeIsOpen()
+                            if exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1
+                                return 1
+                            else
+                                return 0
+                            endif
+                        endfunction
+                        function! NERDTreeCloseAll()
+                            silent! Tabdo if NERDTreeIsOpen() | NERDTreeClose | endif
+                        endfunction
 
                     "Plug 'mbbill/VimExplorer'
 
