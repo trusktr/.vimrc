@@ -229,7 +229,26 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "let g:taboo_renamed_tab_format = " %N:\"%l%m\" "
 
                     Plug 'mhinz/vim-startify' ", { 'on': ['Startify', 'SSave', 'SLoad'] }
+                       let g:startify_files_number = 10
+                       let g:startify_update_oldfiles = 1
+                       let g:startify_session_autoload = 0
+                       let g:startify_session_persistence = 1
+                       let g:startify_change_to_vcs_root = 1
+                       let g:startify_padding_left = 3
+                       let g:startify_list_order = [
+                           \ ['   Commands'], 'commands',
+                           \ ['   Sessions'], 'sessions',
+                           \ ['   MRU Files'], 'files',
+                           \ ['   MRU Files in Current Dir'], 'dir',
+                           \ ['   Bookmarks'], 'bookmarks',
+                       \ ]
                        let g:startify_session_dir = s:VIMROOT.'/session'
+                       let g:startify_session_sort = 1
+                       let g:startify_session_number = 5
+                       let g:startify_session_before_save = [
+                           \ 'echo "Cleaning up before saving.."',
+                           \ 'call NERDTreeCloseAll()',
+                       \ ]
 
                     Plug 'tpope/vim-fugitive'
                     Plug 'Lokaltog/vim-easymotion'
