@@ -919,7 +919,7 @@ endif
 
                     " based on hybrid:
                     if (g:colors_name == 'hybrid')
-                        highlight LineNr ctermfg=red
+                        "highlight linenr guibg=#292929 guifg=#444444 ctermfg=8 " lighten the numbers
                         highlight MatchParen cterm=bold,underline ctermbg=none ctermfg=yellow
                         highlight TabLineSel cterm=bold ctermfg=yellow
                         highlight TabLineFill ctermfg=black
