@@ -724,9 +724,9 @@ endif
         set wildmode=longest:list,full " Complete longest common string and show the match list, then expand to the first full match
 
         set laststatus=2               " Always show a status line
-
-        " TODO: make a better status line.
-        "set statusline=%f%m%r%h%w\ [%n:%{&ff}/%Y]%=[0x\%04.4B][%03v][%p%%\ line\ %l\ of\ %L] " custom status line. Not needed if using powerline or airline.
+        function! SetupCustomStatusline()
+            " TODO: make a better status line.
+            set statusline=%f%m%r%h%w\ [%n:%{&ff}/%Y]%=[0x\%04.4B][%03v][%p%%\ line\ %l\ of\ %L] " custom status line. Not needed if using powerline or airline.
 
             function! InsertStatuslineColor(mode)
                 if a:mode == 'i'
@@ -767,6 +767,8 @@ endif
                 "        "au VisualLeave * set timeoutlen=10000 | set timeout
                 "    augroup END
                 "endif
+        endfunction
+        "call SetupCustomStatusline()
 
         set cursorline " highlight the current line.
         "set cursorcolumn " highlight the current column.
