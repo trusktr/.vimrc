@@ -1616,6 +1616,39 @@ endif
         command BuffDeleteHidden :call DeleteInactiveBufs()
         " END BUFFERS
 
+        " windo, bufdo, and tabdo replacement commands that return you to your
+        " original window, buffer, or tab. See:
+        " http://vim.wikia.com/wiki/Run_a_command_in_multiple_buffers
+        " {{
+            " Like windo but restore the current window.
+            function! WinDo(command)
+                let currwin=winnr()
+                let curaltwin=winnr('#')
+                execute 'windo ' . a:command
+                " restore previous/alt window
+                execute curaltwin . 'wincmd w'
+                " restore current window
+                execute currwin . 'wincmd w'
+            endfunction
+            command! -nargs=+ -complete=command Windo call WinDo(<q-args>)
+
+            " Like bufdo but restore the current buffer.
+            function! BufDo(command)
+                let currBuff=bufnr("%")
+                execute 'bufdo ' . a:command
+                execute 'buffer ' . currBuff
+            endfunction
+            command! -nargs=+ -complete=command Bufdo call BufDo(<q-args>)
+
+            " Like tabdo but restore the current tab.
+            function! TabDo(command)
+                let currTab=tabpagenr()
+                execute 'tabdo ' . a:command
+                execute 'tabn ' . currTab
+            endfunction
+            command! -nargs=+ -complete=command Tabdo call TabDo(<q-args>)
+        " }}
+
     " END COMMAND MAPS AND SPECIAL FUNCTION MAPS:
 
 " END CUSTOM SETTINGS:
