@@ -270,8 +270,8 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                     "Plug 'mbbill/VimExplorer'
 
-                    Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-                        nnoremap <leader>t :TagbarToggle<cr>
+                    "Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+                        "nnoremap <leader>t :TagbarToggle<cr>
 
                     "Plug 'kien/ctrlp.vim' " Alternative to wincent/command-t
                         "let g:ctrlp_working_path_mode = 2 " CtrlP: use the nearest ancestor that contains one of these directories or files: .git/ .hg/ .svn/ .bzr/ _darcs/
