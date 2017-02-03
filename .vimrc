@@ -261,7 +261,9 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "let g:signify_cursorhold_insert = 1
 
                     Plug 'airblade/vim-gitgutter' ", { 'on': 'GitGutterToggle' }
-                        nnoremap <leader>g :GitGutterToggle<cr>
+                        nnoremap <leader>gg :GitGutterToggle<cr>
+                        nnoremap <leader>gn :GitGutterNextHunk<cr>
+                        nnoremap <leader>gp :GitGutterPrevHunk<cr>
                         let g:gitgutter_realtime = 0
                         let g:gitgutter_eager = 0
 
