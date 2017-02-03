@@ -13,6 +13,7 @@ runtime! macros/matchit.vim " enabled awesome match abilities like HTML tag matc
 set nocompatible " be iMproved
 
 let s:VIMROOT = $HOME."/.vim"
+let &runtimepath=s:VIMROOT."," . &runtimepath
 
 " Create necessary folders if they don't already exist.
 if exists("*mkdir")
