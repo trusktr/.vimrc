@@ -270,6 +270,7 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                     "Plug 'mbbill/VimExplorer'
 
+                    " requires exuberant ctags.
                     "Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
                         "nnoremap <leader>t :TagbarToggle<cr>
 
@@ -307,6 +308,17 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "nmap <c-n> <Plug>yankstack_substitute_newer_paste
                         "nmap <c-p> <Plug>yankstack_substitute_older_paste
                     "Plug 'svermeulen/vim-easyclip' " ctrl+p/n not working.
+                    Plug 'bfredl/nvim-miniyank'
+                        map p <Plug>(miniyank-autoput)
+                        map P <Plug>(miniyank-autoPut)
+                        map <c-p> <Plug>(miniyank-cycle)
+                    Plug 'machakann/vim-highlightedyank'
+                        if !has('nvim')
+                            map y <Plug>(highlightedyank)
+                        endif
+                        let g:highlightedyank_highlight_duration = 100
+                        hi HighlightedyankRegion cterm=reverse gui=reverse
+
 
                 Plug 'nathanaelkane/vim-indent-guides', { 'on': 'IndentLinesToggle' } " seems to preform better than Yggdroot/indentLine, but doesn't look as nice.
                     let g:indent_guides_auto_colors = 1
