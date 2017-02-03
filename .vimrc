@@ -308,6 +308,15 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                     Plug 'junegunn/fzf', { 'do': './install --all' }
                     Plug 'junegunn/fzf.vim'
+                        map <leader><space> :Files<cr>
+                        let g:fzf_action = {
+                            \ 'ctrl-t': 'tab split',
+                            \ 'ctrl-s': 'split',
+                            \ 'ctrl-v': 'vsplit' }
+                        " - down / up / left / right
+                        let g:fzf_layout = { 'down': '~25%' }
+
+
 
                     " bracket completion
                         "Plug 'cohama/lexima.vim' " Same as delimitMate, but also completes unclosed brakcets when pressing enter for new line.
