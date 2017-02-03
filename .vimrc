@@ -211,9 +211,10 @@ if glob(s:VIMROOT."/bundle/") != ""
                         let g:airline#extensions#whitespace#mixed_indent_format = 'mi %s'
 
                         let g:airline#extensions#default#layout = [
-                            \ [ 'c', 'b', 'a' ],
+                            \ [ 'a', 'b', 'c' ],
                             \ [ 'z', '-y', '-x', 'error', 'warning' ]
                         \ ]
+                            "\ [ 'c', 'b', 'a' ],
 
                         Plug 'vim-airline/vim-airline-themes'
 
