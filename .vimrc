@@ -457,6 +457,9 @@ if glob(s:VIMROOT."/bundle/") != ""
                     Plug 'maksimr/vim-jsbeautify', { 'on': 'JsBeautify' }
                         command JsBeautify call JsBeautify()
 
+                    " Syntax highlight stuff inside JS template strings.
+                    Plug 'Quramy/vim-js-pretty-template', { 'for': 'javascript' }
+
                 " JSX
                     "Plug 'jsx/jsx.vim', { 'for': 'javascript.jsx' }
                     Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
