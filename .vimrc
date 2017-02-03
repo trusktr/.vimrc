@@ -741,9 +741,6 @@ endif
             " default statusline color in Normal mode
             au BufEnter * hi statusline guibg=#69bf64 guifg=#222222 ctermfg=green
             au BufEnter * hi statuslinenc guibg=#222222 guifg=#414141 ctermfg=8
-            au BufEnter * hi vertsplit guibg=#222222 guifg=#222222 ctermfg=8
-            au BufEnter * hi signcolumn guibg=#252525 ctermfg=8
-            au BufEnter * hi linenr guibg=#292929 guifg=#444444 ctermfg=8
 
             au InsertEnter * call InsertStatuslineColor(v:insertmode)
             au InsertChange * call InsertStatuslineColor(v:insertmode)
@@ -940,7 +937,8 @@ endif
 
                     " based on hybrid:
                     if (g:colors_name == 'hybrid')
-                        "highlight linenr guibg=#292929 guifg=#444444 ctermfg=8 " lighten the numbers
+                        highlight vertsplit guibg=#222222 guifg=#222222 ctermfg=8
+                        highlight signcolumn guibg=#252525 ctermfg=8
                         highlight MatchParen cterm=bold,underline ctermbg=none ctermfg=yellow
                         highlight TabLineSel cterm=bold ctermfg=yellow
                         highlight TabLineFill ctermfg=black
@@ -996,7 +994,6 @@ endif
                     "highlight TabLine guifg=#333333 guibg=#777777
                     "highlight TabLineSel guifg=#FA7F7F
                     highlight MatchParen gui=bold guibg=black guifg=limegreen
-                    "highlight LineNr guifg=red
                 endif
 
             endif
