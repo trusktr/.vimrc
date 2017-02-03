@@ -448,6 +448,9 @@ if glob(s:VIMROOT."/bundle/") != ""
                 " COFFEESCRIPT
                     Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 
+                " TYPESCRIPT
+                    Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+
                 " QML
                     Plug 'peterhoeg/vim-qml'
                     "Plug 'calincru/qml.vim'
