@@ -313,12 +313,12 @@ if glob(s:VIMROOT."/bundle/") != ""
                             "map p <plug>(miniyank-autoput)
                             "map P <plug>(miniyank-autoPut)
                             "map <c-p> <plug>(miniyank-cycle)
-                        Plug 'machakann/vim-highlightedyank'
-                            if !has('nvim')
-                                map y <Plug>(highlightedyank)
-                            endif
-                            let g:highlightedyank_highlight_duration = 100
-                            hi HighlightedyankRegion cterm=reverse gui=reverse
+                        "Plug 'machakann/vim-highlightedyank'
+                            "if !has('nvim')
+                                "map y <Plug>(highlightedyank)
+                            "endif
+                            "let g:highlightedyank_highlight_duration = 100
+                            "hi HighlightedyankRegion cterm=reverse gui=reverse
                     endif
 
 
