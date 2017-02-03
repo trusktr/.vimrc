@@ -344,9 +344,13 @@ if glob(s:VIMROOT."/bundle/") != ""
                     Plug 'garbas/vim-snipmate'
                     Plug 'honza/vim-snippets'
 
-                    if has('nvim') && has("python3")
-                        Plug 'Shougo/deoplete.nvim' " neovim with python support only
-                        "let g:deoplete#enable_at_startup = 1
+                    if has('nvim')
+                        if !has('python3') && match(system('which pip3'), "pip3 not found") == -1
+                            call system('pip3 install neovim')
+                        endif
+
+                        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " neovim with python support only
+                        let g:deoplete#enable_at_startup = 1
                     endif
 
                     Plug 'junegunn/fzf', { 'do': './install --all' }
