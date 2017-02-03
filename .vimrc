@@ -103,7 +103,6 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "Plug 'daylerees/colour-schemes', { 'rtp': 'vim', }
                     "Plug 'djjcast/mirodark'
                     "Plug 'nicholasc/vim-seti' // doesn't work in terminal
-                    "Plug 'trusktr/seti.vim'
                     "Plug 'noahfrederick/vim-hemisu'
                     "Plug 'altercation/vim-colors-solarized'
                         "let g:solarized_termcolors=256
@@ -139,28 +138,84 @@ if glob(s:VIMROOT."/bundle/") != ""
                 Plug 'Claperius/random-vim' " random number generator
                 "Plug 'trusktr/random-vim' " random number generator (my fork)
 
-                " Status Lines
+                " STATUS LINES
+
+                    " requires python powerline package and config
                     "Plug 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
                     "Plug 'Lokaltog/vim-powerline'
                         "let g:Powerline_symbols='fancy' " Powerline: fancy statusline (patched font)
-                    "Plug 'stephenmckinney/vim-solarized-powerline'
+                        "let g:powerline_pycmd='py3'
+                        "Plug 'stephenmckinney/vim-solarized-powerline'
 
-                    "Plug 'bling/vim-airline' " SLOW
-                        "let g:airline_theme="base16"
-                        "let g:airline_left_sep=''
-                        "let g:airline_right_sep=''
+                    "can be slow
+                    Plug 'vim-airline/vim-airline'
+                        let g:airline_detect_modified = 1
+                        let g:airline_detect_paste = 1
+                        let g:airline_detect_crypt = 0
+                        let g:airline_detect_spell = 0
+                        let g:airline_inactive_collapse = 0
+                        let g:airline_skip_empty_sections = 1
+                        let g:airline_theme='tomorrow'
+                        let g:airline_theme_patch_func = 'AirlineThemePatch'
+                        function! AirlineThemePatch(palette)
+                            if g:airline_theme == 'tomorrow'
+                                for colors in values(a:palette.inactive)
+                                    let colors[2] = 245 " lighten the inactive foreground.
+                                endfor
+                            endif
+                        endfunction
 
-                        "" disable if using a custom tab plugin like the following gcmt/taboo.vim
-                        ""let g:airline#extensions#tabline#enabled = 1
-                        ""let g:airline#extensions#tabline#left_sep = ' '
-                        ""let g:airline#extensions#tabline#left_alt_sep = ' '
+                        if !exists('g:airline_symbols')
+                            let g:airline_symbols = {}
+                        endif
+                        let g:airline_left_sep = ''
+                        let g:airline_right_sep = ''
+                        "let g:airline_left_sep = '▶'
+                        "let g:airline_right_sep = '◀'
+                        let g:airline_symbols.branch = '⎇'
+                        let g:airline_symbols.linenr = '#'
+                        let g:airline_symbols.crypt = '🔒'
+                        let g:airline_symbols.whitespace = ''
 
-                        ""let g:airline#extensions#syntastic#enabled = 1
+                        "let g:airline_extensions = []
+                        let g:airline#extensions#disable_rtp_load = 1
+                        " disable if using a custom tab plugin like the following gcmt/taboo.vim
 
-                        "let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing' ]
-                        "let g:airline#extensions#whitespace#show_message = 1
-                        "let g:airline#extensions#whitespace#trailing_format = 't%s'
-                        "let g:airline#extensions#whitespace#mixed_indent_format = 'm%s'
+                        let g:airline#extensions#tabline#enabled = 0
+                        let g:airline#extensions#tabline#left_sep = ''
+                        let g:airline#extensions#tabline#left_alt_sep = ''
+                        let g:airline#extensions#tabline#show_splits = 0
+                        let g:airline#extensions#tabline#show_buffers = 0
+                        let g:airline#extensions#tabline#show_tab_nr = 1
+                        let g:airline#extensions#tabline#tab_nr_type = 1
+                        let g:airline#extensions#tabline#show_tab_type = 1
+                        let g:airline#extensions#tabline#buffer_nr_format = '%s:'
+                        let g:airline#extensions#tabline#formatter = 'trusktr'
+                        let g:airline#extensions#tabline#tab_min_count = 1
+                        let g:airline#extensions#tabline#close_symbol = '✖'
+
+                        let g:airline#extensions#bufferline#enabled = 0
+                        let g:airline#extensions#syntastic#enabled = 0
+
+                        let g:airline#extensions#hunks#enabled = 1
+                        let g:airline#extensions#hunks#non_zero_only = 1
+
+                        let g:airline#extensions#branch#enabled = 1
+                        let g:airline#extensions#branch#empty_message = '-'
+
+                        let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing' ]
+                        let g:airline#extensions#whitespace#show_message = 1
+                        let g:airline#extensions#whitespace#long_format = 'l %s'
+                        let g:airline#extensions#whitespace#mixed_indent_file_format = 'mif %s'
+                        let g:airline#extensions#whitespace#trailing_format = '× %s'
+                        let g:airline#extensions#whitespace#mixed_indent_format = 'mi %s'
+
+                        let g:airline#extensions#default#layout = [
+                            \ [ 'c', 'b', 'a' ],
+                            \ [ 'z', '-y', '-x', 'error', 'warning' ]
+                        \ ]
+
+                        Plug 'vim-airline/vim-airline-themes'
 
                     "Plug 'molok/vim-smartusline'
                         "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
