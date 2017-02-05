@@ -222,8 +222,8 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
                 " Navigation/UI
-                    Plug 'ZoomWin'
-                    Plug 'zoomwintab.vim'
+                    "Plug 'ZoomWin' "seems to be broken.
+                    Plug 'zoomwintab.vim' " this one works.
 
                     "Plug 'gcmt/taboo.vim'
                         "let g:taboo_tab_format         = " %N:%f%m "
