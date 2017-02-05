@@ -149,6 +149,7 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                     "can be slow
                     Plug 'vim-airline/vim-airline'
+                        Plug 'vim-airline/vim-airline-themes'
                         let g:airline_detect_modified = 1
                         let g:airline_detect_paste = 1
                         let g:airline_detect_crypt = 0
@@ -216,10 +217,98 @@ if glob(s:VIMROOT."/bundle/") != ""
                         \ ]
                             "\ [ 'c', 'b', 'a' ],
 
-                        Plug 'vim-airline/vim-airline-themes'
-
-                    "Plug 'molok/vim-smartusline'
+                    "Plug 'molok/vim-smartusline' " broken in neovim? Doesn't restore NORMAL color after leaving INSERT.
                         "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+
+                    " CUSTOM STATUS LINE
+                        set laststatus=2               " Always show a status line
+                        function! SetupCustomStatusline()
+                            " TODO: make a better status line.
+                            set statusline=%f%m%r%h%w\ [%n:%{&ff}/%Y]%=[0x\%04.4B][%03v][%p%%\ line\ %l\ of\ %L] " custom status line. Not needed if using powerline or airline.
+
+                            function! InsertStatuslineColor(mode)
+                                if a:mode == 'i'
+                                    hi statusline guibg=#ef4d4a guifg=#222222 ctermfg=red
+                                elseif a:mode == 'r'
+                                    hi statusline guibg=#4e8dcb guifg=#222222 ctermfg=blue
+                                else
+                                    hi statusline guibg=#8a7cf4 guifg=#333333 ctermfg=purple
+                                endif
+                            endfunction
+
+                            " default statusline color in Normal mode
+                            au BufEnter * hi statusline guibg=#69bf64 guifg=#222222 ctermfg=green
+                            au BufEnter * hi statuslinenc guibg=#222222 guifg=#414141 ctermfg=8
+
+                            au InsertEnter * call InsertStatuslineColor(v:insertmode)
+                            au InsertChange * call InsertStatuslineColor(v:insertmode)
+
+                            " doesn't work in NeoVim 0.1.2
+                            au InsertLeave * hi statusline guibg=#69bf64 guifg=#222222 ctermfg=green
+                            " workaround:
+                            au CursorMoved * hi statusline guibg=#69bf64 guifg=#222222 ctermfg=green
+
+                            " Update the status line immediately when leaving INSERT or VISUAL mode by
+                            " pressing <esc>
+                                "if ! has('gui_running')
+                                "    set ttimeoutlen=10 " XXX: Does this interfere with timeoutlen? Why do we need this?
+                                "    augroup FastEscape
+                                "        autocmd!
+                                "        au InsertEnter * set timeout | set timeoutlen=10000
+                                "        au InsertLeave * set timeoutlen=10000 | set notimeout
+                                "        " TODO: Make this work with VISUAL also. No VisualEnter/Leave
+                                "        " autocmds though. :(
+                                "        "au VisualEnter * set timeout | set timeoutlen=0
+                                "        "au VisualLeave * set timeoutlen=10000 | set timeout
+                                "    augroup END
+                                "endif
+                        endfunction
+                        function! SetupCustomStatusline2()
+                            "set statusline=
+                            "set statusline +=%1*\ %n\ %*            "buffer number
+                            "set statusline +=%5*%{&ff}%*            "file format
+                            "set statusline +=%3*%y%*                "file type
+                            "set statusline +=%4*\ %<%F%*            "full path
+                            "set statusline +=%2*%m%*                "modified flag
+                            "set statusline +=%1*%=%5l%*             "current line
+                            "set statusline +=%2*/%L%*               "total lines
+                            "set statusline +=%1*%4v\ %*             "virtual column number
+                            "set statusline +=%2*0x%04B\ %*          "character under cursor
+                            "hi User1 guifg=#eea040 guibg=#222222
+                            "hi User2 guifg=#dd3333 guibg=#222222
+                            "hi User3 guifg=#ff66ff guibg=#222222
+                            "hi User4 guifg=#a0ee40 guibg=#222222
+                            "hi User5 guifg=#eeee40 guibg=#222222
+                            set statusline=
+                            set statusline+=%7*\[%n]                                  "buffernr
+                            set statusline+=%1*\ %<%F\                                "File+path
+                            set statusline+=%2*\ %y\                                  "FileType
+                            set statusline+=%3*\ %{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
+                            set statusline+=%3*\ %{(&bomb?\",BOM\":\"\")}\            "Encoding2
+                            set statusline+=%4*\ %{&ff}\                              "FileFormat (dos/unix..)
+                            set statusline+=%5*\ %{&spelllang}\%{HighlightSearch()}\  "Spellanguage & Highlight on?
+                            set statusline+=%8*\ %=\ row:%l/%L\ (%03p%%)\             "Rownumber/total (%)
+                            set statusline+=%9*\ col:%03c\                            "Colnr
+                            set statusline+=%0*\ \ %m%r%w\ %P\ \                      "Modified? Readonly? Top/bot.
+                            function! HighlightSearch()
+                              if &hls
+                                return 'H'
+                              else
+                                return ''
+                              endif
+                            endfunction
+                            hi User1 guifg=#ffdad8  guibg=#880c0e
+                            hi User2 guifg=#000000  guibg=#F4905C
+                            hi User3 guifg=#292b00  guibg=#f4f597
+                            hi User4 guifg=#112605  guibg=#aefe7B
+                            hi User5 guifg=#051d00  guibg=#7dcc7d
+                            hi User7 guifg=#ffffff  guibg=#880c0e gui=bold
+                            hi User8 guifg=#ffffff  guibg=#5b7fbb
+                            hi User9 guifg=#ffffff  guibg=#810085
+                            hi User0 guifg=#ffffff  guibg=#094afe
+                        endfunction
+                        "call SetupCustomStatusline()
+                        "call SetupCustomStatusline2()
 
                 " Navigation/UI
                     "Plug 'ZoomWin' "seems to be broken.
@@ -725,50 +814,6 @@ endif
         " TODO: For some reason, this doesn't apply until I set it manually.
         " Neovim issue: ...
         set wildmode=longest:list,full " Complete longest common string and show the match list, then expand to the first full match
-
-        set laststatus=2               " Always show a status line
-        function! SetupCustomStatusline()
-            " TODO: make a better status line.
-            set statusline=%f%m%r%h%w\ [%n:%{&ff}/%Y]%=[0x\%04.4B][%03v][%p%%\ line\ %l\ of\ %L] " custom status line. Not needed if using powerline or airline.
-
-            function! InsertStatuslineColor(mode)
-                if a:mode == 'i'
-                    hi statusline guibg=#ef4d4a guifg=#222222 ctermfg=red
-                elseif a:mode == 'r'
-                    hi statusline guibg=#4e8dcb guifg=#222222 ctermfg=blue
-                else
-                    hi statusline guibg=#8a7cf4 guifg=#333333 ctermfg=purple
-                endif
-            endfunction
-
-            " default statusline color in Normal mode
-            au BufEnter * hi statusline guibg=#69bf64 guifg=#222222 ctermfg=green
-            au BufEnter * hi statuslinenc guibg=#222222 guifg=#414141 ctermfg=8
-
-            au InsertEnter * call InsertStatuslineColor(v:insertmode)
-            au InsertChange * call InsertStatuslineColor(v:insertmode)
-
-            " doesn't work in NeoVim 0.1.2
-            au InsertLeave * hi statusline guibg=#69bf64 guifg=#222222 ctermfg=green
-            " workaround:
-            au CursorMoved * hi statusline guibg=#69bf64 guifg=#222222 ctermfg=green
-
-            " Update the status line immediately when leaving INSERT or VISUAL mode by
-            " pressing <esc>
-                "if ! has('gui_running')
-                "    set ttimeoutlen=10 " XXX: Does this interfere with timeoutlen? Why do we need this?
-                "    augroup FastEscape
-                "        autocmd!
-                "        au InsertEnter * set timeout | set timeoutlen=10000
-                "        au InsertLeave * set timeoutlen=10000 | set notimeout
-                "        " TODO: Make this work with VISUAL also. No VisualEnter/Leave
-                "        " autocmds though. :(
-                "        "au VisualEnter * set timeout | set timeoutlen=0
-                "        "au VisualLeave * set timeoutlen=10000 | set timeout
-                "    augroup END
-                "endif
-        endfunction
-        "call SetupCustomStatusline()
 
         set cursorline " highlight the current line.
         "set cursorcolumn " highlight the current column.
