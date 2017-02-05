@@ -745,7 +745,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                     set magic
 
                     " Set "very magic" for all searches.
-                    Plug 'coot/EnchantedVim'
+                    "Plug 'coot/EnchantedVim'
                         let g:VeryMagic = 0
                         " Turn on all other features.
                         let g:VeryMagicSubstituteNormalise = 1
