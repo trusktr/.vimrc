@@ -772,10 +772,10 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                     " highlight all matches of current word, but do not move cursor to
                     " the next or previous ocurrence likw * and # do.
-                        "nnoremap <silent> <cr> :let searchTerm = '\<'.expand("<cword>").'\>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> :call TargetOn()<cr>
-                        nnoremap <silent> <cr> :let searchTerm = '\<'.expand("<cword>").'\>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
-                    " same thing as above, but highlights the visual selection.
-                        xnoremap <silent> <cr> "*y:silent! let searchTerm = substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
+                        "nnoremap <silent> <cr> :let searchTerm = '\v<'.expand("<cword>").'>' <bar> let @/ = searchTerm <bar> echo '/\v'.@/ <bar> call histadd("search", searchTerm) <bar> :call TargetOn()<cr>
+                        nnoremap <silent> <cr> :let searchTerm = '\v<'.expand("<cword>").'>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
+                    " highlight the visual selection after pressing enter.
+                        xnoremap <silent> <cr> "*y:silent! let searchTerm = '\V'.substitute(escape(@*, '\/'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
 
                     " ctrl+c to control search highlight. ctrl+c doesn't do anything
                     " in normal mode otherwise. Uncomment one of the two lines. The
