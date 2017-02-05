@@ -148,8 +148,8 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "Plug 'stephenmckinney/vim-solarized-powerline'
 
                     "can be slow
-                    Plug 'vim-airline/vim-airline'
-                        Plug 'vim-airline/vim-airline-themes'
+                    "Plug 'vim-airline/vim-airline'
+                        "Plug 'vim-airline/vim-airline-themes'
                         let g:airline_detect_modified = 1
                         let g:airline_detect_paste = 1
                         let g:airline_detect_crypt = 0
@@ -220,8 +220,41 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "Plug 'molok/vim-smartusline' " broken in neovim? Doesn't restore NORMAL color after leaving INSERT.
                         "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
+                    Plug 'itchyny/lightline.vim'
+                        let g:lightline = {
+                              \ 'active': {
+                              \   'left': [
+                              \       [ 'mode', 'paste' ],
+                              \       [ 'filename', 'readonly', 'modified' ],
+                              \       [ 'fugitive', ],
+                              \   ]
+                              \ },
+                              \ 'inactive': {
+                              \   'left': [
+                              \       [ 'filename', 'readonly', 'modified' ],
+                              \       [ 'fugitive', ],
+                              \   ]
+                              \ },
+                              \ 'component': {
+                              \   'readonly': '%{&readonly?"x":""}',
+                              \   'fugitive': '%{winwidth(0) > 70 ? (exists("*fugitive#head") ? "⎇  " . fugitive#head() : "") : ""}',
+                              \   'filetype': '%{winwidth(0) > 70 ? (&filetype !=# "" ? &filetype : "no ft") : ""}',
+                              \   'fileencoding': '%{winwidth(0) > 70 ? (&fenc !=# "" ? &fenc : &enc) : ""}',
+                              \   'fileformat': '%{winwidth(0) > 70 ? &fileformat : ""}',
+                              \ },
+                              \ 'component_visible_condition': {
+                              \   'fugitive': '(exists("*fugitive#head") && winwidth(0) > 70 && ""!=fugitive#head())',
+                              \   'filetype': '(winwidth(0) > 70)',
+                              \   'fileencoding': '(winwidth(0) > 70)',
+                              \   'fileformat': '(winwidth(0) > 70)',
+                              \ },
+                              \ 'separator': { 'left': '', 'right': '' },
+                              \ 'subseparator': { 'left': '|', 'right': '|' }
+                          \ }
+
                     " CUSTOM STATUS LINE
                         set laststatus=2               " Always show a status line
+                        set noshowmode
                         function! SetupCustomStatusline()
                             " TODO: make a better status line.
                             set statusline=%f%m%r%h%w\ [%n:%{&ff}/%Y]%=[0x\%04.4B][%03v][%p%%\ line\ %l\ of\ %L] " custom status line. Not needed if using powerline or airline.
