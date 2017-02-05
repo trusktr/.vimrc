@@ -222,6 +222,10 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                     Plug 'itchyny/lightline.vim'
                         let g:lightline = {
+                              \ 'enable': {
+                              \   'statusline': 1,
+                              \   'tabline': 0,
+                              \ },
                               \ 'active': {
                               \   'left': [
                               \       [ 'mode', 'paste' ],
@@ -232,7 +236,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                               \ 'inactive': {
                               \   'left': [
                               \       [ 'filename', 'readonly', 'modified' ],
-                              \       [ 'fugitive', ],
+                              \       [ ],
                               \   ]
                               \ },
                               \ 'component': {
