@@ -722,8 +722,6 @@ if glob(s:VIMROOT."/bundle/") != ""
                 "Plug 'kana/vim-smartword'
                 "Plug 'kana/vim-textobj-function'
 
-                Plug 'google/vim-searchindex'
-
                 " TODO: Other plugins to try:
                 " - https://rhysd.github.io/#vim-plugin
 
@@ -732,6 +730,86 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 " Elm
                 Plug 'lambdatoast/elm.vim'
+
+                " BEGIN SEARCHING
+
+                    " Shows the index of current the current search match out
+                    " of the total matches when navigating with n and N, f.e.
+                    " [3/12]
+                    Plug 'google/vim-searchindex'
+
+                    " Incremental search
+                    set incsearch
+
+                    " less escaping for chars with special meaning.
+                    set magic
+
+                    " Set "very magic" for all searches.
+                    Plug 'coot/EnchantedVim'
+                        let g:VeryMagic = 0
+                        " Turn on all other features.
+                        let g:VeryMagicSubstituteNormalise = 1
+                        let g:VeryMagicSubstitute = 1
+                        let g:VeryMagicGlobal = 1
+                        let g:VeryMagicVimGrep = 1
+                        let g:VeryMagicSearchArg = 1
+                        let g:VeryMagicFunction = 1
+                        let g:VeryMagicHelpgrep = 1
+                        let g:VeryMagicRange = 1
+                        let g:VeryMagicEscapeBackslashesInSearchArg = 1
+                        let g:SortEditArgs = 1
+
+                        " If using incsearch:
+                        nnoremap / /\v
+                        nnoremap ? ?\v
+                        nnoremap :g/ :g/\v
+                        vnoremap / /\v
+                        vnoremap ? ?\v
+                        cnoremap s: s:\v
+                        " no-magic searching
+                        noremap <leader>/ /\V
+                        noremap <leader>? ?\V
+
+                    " highlight all matches of current word, but do not move cursor to
+                    " the next or previous ocurrence likw * and # do.
+                        "nnoremap <silent> <cr> :let searchTerm = '\<'.expand("<cword>").'\>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> :call TargetOn()<cr>
+                        nnoremap <silent> <cr> :let searchTerm = '\<'.expand("<cword>").'\>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
+                    " same thing as above, but highlights the visual selection.
+                        xnoremap <silent> <cr> "*y:silent! let searchTerm = substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
+
+                    " ctrl+c to control search highlight. ctrl+c doesn't do anything
+                    " in normal mode otherwise. Uncomment one of the two lines. The
+                    " first one only turns off search highlight when it is on, no
+                    " toggling, but a subsequent search or typing n or N will turn it
+                    " back on automatically. The second one toggles search highlight
+                    " on or off, and searching does not automatically turn it back on.
+                        "set hlsearch " start with highlight on
+                        "set cursorcolumn " start with the vertucal cursor column.
+                        function! TargetToggle()
+                            if(&hlsearch == 1)
+                                call TargetOff()
+                            else
+                                call TargetOn()
+                            endif
+                        endfunc
+
+                        function! TargetOff()
+                            set nohlsearch
+                            set nocursorcolumn
+                        endfunc
+
+                        function! TargetOn()
+                            echo &hlsearch
+                            set hlsearch
+                            set cursorcolumn
+                        endfunc
+
+                        "nnoremap <silent> <c-c> :call TargetToggle()<cr>
+
+                        nnoremap <silent> <c-c> :if (&hlsearch == 1) \| set nohlsearch \| else \| set hlsearch \| endif<cr>
+
+                    " TODO: turn on highlight after a search.
+                " END SEARCHING
 
 
             call plug#end()
@@ -859,7 +937,6 @@ endif
         set colorcolumn=0 " At which column to show the margin line. TODO: make a toggle to turn the column on and off.
         set ignorecase " Do case insensitive matching...
         set smartcase " ...except when using capital letters
-        set incsearch " Incremental search
         set wildmenu " Better commandline tab completion
 
         " TODO: For some reason, this doesn't apply until I set it manually.
@@ -1373,51 +1450,6 @@ endif
 
         " end key goes past last letter in NORMAL mode with :set virtualedit=onemore.
             "nmap <end> <end><right>
-
-        " SEARCHING
-            " ctrl+f to find.
-                "map  <c-f> <esc>/
-                "map! <c-f> <esc>/
-
-            " highlight all matches of current word, but do not move cursor to
-            " the next or previous ocurrence likw * and # do.
-                "nnoremap <silent> <cr> :let searchTerm = '\<'.expand("<cword>").'\>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> :call TargetOn()<cr>
-                nnoremap <silent> <cr> :let searchTerm = '\<'.expand("<cword>").'\>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
-            " same thing as above, but highlights the visual selection.
-                xnoremap <silent> <cr> "*y:silent! let searchTerm = substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
-
-            " ctrl+c to control search highlight. ctrl+c doesn't do anything
-            " in normal mode otherwise. Uncomment one of the two lines. The
-            " first one only turns off search highlight when it is on, no
-            " toggling, but a subsequent search or typing n or N will turn it
-            " back on automatically. The second one toggles search highlight
-            " on or off, and searching does not automatically turn it back on.
-                "set hlsearch " start with highlight on
-                "set cursorcolumn " start with the vertucal cursor column.
-                function! TargetToggle()
-                    if(&hlsearch == 1)
-                        call TargetOff()
-                    else
-                        call TargetOn()
-                    endif
-                endfunc
-
-                function! TargetOff()
-                    set nohlsearch
-                    set nocursorcolumn
-                endfunc
-
-                function! TargetOn()
-                    echo &hlsearch
-                    set hlsearch
-                    set cursorcolumn
-                endfunc
-
-                "nnoremap <silent> <c-c> :call TargetToggle()<cr>
-
-                nnoremap <silent> <c-c> :if (&hlsearch == 1) \| set nohlsearch \| else \| set hlsearch \| endif<cr>
-
-            " TODO: turn on highlight after a search.
 
         " Move line or selection up or down with alt+up/down and indent based
         " on new location.
