@@ -454,9 +454,9 @@ if glob(s:VIMROOT."/bundle/") != ""
                         Plug 'kshenoy/vim-signature'
                             " Similar mappings as vim-bookmarks (non-recursive
                             " so it triggers vim-signature's mappings).
-                            nmap mm m.
-                            nmap mn ]`
-                            nmap mp [`
+                            nmap mm m3
+                            nmap mn ]-
+                            nmap mp [-
 
 
                 " GIT
