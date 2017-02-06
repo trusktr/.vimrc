@@ -1316,10 +1316,12 @@ endif
                             map <c-l> <c-right>
                     " }
 
-                    noremap <c-left> b
+                    " disabled in favor of switching tabs.
+                    "noremap <c-left> b
+                    "noremap <c-right> e
+
                     noremap <c-down> 10<down>
                     noremap <c-up> 10<up>
-                    noremap <c-right> e
 
                 " ctrl+direction in INSERT to move word by word or 10 lines by 10 lines
 
@@ -1571,6 +1573,8 @@ endif
                 map <a-h> <a-left>
                 map <a-l> <a-right>
 
+                noremap <c-left> gT
+                noremap <c-right> gt
                 nnoremap <a-left> gT
                 nnoremap <a-right> gt
 
