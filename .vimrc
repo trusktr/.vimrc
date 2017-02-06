@@ -415,14 +415,33 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
                         "nnoremap <leader>t :TagbarToggle<cr>
 
-                    "Plug 'kien/ctrlp.vim' " Alternative to wincent/command-t
-                        "let g:ctrlp_working_path_mode = 2 " CtrlP: use the nearest ancestor that contains one of these directories or files: .git/ .hg/ .svn/ .bzr/ _darcs/
-                        "nnoremap <silent> <leader>sh :h<CR>:CtrlPTag<CR>
-                    "Plug 'wincent/command-t' " Alternative to kien/ctrlp.vim, seems to have better matching
-                        "let g:CommandTMaxHeight=10
-                    "Plug 'L9' " Required for FuzzyFinder
-                    "Plug 'FuzzyFinder' " requires L9
-                    "Plug 'mileszs/ack.vim' " in-vim replacement for grep.
+                    " FUZZY FINDING
+                        "Plug 'kien/ctrlp.vim' " Alternative to wincent/command-t
+                            "let g:ctrlp_working_path_mode = 2 " CtrlP: use the nearest ancestor that contains one of these directories or files: .git/ .hg/ .svn/ .bzr/ _darcs/
+                            "nnoremap <silent> <leader>sh :h<CR>:CtrlPTag<CR>
+                        "Plug 'wincent/command-t' " Alternative to kien/ctrlp.vim, seems to have better matching
+                            "let g:CommandTMaxHeight=10
+                        "Plug 'L9' " Required for FuzzyFinder
+                        "Plug 'FuzzyFinder' " requires L9
+                        "Plug 'mileszs/ack.vim' " in-vim replacement for grep.
+
+                        Plug 'junegunn/fzf', { 'do': './install --all' }
+                        Plug 'junegunn/fzf.vim'
+                            map <leader><space> :Files<cr>
+                            let g:fzf_action = {
+                                \ 'ctrl-t': 'tab split',
+                                \ 'ctrl-s': 'split',
+                                \ 'ctrl-v': 'vsplit' }
+                            " - down / up / left / right
+                            let g:fzf_layout = { 'down': '~25%' }
+
+                        " Fzf seems cleaner and faster, and exists for zsh too.
+                        if ((has('nvim') || v:version > 799) && has('python3')) " for neovim or vim 8.0+
+                            Plug 'Shougo/denite.nvim' " async version of unite.vim
+                        else
+                            Plug 'Shougo/unite.vim'
+                        endif
+
 
                     Plug 'wesQ3/vim-windowswap' " easily swap window splits.
                     Plug 'MattesGroeger/vim-bookmarks' " nice (annotated) bookmarks in your gutter.
@@ -495,17 +514,6 @@ if glob(s:VIMROOT."/bundle/") != ""
                         Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " neovim with python support only
                         let g:deoplete#enable_at_startup = 1
                     endif
-
-                    Plug 'junegunn/fzf', { 'do': './install --all' }
-                    Plug 'junegunn/fzf.vim'
-                        map <leader><space> :Files<cr>
-                        let g:fzf_action = {
-                            \ 'ctrl-t': 'tab split',
-                            \ 'ctrl-s': 'split',
-                            \ 'ctrl-v': 'vsplit' }
-                        " - down / up / left / right
-                        let g:fzf_layout = { 'down': '~25%' }
-
 
 
                     " bracket completion
