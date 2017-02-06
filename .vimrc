@@ -457,6 +457,10 @@ if glob(s:VIMROOT."/bundle/") != ""
                             nmap mm m3
                             nmap mn ]-
                             nmap mp [-
+                            let g:SignatureMap = {
+                                \ 'GotoNextSpotAlpha'  :  "",
+                                \ 'GotoPrevSpotAlpha'  :  "",
+                            \ }
 
 
                 " GIT
