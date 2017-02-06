@@ -530,8 +530,10 @@ if glob(s:VIMROOT."/bundle/") != ""
                             call system('pip3 install neovim')
                         endif
 
-                        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " neovim with python support only
-                        let g:deoplete#enable_at_startup = 1
+                        if has('python3')
+                            Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " neovim with python support only
+                                let g:deoplete#enable_at_startup = 1
+                        endif
                     endif
 
 
