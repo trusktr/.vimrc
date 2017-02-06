@@ -391,7 +391,6 @@ if glob(s:VIMROOT."/bundle/") != ""
                            \ 'call NERDTreeCloseAll()',
                        \ ]
 
-                    Plug 'tpope/vim-fugitive'
                     Plug 'Lokaltog/vim-easymotion'
 
                     Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -460,7 +459,9 @@ if glob(s:VIMROOT."/bundle/") != ""
                             nmap mp [`
 
 
-                " Git
+                " GIT
+                    Plug 'tpope/vim-fugitive'
+
                     "Plug 'mhinz/vim-signify'
                         "let g:signify_disable_by_default = 1
                         "let g:signify_cursorhold_normal = 1
