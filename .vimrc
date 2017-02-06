@@ -444,7 +444,21 @@ if glob(s:VIMROOT."/bundle/") != ""
 
 
                     Plug 'wesQ3/vim-windowswap' " easily swap window splits.
-                    Plug 'MattesGroeger/vim-bookmarks' " nice (annotated) bookmarks in your gutter.
+
+                    " BOOKMARKS
+                        " nice (annotated) bookmarks in your gutter. Makes loading
+                        " a session noticeably slow at the moment:
+                        " https://github.com/MattesGroeger/vim-bookmarks/issues/111
+                        "Plug 'MattesGroeger/vim-bookmarks'
+
+                        " show and navigate bookmarks in the gutter.
+                        Plug 'kshenoy/vim-signature'
+                            " Similar mappings as vim-bookmarks (non-recursive
+                            " so it triggers vim-signature's mappings).
+                            nmap mm m.
+                            nmap mn ]`
+                            nmap mp [`
+
 
                 " Git
                     "Plug 'mhinz/vim-signify'
