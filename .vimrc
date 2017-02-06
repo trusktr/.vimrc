@@ -785,7 +785,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                         " If using incsearch:
                         nnoremap / /\v
                         nnoremap ? ?\v
-                        nnoremap :g/ :g/\v
+                        "nnoremap :g/ :g/\v " enable if needed
                         vnoremap / /\v
                         vnoremap ? ?\v
                         cnoremap s: s:\v
