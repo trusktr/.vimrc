@@ -135,6 +135,10 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "Plug 'xolox/vim-colorscheme-switcher' " use the :RandomColorScheme commands! :D
                     "Plug 'baskerville/bubblegum'
 
+                " Other Theming
+                    Plug 'blueyed/vim-diminactive'
+                        let g:diminactive_use_colorcolumn = 1
+
                 Plug 'Claperius/random-vim' " random number generator
                 "Plug 'trusktr/random-vim' " random number generator (my fork)
 
@@ -1144,6 +1148,13 @@ endif
 
                     " based on hybrid:
                     if (g:colors_name == 'hybrid')
+                        " colors for nicer window focus, using the
+                        " vim-diminactive plugin.
+                        "highlight Normal ctermfg=250 ctermbg=233 guifg=#c5c8c6 guibg=#1d1f21
+                        "set background=dark
+                        highlight ColorColumn ctermbg=232 guibg=#282a2e
+                        highlight LineNr ctermfg=237 ctermbg=233 guifg=#373b41
+
                         highlight vertsplit guibg=#222222 guifg=#222222 ctermfg=8
                         highlight signcolumn guibg=#252525 ctermfg=8
                         highlight MatchParen cterm=bold,underline ctermbg=none ctermfg=yellow
