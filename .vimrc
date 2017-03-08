@@ -512,18 +512,19 @@ if glob(s:VIMROOT."/bundle/") != ""
                     endif
 
 
-                Plug 'nathanaelkane/vim-indent-guides', { 'on': 'IndentLinesToggle' } " seems to preform better than Yggdroot/indentLine, but doesn't look as nice.
+                Plug 'nathanaelkane/vim-indent-guides', " seems to preform better than Yggdroot/indentLine, but doesn't look as nice.
+                    let g:indent_guides_enable_on_vim_startup = 0
                     let g:indent_guides_auto_colors = 1
                     let g:indent_guides_color_change_percent = 3
                     let g:indent_guides_guide_size = 1
-                    nnoremap <leader>l :IndentLinesToggle<cr>
 
                 "Plug 'Yggdroot/indentLine'
-                    "let g:indentLine_faster = 1
-                    "let g:indentLine_enabled = 0
-                    ""let g:indentLine_char = '.'
-                    ""let g:indentLine_first_char='.'
-                    "let g:indentLine_showFirstIndentLevel=1
+                    let g:indentLine_color_term = 239
+                    let g:indentLine_faster = 1
+                    let g:indentLine_enabled = 1
+                    let g:indentLine_char = '.'
+                    let g:indentLine_first_char='.'
+                    let g:indentLine_showFirstIndentLevel=1
 
                 "Plug 'megaannum/self' " required for megaannum/forms
                 "Plug 'megaannum/forms' " Runs a bit slow..
@@ -1162,7 +1163,12 @@ endif
                         highlight ColorColumn ctermbg=232 guibg=#282a2e
                         highlight LineNr ctermfg=237 ctermbg=233 guifg=#373b41
 
-                        highlight vertsplit guibg=#222222 guifg=#222222 ctermfg=8
+                        " Make the vertical split line solid.
+                        highlight VertSplit guibg=#222222 guifg=#222222 ctermfg=236 ctermbg=236
+
+                        highlight IndentGuidesOdd  guibg=red   ctermbg=235
+                        highlight IndentGuidesEven guibg=green ctermbg=235
+
                         highlight signcolumn guibg=#252525 ctermfg=8
                         highlight MatchParen cterm=bold,underline ctermbg=none ctermfg=yellow
                         highlight TabLineSel cterm=bold ctermfg=yellow
