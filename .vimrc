@@ -397,22 +397,29 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                     Plug 'Lokaltog/vim-easymotion'
 
-                    Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-                        nnoremap <leader>f :NERDTreeToggle<cr>
-                        " quit when NERDTree is the only buffer.
-                        "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-                        function! NERDTreeIsOpen()
-                            if exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1
-                                return 1
-                            else
-                                return 0
-                            endif
-                        endfunction
-                        function! NERDTreeCloseAll()
-                            silent! Tabdo if NERDTreeIsOpen() | NERDTreeClose | endif
-                        endfunction
+                    " FILE EXPLORING
+                        Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+                            nnoremap <leader>f :NERDTreeToggle<cr>
+                            " quit when NERDTree is the only buffer.
+                            "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+                            function! NERDTreeIsOpen()
+                                if exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1
+                                    return 1
+                                else
+                                    return 0
+                                endif
+                            endfunction
+                            function! NERDTreeCloseAll()
+                                silent! Tabdo if NERDTreeIsOpen() | NERDTreeClose | endif
+                            endfunction
 
-                    "Plug 'mbbill/VimExplorer'
+                        "Plug 'mbbill/VimExplorer'
+
+                        " netrw settings
+                        let g:netrw_liststyle = 3
+                        let g:netrw_banner = 0
+                        let g:netrw_browse_split = 4
+                        let g:netrw_winsize = 20
 
                     " requires exuberant ctags.
                     "Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
