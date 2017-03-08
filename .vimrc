@@ -813,6 +813,8 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                     " highlight all matches of current word, but do not move cursor to
                     " the next or previous ocurrence likw * and # do.
+                    " TODO: Fix <cr> on words with symbols, as it breaks with
+                    " the new \v ("very magic") search mode.
                         "nnoremap <silent> <cr> :let searchTerm = '\v<'.expand("<cword>").'>' <bar> let @/ = searchTerm <bar> echo '/\v'.@/ <bar> call histadd("search", searchTerm) <bar> :call TargetOn()<cr>
                         nnoremap <silent> <cr> :let searchTerm = '\v<'.expand("<cword>").'>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
                     " highlight the visual selection after pressing enter.
@@ -1353,6 +1355,13 @@ endif
                     noremap <c-down> 10<down>
                     noremap <c-up> 10<up>
 
+                    " TODO: organize mappings. Group IJKL stuff before
+                    " everything else.
+                    nmap <c-a-h> <c-a-left>
+                    nmap <c-a-j> <c-a-down>
+                    nmap <c-a-k> <c-a-up>
+                    nmap <c-a-l> <c-a-right>
+
                 " ctrl+direction in INSERT to move word by word or 10 lines by 10 lines
 
                     " IJKL: {
@@ -1607,6 +1616,8 @@ endif
                 noremap <c-right> gt
                 nnoremap <a-left> gT
                 nnoremap <a-right> gt
+                nnoremap <c-a-left> :tabmove -1<cr>
+                nnoremap <c-a-right> :tabmove +1<cr>
 
             " quick buffer switching
                 " native way
@@ -1656,10 +1667,10 @@ endif
                         "nnoremap <c-s-j> <c-w>j
                         "nnoremap <c-s-k> <c-w>k
                         "nnoremap <c-s-l> <c-w>l
-                        nnoremap <c-a-h> <c-w>h
-                        nnoremap <c-a-j> <c-w>j
-                        nnoremap <c-a-k> <c-w>k
-                        nnoremap <c-a-l> <c-w>l
+                        "nnoremap <c-a-left> <c-w>h
+                        "nnoremap <c-a-down> <c-w>j
+                        "nnoremap <c-a-up> <c-w>k
+                        "nnoremap <c-a-right> <c-w>l
                 " }
 
     " END KEYBINDINGS:
