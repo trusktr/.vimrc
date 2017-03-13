@@ -27,6 +27,11 @@ else
     exit
 endif
 
+let &backupdir=s:VIMROOT.'/backup//' " double slash means make the filenames unique.
+
+set noswapfile
+let &directory=s:VIMROOT.'/swap//' " double slash means make the filenames unique.
+
 " BEGIN PLUGIN_MANAGEMENT {
 " if the ".s:VIMROOT."/bundle/ directory exists.
 if glob(s:VIMROOT."/bundle/") != ""
@@ -964,8 +969,6 @@ endif
         set numberwidth=1
         set nowrap
         set sidescroll=5
-        let &backupdir=s:VIMROOT.'/backup//' " double slash means make the filenames unique.
-        let &directory=s:VIMROOT.'/swap//' " double slash means make the filenames unique.
         if has("persistent_undo")
             if exists('&undofile') && exists('&undodir')
                 set undofile
