@@ -1361,6 +1361,7 @@ endif
                     " TODO: organize mappings. Group IJKL stuff before
                     " everything else.
                     nmap <c-a-h> <c-a-left>
+                    nmap <a-bs> <c-a-left>
                     nmap <c-a-j> <c-a-down>
                     nmap <c-a-k> <c-a-up>
                     nmap <c-a-l> <c-a-right>
