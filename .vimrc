@@ -78,15 +78,23 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 Plug 'benekastah/neomake' " Makers for various file types. TODO: auto install tool (jshint, eslint).
 
-                    " jshint config
+                    " --- jshint config
                     "let g:neomake_javascript_enabled_makers = ['jshint']
                     "let g:neomake_javascript_jshint_maker = {
                         "\ 'args': ['--verbose'],
                         "\ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)'
                         "\ }
 
-                    " eslint config
+                    " --- eslint config
                     let g:neomake_javascript_enabled_makers = ['eslint']
+
+                    " --- tslint config
+                    let g:neomake_typescript_enabled_makers = ['tslint']
+                    "let g:neomake_typescript_tslint_maker = {
+                        "\ 'args': ['--verbose'],
+                        "\ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
+                        "\ }
+
 
                     let g:neomake_error_sign = {
                         \ 'text': '✖',
@@ -105,6 +113,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                 " TODO: Mark which ones support term, gui, or both.
                     Plug 'w0ng/vim-hybrid'
                     Plug 'trusktr/seti.vim'
+                    Plug 'jacoborus/tender.vim'
                     "Plug 'daylerees/colour-schemes', { 'rtp': 'vim', }
                     "Plug 'djjcast/mirodark'
                     "Plug 'nicholasc/vim-seti' // doesn't work in terminal
@@ -1148,8 +1157,12 @@ endif
                     " Some vim plugins set this, some don't, so lets make sure it exists before setting a color.
                     let g:colors_name = ''
 
+                    "if (has("termguicolors"))
+                        "set termguicolors
+                    "endif
                     set background=dark
                     execute "silent! colorscheme hybrid"
+                    "execute "silent! colorscheme tender"
                     "execute "silent! colorscheme solarized"
                     "execute "silent! colorscheme bubblegum-256-dark"
 
