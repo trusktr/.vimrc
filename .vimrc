@@ -381,7 +381,7 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 " Navigation/UI
                     "Plug 'ZoomWin' "seems to be broken.
-                    Plug 'zoomwintab.vim' " this one works.
+                    Plug 'vim-scripts/zoomwintab.vim' " this one works.
 
                     "Plug 'gcmt/taboo.vim'
                         "let g:taboo_tab_format         = " %N:%f%m "
@@ -545,7 +545,7 @@ if glob(s:VIMROOT."/bundle/") != ""
                 "Plug 'mfumi/snake.vim'
 
                 " COMPLETION
-                    Plug 'SyntaxComplete'
+                    Plug 'vim-scripts/SyntaxComplete'
                     Plug 'tomtom/tlib_vim' " required by garbas/vim-snipmate
                     Plug 'marcweber/vim-addon-mw-utils' " required by garbas/vim-snipmate
                     Plug 'garbas/vim-snipmate'
@@ -600,96 +600,101 @@ if glob(s:VIMROOT."/bundle/") != ""
                     "    let g:ycm_collect_identifiers_from_tags_files = 1
                     "    let g:ycm_seed_identifiers_with_syntax = 1
 
-                " JAVASCRIPT
-                    "Plug 'JavaScript-Indent' " outdated compared to pangloss/vim-javascript (prefer that).
+                " LANGUAGE-SPECIFIC
+                    " JAVASCRIPT
+                        "Plug 'JavaScript-Indent' " outdated compared to pangloss/vim-javascript (prefer that).
 
-                    " The following syntax plugins all work together. The order they are specified might affect the outcome a
-                    " little (highlight colors could vary, etc, similar to cascading style sheets).
-                    Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' } " works in tandem with pangloss/vim-javascript
-                    Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' } " supports latest language features.
-                    Plug 'othree/yajs.vim', { 'for': 'javascript' } " JavaScript syntax plugin
-                    Plug 'pangloss/vim-javascript', { 'for': 'javascript' } " preferred, works in tandem with jelera/vim-javascript-syntax
+                        " The following syntax plugins all work together. The order they are specified might affect the outcome a
+                        " little (highlight colors could vary, etc, similar to cascading style sheets).
+                        Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' } " works in tandem with pangloss/vim-javascript
+                        Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' } " supports latest language features.
+                        Plug 'othree/yajs.vim', { 'for': 'javascript' } " JavaScript syntax plugin
+                        Plug 'pangloss/vim-javascript', { 'for': 'javascript' } " preferred, works in tandem with jelera/vim-javascript-syntax
 
-                    " Tern is slow. It will be loaded when the commands are
-                    " first executed instead of at the beginning. XXX Why
-                    " doesn't the "on" setting work?
-                    Plug 'ternjs/tern_for_vim', {
-                    \    'do': 'npm install',
-                    \    'on': [
-                    \        'TernDef',
-                    \        'TernDefPreview',
-                    \        'TernDefSplit',
-                    \        'TernDefTab',
-                    \        'TernDoc',
-                    \        'TernDocBrowse',
-                    \        'TernRefs',
-                    \        'TernRename',
-                    \        'TernType'
-                    \    ]
-                    \}
+                        " Tern is slow. It will be loaded when the commands are
+                        " first executed instead of at the beginning. XXX Why
+                        " doesn't the "on" setting work?
+                        Plug 'ternjs/tern_for_vim', {
+                        \    'do': 'npm install',
+                        \    'on': [
+                        \        'TernDef',
+                        \        'TernDefPreview',
+                        \        'TernDefSplit',
+                        \        'TernDefTab',
+                        \        'TernDoc',
+                        \        'TernDocBrowse',
+                        \        'TernRefs',
+                        \        'TernRename',
+                        \        'TernType'
+                        \    ]
+                        \}
 
-                    "Plug 'drslump/vim-syntax-js' " replace various keywords in JavaScript with abbreviations and symbols
-                        "set conceallevel=2
-                        "set concealcursor=nc  " don't reveal the conceals unless on insert or visual modes
-                        "let g:syntax_js=['function', 'return', 'semicolon', 'comma', 'this', 'proto', 'solarized'] " which conceals to enable
-                    Plug 'moll/vim-node', { 'for': 'javascript' }
-                    "Plug 'walm/jshint.vim' " prefer NeoMake with added jshint config.
-                    Plug 'jamescarr/snipmate-nodejs', { 'for': 'javascript' } " requires garbas/vim-snipmate, dump the contents of snippets/javascript into the directory ~/.vim/snippets/javascript
-                    "Plug 'myhere/vim-nodejs-complete' " use <c-x><c-o> to trigger completion.
-                    "Plug 'ahayman/vim-nodejs-complete', { 'for': 'javascript' } " use <c-x><c-o> to trigger completion. Fork of myhere's version, more up to date.
-                        " XXX ^ This causes some files to crash and never open.
-                    Plug 'sidorares/node-vim-debugger', { 'for': 'javascript' }
+                        "Plug 'drslump/vim-syntax-js' " replace various keywords in JavaScript with abbreviations and symbols
+                            "set conceallevel=2
+                            "set concealcursor=nc  " don't reveal the conceals unless on insert or visual modes
+                            "let g:syntax_js=['function', 'return', 'semicolon', 'comma', 'this', 'proto', 'solarized'] " which conceals to enable
+                        Plug 'moll/vim-node', { 'for': 'javascript' }
+                        "Plug 'walm/jshint.vim' " prefer NeoMake with added jshint config.
+                        Plug 'jamescarr/snipmate-nodejs', { 'for': 'javascript' } " requires garbas/vim-snipmate, dump the contents of snippets/javascript into the directory ~/.vim/snippets/javascript
+                        "Plug 'myhere/vim-nodejs-complete' " use <c-x><c-o> to trigger completion.
+                        "Plug 'ahayman/vim-nodejs-complete', { 'for': 'javascript' } " use <c-x><c-o> to trigger completion. Fork of myhere's version, more up to date.
+                            " XXX ^ This causes some files to crash and never open.
+                        Plug 'sidorares/node-vim-debugger', { 'for': 'javascript' }
 
-                    " Adds a function text object for javascript that selects
-                    " everything inside a function, similar to the { object
-                    " except you can be in a deeply nested block and still
-                    " select the whole function.
+                        " Adds a function text object for javascript that selects
+                        " everything inside a function, similar to the { object
+                        " except you can be in a deeply nested block and still
+                        " select the whole function.
 
-                        " TODO FIXME: messes up the object key because the mapping is recursive?
-                        "Plug 'kana/vim-textobj-user', { 'for': 'javascript' } " required by kana/vim-textobj-function
-                        "Plug 'kana/vim-textobj-function', { 'for': 'javascript' } " required by thinca/vim-textobj-function-javascript
+                            " TODO FIXME: messes up the object key because the mapping is recursive?
+                            "Plug 'kana/vim-textobj-user', { 'for': 'javascript' } " required by kana/vim-textobj-function
+                            "Plug 'kana/vim-textobj-function', { 'for': 'javascript' } " required by thinca/vim-textobj-function-javascript
 
-                        "Plug 'thinca/vim-textobj-function-javascript', { 'for': 'javascript' }
+                            "Plug 'thinca/vim-textobj-function-javascript', { 'for': 'javascript' }
 
-                    " Use the same js beautifier from jsbeautifier.org
-                    Plug 'maksimr/vim-jsbeautify', { 'on': 'JsBeautify' }
-                        command JsBeautify call JsBeautify()
+                        " Use the same js beautifier from jsbeautifier.org
+                        Plug 'maksimr/vim-jsbeautify', { 'on': 'JsBeautify' }
+                            command JsBeautify call JsBeautify()
 
-                    " Syntax highlight stuff inside JS template strings.
-                    Plug 'Quramy/vim-js-pretty-template', { 'for': 'javascript' }
+                        " Syntax highlight stuff inside JS template strings.
+                        Plug 'Quramy/vim-js-pretty-template', { 'for': 'javascript' }
 
-                " JSX
-                    "Plug 'jsx/jsx.vim', { 'for': 'javascript.jsx' }
-                    Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
+                    " JSX
+                        "Plug 'jsx/jsx.vim', { 'for': 'javascript.jsx' }
+                        Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 
-                " COFFEESCRIPT
-                    Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
+                    " COFFEESCRIPT
+                        Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 
-                " TYPESCRIPT
-                    Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+                    " TYPESCRIPT
+                        Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
 
-                " QML
-                    Plug 'peterhoeg/vim-qml'
-                    "Plug 'calincru/qml.vim'
+                    " QML
+                        Plug 'peterhoeg/vim-qml'
+                        "Plug 'calincru/qml.vim'
 
-                " HTML/TEMPLATES/MARKUP
-                    "Plug 'mattn/zencoding-vim' " deprecated, use mattn/emmet-vim instead
-                    Plug 'mattn/emmet-vim', { 'for': ['javascript.jsx', 'html'] }
-                        let g:user_emmet_leader_key='<leader>'
-                    Plug 'briancollins/vim-jst', { 'for': 'html.ejs' }
-                    "Plug 'jimmyhchan/dustjs.vim'
-                    "Plug 'nono/vim-handlebars' " This is deprecated in favor of mustache/vim-mustache-handlebars " SLOW
-                    "Plug 'mustache/vim-mustache-handlebars', { 'for': 'html.handlebars' } " SLOW
-                    Plug 'trusktr/vim-mustache-handlebars', { 'for': 'html.handlebars' } " SLOW
-                        let g:mustache_abbreviations = 1
-                    Plug 'digitaltoad/vim-jade', { 'for': 'jade' }
-                    Plug 'tpope/vim-markdown', { 'for': 'markdown' }
+                    " HTML/TEMPLATES/MARKUP
+                        "Plug 'mattn/zencoding-vim' " deprecated, use mattn/emmet-vim instead
+                        Plug 'mattn/emmet-vim', { 'for': ['javascript.jsx', 'html'] }
+                            let g:user_emmet_leader_key='<leader>'
+                        Plug 'briancollins/vim-jst', { 'for': 'html.ejs' }
+                        "Plug 'jimmyhchan/dustjs.vim'
+                        "Plug 'nono/vim-handlebars' " This is deprecated in favor of mustache/vim-mustache-handlebars " SLOW
+                        "Plug 'mustache/vim-mustache-handlebars', { 'for': 'html.handlebars' } " SLOW
+                        Plug 'trusktr/vim-mustache-handlebars', { 'for': 'html.handlebars' } " SLOW
+                            let g:mustache_abbreviations = 1
+                        Plug 'digitaltoad/vim-jade', { 'for': 'jade' }
+                        Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 
-                " CSS
-                    Plug 'hail2u/vim-css3-syntax', { 'for': 'css' } " better CSS3 support.
-                    Plug 'wavded/vim-stylus', { 'for': 'stylus' } " stylus css
-                    Plug 'groenewege/vim-less', { 'for': 'less' } " less css support
-                    Plug 'tpope/vim-haml', { 'for': ['haml', 'sass', 'scss'] } " haml, sass, and scss support
+                    " CSS
+                        Plug 'hail2u/vim-css3-syntax', { 'for': 'css' } " better CSS3 support.
+                        Plug 'wavded/vim-stylus', { 'for': 'stylus' } " stylus css
+                        Plug 'groenewege/vim-less', { 'for': 'less' } " less css support
+                        Plug 'tpope/vim-haml', { 'for': ['haml', 'sass', 'scss'] } " haml, sass, and scss support
+
+                    " GLSL
+                        Plug 'tikhomirov/vim-glsl' " generic filetypes: glsl
+                        Plug 'beyondmarc/glsl.vim' " specific version filetypes: glsl330 ... glsl450
 
                 "Plug 'sjl/gundo.vim'
                 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
@@ -745,9 +750,9 @@ if glob(s:VIMROOT."/bundle/") != ""
                 Plug 'guns/xterm-color-table.vim'
 
                 set cursorline " highlight the current line. Needed for the next plugin to work.
-                Plug 'CursorLineCurrentWindow'
+                Plug 'vim-scripts/CursorLineCurrentWindow'
 
-                Plug 'DrawIt'
+                Plug 'vim-scripts/DrawIt'
 
                 "if !(&term == "win32" || $TERM == "cygwin")
                     "Plug 'taglist.vim'
