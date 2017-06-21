@@ -153,6 +153,8 @@ if glob(s:VIMROOT."/bundle/") != ""
                     Plug 'blueyed/vim-diminactive'
                         let g:diminactive_use_colorcolumn = 1
 
+                Plug 'sgur/vim-editorconfig'
+
                 Plug 'Claperius/random-vim' " random number generator
                 "Plug 'trusktr/random-vim' " random number generator (my fork)
 
