@@ -445,15 +445,24 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "Plug 'kien/ctrlp.vim' " Alternative to wincent/command-t
                             "let g:ctrlp_working_path_mode = 2 " CtrlP: use the nearest ancestor that contains one of these directories or files: .git/ .hg/ .svn/ .bzr/ _darcs/
                             "nnoremap <silent> <leader>sh :h<CR>:CtrlPTag<CR>
+
                         "Plug 'wincent/command-t' " Alternative to kien/ctrlp.vim, seems to have better matching
                             "let g:CommandTMaxHeight=10
+
                         "Plug 'L9' " Required for FuzzyFinder
                         "Plug 'FuzzyFinder' " requires L9
+
+                        if (has('nvim')) " for neovim
+                            Plug 'cloudhead/neovim-fuzzy' " uses ag or rg to find in files.
+                                map <leader>s :FuzzyGrep<enter>
+                                map <leader><space> :FuzzyOpen<cr>
+                        endif
+
                         "Plug 'mileszs/ack.vim' " in-vim replacement for grep.
 
                         Plug 'junegunn/fzf', { 'do': './install --all' }
                         Plug 'junegunn/fzf.vim'
-                            map <leader><space> :Files<cr>
+                            "map <leader><space> :Files<cr> " disabled in favor of previous neovim-fuzzy map for now
                             let g:fzf_action = {
                                 \ 'ctrl-t': 'tab split',
                                 \ 'ctrl-s': 'split',
