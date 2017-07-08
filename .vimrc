@@ -1142,6 +1142,10 @@ endif
             set guioptions=acegimrLbtT
 
         " FOR SPECIFIC ENVIRONMENTS
+
+            " force color if needed (f.e. in Chrome OS Crouton startcli target).
+            "let $TERM="xterm-256color"
+
             if &term == "linux" " 16-color
                 " nothing here yet. TODO: Find a good 16-color theme.
 
