@@ -389,6 +389,10 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "let g:taboo_tab_format         = " %N:%f%m "
                         "let g:taboo_renamed_tab_format = " %N:\"%l%m\" "
 
+                    " TODO set this up
+                    ""Plug 'amiorin/vim-project'
+                    "Plug 'marr/vim-project'
+
                     Plug 'mhinz/vim-startify' ", { 'on': ['Startify', 'SSave', 'SLoad'] }
                        let g:startify_files_number = 10
                        let g:startify_update_oldfiles = 1
