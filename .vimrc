@@ -1273,7 +1273,7 @@ endif
 
     "TODO: detect terminal UI vs GUI in nvim.
     if (has('nvim'))
-        let g:terminal_scrollback_buffer_size = 100000
+        set scrollback=100000
     endif
 
     " BEGIN KEYBINDINGS:
