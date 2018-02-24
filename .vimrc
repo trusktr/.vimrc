@@ -1769,7 +1769,25 @@ endif
                 endif
             endfunction
 
-        nnoremap <F4> :call ToggleVimTips()<CR>
+            nnoremap <F4> :call ToggleVimTips()<CR>
+
+        " Toggleable terminal
+            let g:ToggleableTerminal="off"
+            function! ToggleTerminal()
+                if g:ToggleableTerminal == "on"
+                    let g:ToggleableTerminal="off"
+                    pclose
+                else
+                    let g:ToggleableTerminal="on"
+                    " add a cheat sheet here to be easily toggle with <F4>
+                    execute "pedit term:///usr/local/bin/zsh"
+
+                    " TODO a way to do it programmatically instead of with keystrokes?
+                    execute "normal! \<c-w>j\<c-w>J"
+                endif
+            endfunction
+
+            nnoremap <leader>t :call ToggleTerminal()<CR>
 
         " TOGGLE RELATIVE OR ABSOLUTE NUMBERS
             if exists('+relativenumber')
