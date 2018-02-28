@@ -1678,7 +1678,7 @@ endif
                 noremap <c-t> :tabnew<cr>
                 "noremap <c-t> :tabnew<cr>:Startify<cr>
 
-            " alt+left/right to move between tabs in normal mode.
+            " ctrl+left/right to move between tabs in normal mode.
                 " IJKL: {
                     "  when langmap doesn't work
                         "map j <a-h>
@@ -1702,8 +1702,6 @@ endif
 
                 noremap <c-left> gT
                 noremap <c-right> gt
-                nnoremap <a-left> gT
-                nnoremap <a-right> gt
                 nnoremap <c-a-left> :tabmove -1<cr>
                 nnoremap <c-a-right> :tabmove +1<cr>
 
