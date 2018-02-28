@@ -1852,12 +1852,19 @@ endif
                     endif
                 endfunc
 
+                function! SetNoNumberNoRelativeNumber()
+                    set norelativenumber
+                    set nonumber
+                endfunc
+
                 nnoremap <leader>n :call NumberToggle()<cr>
                 " TODO: Use a function to detect NeoVim terminal buffers and
                 " not do anything in those buffers.
                 autocmd FocusLost * :call SetNoRelativeNumber()
                 autocmd FocusGained * :call SetRelativeNumber()
                 autocmd InsertEnter * :call SetNoRelativeNumber()
+
+                autocmd TermOpen * :call SetNoNumberNoRelativeNumber()
 
                 " doesn't work in NeoVim 0.1.2
                 autocmd InsertLeave * :call SetRelativeNumber()
