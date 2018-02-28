@@ -1282,8 +1282,8 @@ endif
                     set background=dark
                     execute "silent! colorscheme base16-eighties"
                     " customize hybrid a little.
-                    highlight Comment guifg=#585858
-                    highlight Normal guifg=#999999
+                    highlight Comment guifg=#656565
+                    highlight Normal guifg=#a2a2a2
                     "highlight TabLine guifg=#333333 guibg=#777777
                     "highlight TabLineSel guifg=#FA7F7F
                     highlight MatchParen gui=bold guibg=black guifg=limegreen
