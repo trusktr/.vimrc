@@ -1129,6 +1129,31 @@ endif
         set splitright " on vertical split, the new window is to the right instead of the default left.
         set clipboard=unnamedplus " Makes vim yank and paste to/from the system clipboard without having to use "* or "+. It's useful if you switch between separate instances of vim, and when you have a system clipboard stack so you can keep find previous clipboard entries. If you don't have a clipboard stack, you might like to disable this and use something like vim-yankstack instead.
 
+    " Clipboard support for Crouton in Chrome OS
+
+        " Requirements:
+        " - `croshclip` should be in your PATH. For example, you can add ~/go/bin/ to PATH after installing croshclip.
+        " - `croshclip -serve` should be running in the background. You can start this automatically in you bashrc for example.
+        " - The "crouton integration" Chrome extension should be installed and enabled
+
+        " if the croutonversion command exists we're in Chrome OS Crouton
+        if ( s:isChromeOS )
+
+            let g:clipboard = {
+            \   'name': 'croshclip',
+            \   'copy': {
+            \      '+': 'croshclip -copy',
+            \      '*': 'croshclip -copy',
+            \    },
+            \   'paste': {
+            \      '+': 'croshclip -paste',
+            \      '*': 'croshclip -paste',
+            \   },
+            \   'cache_enabled': 1,
+            \ }
+
+        endif
+
     " prevent the alternate buffer in Gnome Terminal, etc, so output works
     " like vim's internal :echo command. woo!
     " TODO: Not so clean right now. The output of Git commands is ugly!! Make
@@ -1168,8 +1193,10 @@ endif
 
         " FOR SPECIFIC ENVIRONMENTS
 
-            " force color if needed (f.e. in Chrome OS Crouton startcli target).
-            "let $TERM="xterm-256color"
+            " force color if needed (f.e. in Chrome OS Crouton startcli/enter-chroot target).
+            if ( s:isChromeOS )
+                let $TERM="xterm-256color"
+            endif
 
             if &term == "linux" " 16-color
                 " nothing here yet. TODO: Find a good 16-color theme.
