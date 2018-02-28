@@ -507,17 +507,25 @@ if glob(s:VIMROOT."/bundle/") != ""
                 " GIT
                     Plug 'tpope/vim-fugitive'
 
-                    "Plug 'mhinz/vim-signify'
-                        "let g:signify_disable_by_default = 1
-                        "let g:signify_cursorhold_normal = 1
-                        "let g:signify_cursorhold_insert = 1
+                    Plug 'mhinz/vim-signify'
+                        let g:signify_disable_by_default = 0
+                        let g:signify_vcs_list = [ 'git' ]
+                        let g:signify_realtime = 1
+                        let g:signify_update_on_bufenter = 1
+                        let g:signify_update_on_focusgained = 1
+                        let g:signify_sign_change = '~'
+                        nnoremap <leader>gg :SignifyToggle<cr>
+                        nmap <leader>gj <plug>(signify-next-hunk)
+                        nmap <leader>gk <plug>(signify-prev-hunk)
+                        nmap <leader>gJ 9999<leader>gj
+                        nmap <leader>gK 9999<leader>gk
 
-                    Plug 'airblade/vim-gitgutter' ", { 'on': 'GitGutterToggle' }
-                        nnoremap <leader>gg :GitGutterToggle<cr>
-                        nnoremap <leader>gn :GitGutterNextHunk<cr>
-                        nnoremap <leader>gp :GitGutterPrevHunk<cr>
-                        let g:gitgutter_realtime = 0
-                        let g:gitgutter_eager = 0
+                    "Plug 'airblade/vim-gitgutter' ", { 'on': 'GitGutterToggle' }
+                        "nnoremap <leader>gg :GitGutterToggle<cr>
+                        "nnoremap <leader>gn :GitGutterNextHunk<cr>
+                        "nnoremap <leader>gp :GitGutterPrevHunk<cr>
+                        "let g:gitgutter_realtime = 0
+                        "let g:gitgutter_eager = 0
 
                 "Plug 'https://github.com/SirVer/ultisnips.git' " why does this only work with the full url?
 
@@ -1217,6 +1225,17 @@ endif
                         highlight TabLineSel cterm=bold ctermfg=yellow
                         highlight TabLineFill ctermfg=black
                         highlight TabLine ctermbg=darkgray ctermfg=black
+
+                        " Signify and VimDiff style
+                        " highlight lines in Signify and vimdiff etc.
+                        "highlight DiffAdd           cterm=bold ctermbg=none ctermfg=119
+                        "highlight DiffDelete        cterm=bold ctermbg=none ctermfg=167
+                        "highlight DiffChange        cterm=bold ctermbg=none ctermfg=227
+                        " highlight signs in Signify
+                        highlight SignifySignAdd    cterm=bold ctermbg=234  ctermfg=119
+                        highlight SignifySignDelete cterm=bold ctermbg=234  ctermfg=167
+                        highlight SignifySignChange cterm=bold ctermbg=234  ctermfg=227
+
                     endif
 
                     if &term == "nvim"
