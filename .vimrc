@@ -1437,8 +1437,8 @@ endif
                     "noremap <c-left> b
                     "noremap <c-right> e
 
-                    noremap <c-down> 10<down>
-                    noremap <c-up> 10<up>
+                    noremap <c-down> 5<down>
+                    noremap <c-up> 5<up>
 
                     " TODO: organize mappings. Group IJKL stuff before
                     " everything else.
