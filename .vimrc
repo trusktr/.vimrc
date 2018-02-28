@@ -1624,8 +1624,11 @@ endif
             vmap ∆ <a-j>
             vmap ˚ <a-k>
 
-            nnoremap <a-down> :m .+1<cr>==
-            nnoremap <a-up> :m .-2<cr>==
+            " "normal mode move lines"
+            " disabled in favor of "window grow-shrink". We can still do this in VISUAL mode
+            "nnoremap <a-down> :m .+1<cr>==
+            "nnoremap <a-up> :m .-2<cr>==
+
             " alt+arrows doesn't work in OS X terminals.
             inoremap <a-down> <esc>:m .+1<cr>==gi
             inoremap <a-up> <esc>:m .-2<cr>==gi
@@ -1703,6 +1706,13 @@ endif
                 nnoremap <a-right> gt
                 nnoremap <c-a-left> :tabmove -1<cr>
                 nnoremap <c-a-right> :tabmove +1<cr>
+
+            " "window grow-shrink" - alt+up/down/left/right to grow and shrink
+            " the current window's size. Enabled instead of "normal mode move lines"
+                nnoremap <a-left> <c-w>20<
+                nnoremap <a-right> <c-w>20>
+                nnoremap <a-up> <c-w>5+
+                nnoremap <a-down> <c-w>5-
 
             " quick buffer switching
                 " native way
