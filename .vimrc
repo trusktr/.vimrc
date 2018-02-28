@@ -3,6 +3,16 @@
 
 " TODO: Make a FileSeparator variable to handle each OS.
 
+" ENVIRONMENT DETECTION FLAGS
+
+    " Is Chrome OS
+    call system('which croutonversion')
+    let s:isChromeOS = 0 | if ( v:shell_error == 0 ) | let s:isChromeOS = 1 | endif
+
+    " Has Git
+    call system('which git')
+    let s:hasGit = 0 | if ( v:shell_error == 0 ) | let s:hasGit = 1 | endif
+
 
 scriptencoding utf-8 " make sure we use utf-8 before doing anything.
 "behave mswin " awesome (but horrible name choice. "behave cua" would be nicer. I dislike Windows.) Treats the cursor like an I beam when selecting text instead of a block, and if you have a block the I beam is basically the left edge of the block.
@@ -37,7 +47,7 @@ let &directory=s:VIMROOT.'/swap//' " double slash means make the filenames uniqu
 if glob(s:VIMROOT."/bundle/") != ""
 
     if glob(s:VIMROOT."/bundle/vim-plug/") == "" " if Plug doesn't exist
-        if (match(system('which git'), "git not found") == -1) " if git is installed
+        if ( s:hasGit )
             echo "Setting up plugin manager..."
             silent! execute "cd ".s:VIMROOT."/bundle/"
             silent! execute "!echo && git clone https://github.com/junegunn/vim-plug.git"
