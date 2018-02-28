@@ -495,22 +495,23 @@ if glob(s:VIMROOT."/bundle/") != ""
                     Plug 'wesQ3/vim-windowswap' " easily swap window splits.
 
                     " BOOKMARKS
+
                         " nice (annotated) bookmarks in your gutter. Makes loading
                         " a session noticeably slow at the moment:
                         " https://github.com/MattesGroeger/vim-bookmarks/issues/111
-                        "Plug 'MattesGroeger/vim-bookmarks'
+                        Plug 'MattesGroeger/vim-bookmarks'
 
-                        " show and navigate bookmarks in the gutter.
-                        Plug 'kshenoy/vim-signature'
-                            " Similar mappings as vim-bookmarks (non-recursive
-                            " so it triggers vim-signature's mappings).
-                            nmap mm m3
-                            nmap mn ]-
-                            nmap mp [-
-                            let g:SignatureMap = {
-                                \ 'GotoNextSpotAlpha'  :  "",
-                                \ 'GotoPrevSpotAlpha'  :  "",
-                            \ }
+                        "" show and navigate bookmarks in the gutter.
+                        "Plug 'kshenoy/vim-signature'
+                        "    " Similar mappings as vim-bookmarks (non-recursive
+                        "    " so it triggers vim-signature's mappings).
+                        "    nmap mm m3
+                        "    nmap mn ]-
+                        "    nmap mp [-
+                        "    let g:SignatureMap = {
+                        "        \ 'GotoNextSpotAlpha'  :  "",
+                        "        \ 'GotoPrevSpotAlpha'  :  "",
+                        "    \ }
 
 
                 " GIT
@@ -1819,7 +1820,25 @@ endif
                 endif
             endfunction
 
-        nnoremap <F4> :call ToggleVimTips()<CR>
+            nnoremap <F4> :call ToggleVimTips()<CR>
+
+        " Toggleable terminal
+            let g:ToggleableTerminal="off"
+            function! ToggleTerminal()
+                if g:ToggleableTerminal == "on"
+                    let g:ToggleableTerminal="off"
+                    pclose
+                else
+                    let g:ToggleableTerminal="on"
+                    " add a cheat sheet here to be easily toggle with <F4>
+                    execute "pedit term:///usr/local/bin/zsh"
+
+                    " TODO a way to do it programmatically instead of with keystrokes?
+                    execute "normal! \<c-w>j\<c-w>J"
+                endif
+            endfunction
+
+            nnoremap <leader>t :call ToggleTerminal()<CR>
 
         " TOGGLE RELATIVE OR ABSOLUTE NUMBERS
             if exists('+relativenumber')
