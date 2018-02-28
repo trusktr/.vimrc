@@ -689,10 +689,10 @@ if glob(s:VIMROOT."/bundle/") != ""
                         Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 
                     " COFFEESCRIPT
-                        Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
+                        Plug 'kchmck/vim-coffee-script', { 'for': [ 'coffee', 'vue' ] }
 
                     " TYPESCRIPT
-                        Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+                        Plug 'leafgarland/typescript-vim', { 'for': [ 'typescript', 'vue' ] }
 
                     " QML
                         Plug 'peterhoeg/vim-qml'
@@ -708,17 +708,23 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "Plug 'mustache/vim-mustache-handlebars', { 'for': 'html.handlebars' } " SLOW
                         Plug 'trusktr/vim-mustache-handlebars', { 'for': 'html.handlebars' } " SLOW
                             let g:mustache_abbreviations = 1
-                        Plug 'digitaltoad/vim-jade', { 'for': 'jade' }
-                        Plug 'tpope/vim-markdown', { 'for': 'markdown' }
+                        Plug 'digitaltoad/vim-jade', { 'for': [ 'jade', 'vue' ] }
+                        Plug 'digitaltoad/vim-pug', { 'for': [ 'pug', 'vue' ] }
+                        Plug 'tpope/vim-markdown', { 'for': [ 'markdown', 'vue' ] }
+
+                    " Vue
+                        "Plug 'posva/vim-vue', { 'for': 'vue' } " EFFING SLOW, using 'html' filetype for now with the following autocmd
+                            "let g:vue_disable_pre_processors=1
+                        autocmd BufRead,BufNewFile *.vue setlocal filetype=html
 
                     " CSS
-                        Plug 'hail2u/vim-css3-syntax', { 'for': 'css' } " better CSS3 support.
-                        Plug 'wavded/vim-stylus', { 'for': 'stylus' } " stylus css
-                        Plug 'groenewege/vim-less', { 'for': 'less' } " less css support
-                        Plug 'tpope/vim-haml', { 'for': ['haml', 'sass', 'scss'] } " haml, sass, and scss support
+                        Plug 'hail2u/vim-css3-syntax', { 'for': [ 'css', 'vue' ] } " better CSS3 support.
+                        Plug 'wavded/vim-stylus', { 'for': [ 'stylus', 'vue' ] } " stylus css
+                        Plug 'groenewege/vim-less', { 'for': [ 'less', 'vue' ] } " less css support
+                        Plug 'tpope/vim-haml', { 'for': [ 'haml', 'sass', 'scss', 'vue' ] } " haml, sass, and scss support
 
                     " GLSL
-                        Plug 'tikhomirov/vim-glsl' " generic filetypes: glsl
+                        Plug 'tikhomirov/vim-glsl', { 'for': 'glsl' } " generic filetypes: glsl
                         Plug 'beyondmarc/glsl.vim' " specific version filetypes: glsl330 ... glsl450
 
                 "Plug 'sjl/gundo.vim'
