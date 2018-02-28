@@ -3,6 +3,16 @@
 
 " TODO: Make a FileSeparator variable to handle each OS.
 
+" ENVIRONMENT DETECTION FLAGS
+
+    " Is Chrome OS
+    call system('which croutonversion')
+    let s:isChromeOS = 0 | if ( v:shell_error == 0 ) | let s:isChromeOS = 1 | endif
+
+    " Has Git
+    call system('which git')
+    let s:hasGit = 0 | if ( v:shell_error == 0 ) | let s:hasGit = 1 | endif
+
 
 scriptencoding utf-8 " make sure we use utf-8 before doing anything.
 "behave mswin " awesome (but horrible name choice. "behave cua" would be nicer. I dislike Windows.) Treats the cursor like an I beam when selecting text instead of a block, and if you have a block the I beam is basically the left edge of the block.
@@ -37,7 +47,7 @@ let &directory=s:VIMROOT.'/swap//' " double slash means make the filenames uniqu
 if glob(s:VIMROOT."/bundle/") != ""
 
     if glob(s:VIMROOT."/bundle/vim-plug/") == "" " if Plug doesn't exist
-        if (match(system('which git'), "git not found") == -1) " if git is installed
+        if ( s:hasGit )
             echo "Setting up plugin manager..."
             silent! execute "cd ".s:VIMROOT."/bundle/"
             silent! execute "!echo && git clone https://github.com/junegunn/vim-plug.git"
@@ -688,10 +698,10 @@ if glob(s:VIMROOT."/bundle/") != ""
                         Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 
                     " COFFEESCRIPT
-                        Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
+                        Plug 'kchmck/vim-coffee-script', { 'for': [ 'coffee', 'vue' ] }
 
                     " TYPESCRIPT
-                        Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+                        Plug 'leafgarland/typescript-vim', { 'for': [ 'typescript', 'vue' ] }
 
                     " QML
                         Plug 'peterhoeg/vim-qml'
@@ -707,17 +717,23 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "Plug 'mustache/vim-mustache-handlebars', { 'for': 'html.handlebars' } " SLOW
                         Plug 'trusktr/vim-mustache-handlebars', { 'for': 'html.handlebars' } " SLOW
                             let g:mustache_abbreviations = 1
-                        Plug 'digitaltoad/vim-jade', { 'for': 'jade' }
-                        Plug 'tpope/vim-markdown', { 'for': 'markdown' }
+                        Plug 'digitaltoad/vim-jade', { 'for': [ 'jade', 'vue' ] }
+                        Plug 'digitaltoad/vim-pug', { 'for': [ 'pug', 'vue' ] }
+                        Plug 'tpope/vim-markdown', { 'for': [ 'markdown', 'vue' ] }
+
+                    " Vue
+                        "Plug 'posva/vim-vue', { 'for': 'vue' } " EFFING SLOW, using 'html' filetype for now with the following autocmd
+                            "let g:vue_disable_pre_processors=1
+                        autocmd BufRead,BufNewFile *.vue setlocal filetype=html
 
                     " CSS
-                        Plug 'hail2u/vim-css3-syntax', { 'for': 'css' } " better CSS3 support.
-                        Plug 'wavded/vim-stylus', { 'for': 'stylus' } " stylus css
-                        Plug 'groenewege/vim-less', { 'for': 'less' } " less css support
-                        Plug 'tpope/vim-haml', { 'for': ['haml', 'sass', 'scss'] } " haml, sass, and scss support
+                        Plug 'hail2u/vim-css3-syntax', { 'for': [ 'css', 'vue' ] } " better CSS3 support.
+                        Plug 'wavded/vim-stylus', { 'for': [ 'stylus', 'vue' ] } " stylus css
+                        Plug 'groenewege/vim-less', { 'for': [ 'less', 'vue' ] } " less css support
+                        Plug 'tpope/vim-haml', { 'for': [ 'haml', 'sass', 'scss', 'vue' ] } " haml, sass, and scss support
 
                     " GLSL
-                        Plug 'tikhomirov/vim-glsl' " generic filetypes: glsl
+                        Plug 'tikhomirov/vim-glsl', { 'for': 'glsl' } " generic filetypes: glsl
                         Plug 'beyondmarc/glsl.vim' " specific version filetypes: glsl330 ... glsl450
 
                 "Plug 'sjl/gundo.vim'
@@ -1128,6 +1144,31 @@ endif
         set splitright " on vertical split, the new window is to the right instead of the default left.
         set clipboard=unnamedplus " Makes vim yank and paste to/from the system clipboard without having to use "* or "+. It's useful if you switch between separate instances of vim, and when you have a system clipboard stack so you can keep find previous clipboard entries. If you don't have a clipboard stack, you might like to disable this and use something like vim-yankstack instead.
 
+    " Clipboard support for Crouton in Chrome OS
+
+        " Requirements:
+        " - `croshclip` should be in your PATH. For example, you can add ~/go/bin/ to PATH after installing croshclip.
+        " - `croshclip -serve` should be running in the background. You can start this automatically in you bashrc for example.
+        " - The "crouton integration" Chrome extension should be installed and enabled
+
+        " if the croutonversion command exists we're in Chrome OS Crouton
+        if ( s:isChromeOS )
+
+            let g:clipboard = {
+            \   'name': 'croshclip',
+            \   'copy': {
+            \      '+': 'croshclip -copy',
+            \      '*': 'croshclip -copy',
+            \    },
+            \   'paste': {
+            \      '+': 'croshclip -paste',
+            \      '*': 'croshclip -paste',
+            \   },
+            \   'cache_enabled': 1,
+            \ }
+
+        endif
+
     " prevent the alternate buffer in Gnome Terminal, etc, so output works
     " like vim's internal :echo command. woo!
     " TODO: Not so clean right now. The output of Git commands is ugly!! Make
@@ -1167,8 +1208,10 @@ endif
 
         " FOR SPECIFIC ENVIRONMENTS
 
-            " force color if needed (f.e. in Chrome OS Crouton startcli target).
-            "let $TERM="xterm-256color"
+            " force color if needed (f.e. in Chrome OS Crouton startcli/enter-chroot target).
+            if ( s:isChromeOS )
+                let $TERM="xterm-256color"
+            endif
 
             if &term == "linux" " 16-color
                 " nothing here yet. TODO: Find a good 16-color theme.
@@ -1413,8 +1456,8 @@ endif
                     "noremap <c-left> b
                     "noremap <c-right> e
 
-                    noremap <c-down> 10<down>
-                    noremap <c-up> 10<up>
+                    noremap <c-down> 5<down>
+                    noremap <c-up> 5<up>
 
                     " TODO: organize mappings. Group IJKL stuff before
                     " everything else.
@@ -1601,8 +1644,11 @@ endif
             vmap ∆ <a-j>
             vmap ˚ <a-k>
 
-            nnoremap <a-down> :m .+1<cr>==
-            nnoremap <a-up> :m .-2<cr>==
+            " "normal mode move lines"
+            " disabled in favor of "window grow-shrink". We can still do this in VISUAL mode
+            "nnoremap <a-down> :m .+1<cr>==
+            "nnoremap <a-up> :m .-2<cr>==
+
             " alt+arrows doesn't work in OS X terminals.
             inoremap <a-down> <esc>:m .+1<cr>==gi
             inoremap <a-up> <esc>:m .-2<cr>==gi
@@ -1652,7 +1698,7 @@ endif
                 noremap <c-t> :tabnew<cr>
                 "noremap <c-t> :tabnew<cr>:Startify<cr>
 
-            " alt+left/right to move between tabs in normal mode.
+            " ctrl+left/right to move between tabs in normal mode.
                 " IJKL: {
                     "  when langmap doesn't work
                         "map j <a-h>
@@ -1676,10 +1722,15 @@ endif
 
                 noremap <c-left> gT
                 noremap <c-right> gt
-                nnoremap <a-left> gT
-                nnoremap <a-right> gt
                 nnoremap <c-a-left> :tabmove -1<cr>
                 nnoremap <c-a-right> :tabmove +1<cr>
+
+            " "window grow-shrink" - alt+up/down/left/right to grow and shrink
+            " the current window's size. Enabled instead of "normal mode move lines"
+                nnoremap <a-left> <c-w>20<
+                nnoremap <a-right> <c-w>20>
+                nnoremap <a-up> <c-w>5+
+                nnoremap <a-down> <c-w>5-
 
             " quick buffer switching
                 " native way
@@ -1839,12 +1890,19 @@ endif
                     endif
                 endfunc
 
+                function! SetNoNumberNoRelativeNumber()
+                    set norelativenumber
+                    set nonumber
+                endfunc
+
                 nnoremap <leader>n :call NumberToggle()<cr>
                 " TODO: Use a function to detect NeoVim terminal buffers and
                 " not do anything in those buffers.
                 autocmd FocusLost * :call SetNoRelativeNumber()
                 autocmd FocusGained * :call SetRelativeNumber()
                 autocmd InsertEnter * :call SetNoRelativeNumber()
+
+                autocmd TermOpen * :call SetNoNumberNoRelativeNumber()
 
                 " doesn't work in NeoVim 0.1.2
                 autocmd InsertLeave * :call SetRelativeNumber()
