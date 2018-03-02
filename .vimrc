@@ -1854,22 +1854,27 @@ endif
             nnoremap <F4> :call ToggleVimTips()<CR>
 
         " Toggleable terminal
-            let g:ToggleableTerminal="off"
-            function! ToggleTerminal()
-                if g:ToggleableTerminal == "on"
-                    let g:ToggleableTerminal="off"
-                    pclose
-                else
-                    let g:ToggleableTerminal="on"
-                    " add a cheat sheet here to be easily toggle with <F4>
-                    execute "pedit term:///usr/local/bin/zsh"
 
-                    " TODO a way to do it programmatically instead of with keystrokes?
-                    execute "normal! \<c-w>j\<c-w>J"
-                endif
-            endfunction
+            "let g:ToggleableTerminal="off"
+            augroup TerminalToggle
+                autocmd!
+                " the very first tab is handled by VimEnter not TabEnter
+                autocmd TabNew,VimEnter * let t:terminalToggled = get(t:, 'terminalToggled', 'off')
+            augroup end
 
             nnoremap <leader>t :call ToggleTerminal()<CR>
+            nnoremap <c-\><c-t> :call ToggleTerminal()<CR>
+            tnoremap <c-\><c-t> <c-\><c-n>:call ToggleTerminal()<CR>
+
+            function! ToggleTerminal()
+                if t:terminalToggled == "on"
+                    let t:terminalToggled="off"
+                    pclose
+                else
+                    let t:terminalToggled="on"
+                    pedit __TERMINAL_TOGGLE__ | wincmd j | wincmd J | resize 20 | terminal
+                endif
+            endfunction
 
         " TOGGLE RELATIVE OR ABSOLUTE NUMBERS
             if exists('+relativenumber')
