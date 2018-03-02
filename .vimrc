@@ -466,23 +466,25 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "Plug 'L9' " Required for FuzzyFinder
                         "Plug 'FuzzyFinder' " requires L9
 
+                        "Plug 'mileszs/ack.vim' " in-vim replacement for grep.
+
+                        " uses ag or rg by default, which honors .gitignore
                         if (has('nvim')) " for neovim
                             Plug 'cloudhead/neovim-fuzzy' " uses ag or rg to find in files.
                                 map <leader>s :FuzzyGrep<enter>
                                 map <leader><space> :FuzzyOpen<cr>
                         endif
 
-                        "Plug 'mileszs/ack.vim' " in-vim replacement for grep.
-
                         Plug 'junegunn/fzf', { 'do': './install --all' }
                         Plug 'junegunn/fzf.vim'
-                            "map <leader><space> :Files<cr> " disabled in favor of previous neovim-fuzzy map for now
+                            map <c-p> :Files<cr>
                             let g:fzf_action = {
                                 \ 'ctrl-t': 'tab split',
                                 \ 'ctrl-s': 'split',
                                 \ 'ctrl-v': 'vsplit' }
                             " - down / up / left / right
                             let g:fzf_layout = { 'down': '~25%' }
+                            let $FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
 
                         " Fzf seems cleaner and faster, and exists for zsh too.
                         if ((has('nvim') || v:version > 799) && has('python3')) " for neovim or vim 8.0+
