@@ -522,9 +522,9 @@ if glob(s:VIMROOT."/bundle/") != ""
                     Plug 'mhinz/vim-signify'
                         let g:signify_disable_by_default = 0
                         let g:signify_vcs_list = [ 'git' ]
-                        let g:signify_realtime = 1
-                        let g:signify_update_on_bufenter = 1
-                        let g:signify_update_on_focusgained = 1
+                        let g:signify_realtime = 0
+                        "let g:signify_update_on_bufenter = 1
+                        "let g:signify_update_on_focusgained = 1
                         let g:signify_sign_change = '~'
                         nnoremap <leader>gg :SignifyToggle<cr>
                         nmap <leader>gj <plug>(signify-next-hunk)
