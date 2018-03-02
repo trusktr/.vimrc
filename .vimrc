@@ -738,102 +738,112 @@ if glob(s:VIMROOT."/bundle/") != ""
                         Plug 'tikhomirov/vim-glsl', { 'for': 'glsl' } " generic filetypes: glsl
                         Plug 'beyondmarc/glsl.vim' " specific version filetypes: glsl330 ... glsl450
 
-                "Plug 'sjl/gundo.vim'
-                Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-                    let g:undotree_TreeNodeShape = '•'
-                    nnoremap <leader>u :UndotreeToggle<cr>
+                    " Elm
+                        Plug 'lambdatoast/elm.vim'
 
-                " A bunch of filetype plugins. Put NerdCommenter after this to
-                " give prefernce to those shortcuts, otherwise this overrides
-                " many of them.
-                "Plug 'WolfgangMehner/vim-plugins'
-                " ^^^ TODO: Many mapping conflicts.
+                " IDE LIKE STUFF:
 
-                "Plug 'ide'
-                " ^^^ Effing amazing. Great idea.
-                " TODO: messes up tab switch mapping.
+                    "Plug 'sjl/gundo.vim'
+                    Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+                        let g:undotree_TreeNodeShape = '•'
+                        nnoremap <leader>u :UndotreeToggle<cr>
 
-                " Align stuff.
-                    Plug 'junegunn/vim-easy-align'
-                        xmap <leader>a <Plug>(EasyAlign)
-                        let g:easy_align_delimiters = {
-                        \     'a': {
-                        \         'pattern':       '\<as\>',
-                        \         'left_margin':   1,
-                        \         'right_margin':  1,
-                        \         'stick_to_left': 0
-                        \     },
-                        \     'f': {
-                        \         'pattern':       '\<from\>',
-                        \         'left_margin':   1,
-                        \         'right_margin':  1,
-                        \         'stick_to_left': 0
-                        \     },
-                        \     '(': {
-                        \         'pattern':       '(',
-                        \         'left_margin':   1,
-                        \         'right_margin':  0,
-                        \         'stick_to_left': 0
-                        \     },
-                        \     '[': {
-                        \         'pattern':       '[',
-                        \         'left_margin':   1,
-                        \         'right_margin':  0,
-                        \         'stick_to_left': 0
-                        \     }
-                        \ }
+                    " A bunch of filetype plugins. Put NerdCommenter after this to
+                    " give prefernce to those shortcuts, otherwise this overrides
+                    " many of them.
+                    "Plug 'WolfgangMehner/vim-plugins'
+                    " ^^^ TODO: Many mapping conflicts.
+
+                    "Plug 'ide'
+                    " ^^^ Effing amazing. Great idea.
+                    " TODO: messes up tab switch mapping.
+
+                    set cursorline " highlight the current line. Needed for the next plugin to work.
+                    Plug 'vim-scripts/CursorLineCurrentWindow'
+
+                    Plug 'guns/xterm-color-table.vim'
+
+                    "if !(&term == "win32" || $TERM == "cygwin")
+                        "Plug 'taglist.vim'
+                    "endif
+
+                    "Plug 'CmdlineCompl.vim' SEEMS OUTDATED
+                    "Plug 'hexman.vim'
+
+                    " For creating text-based-ui menus in vim:
+                    "Plug 'svn://svn.code.sf.net/p/vimuiex/code/trunk', {
+                                "\'name': 'vxlib',
+                                "\'rtp': 'runtime/vxlib/'
+                            "\}
+                    "Plug 'svn://svn.code.sf.net/p/vimuiex/code/trunk', {
+                                "\'name': 'vimuiex',
+                                "\'rtp': 'runtime/vimuiex/'
+                            "\}
+
+                    " When enabled preserves line endings, otherwise vim always adds a newline to the end.
+                    "Plug 'PreserveNoEOL'
+                        "let g:PreserveNoEOL = 1
+
+                " TEXT MANIPULATION:
+
+                    " smart <c-a> and <c-x> to toggle true/false, on/off, increment dates or weekday names, etc.
+                    Plug 'nishigori/increment-activator'
+                    "Plug 'Konfekt/vim-CtrlXA' " alternative to increment-activator
 
 
-                    "Plug 'godlygeek/tabular'
+                    " Align stuff.
+                        Plug 'junegunn/vim-easy-align'
+                            xmap <leader>a <Plug>(EasyAlign)
+                            let g:easy_align_delimiters = {
+                            \     'a': {
+                            \         'pattern':       '\<as\>',
+                            \         'left_margin':   1,
+                            \         'right_margin':  1,
+                            \         'stick_to_left': 0
+                            \     },
+                            \     'f': {
+                            \         'pattern':       '\<from\>',
+                            \         'left_margin':   1,
+                            \         'right_margin':  1,
+                            \         'stick_to_left': 0
+                            \     },
+                            \     '(': {
+                            \         'pattern':       '(',
+                            \         'left_margin':   1,
+                            \         'right_margin':  0,
+                            \         'stick_to_left': 0
+                            \     },
+                            \     '[': {
+                            \         'pattern':       '[',
+                            \         'left_margin':   1,
+                            \         'right_margin':  0,
+                            \         'stick_to_left': 0
+                            \     }
+                            \ }
 
-                "Plug 'terryma/vim-multiple-cursors'
-                    "TODO: Make it work with IJKL. Perhaps using non-recursive mappings will fix it.
 
-                Plug 'guns/xterm-color-table.vim'
+                        "Plug 'godlygeek/tabular'
 
-                set cursorline " highlight the current line. Needed for the next plugin to work.
-                Plug 'vim-scripts/CursorLineCurrentWindow'
+                    " needs custom shortcuts. Merge with my alt+movement below.
+                    Plug 't9md/vim-textmanip'
 
-                Plug 'vim-scripts/DrawIt'
+                    "Plug 'terryma/vim-multiple-cursors'
+                        "TODO: Make it work with IJKL. Perhaps using non-recursive mappings will fix it.
 
-                "if !(&term == "win32" || $TERM == "cygwin")
-                    "Plug 'taglist.vim'
-                "endif
+                    " draw text-based things like lines, boxes, graphs, etc
+                    Plug 'vim-scripts/DrawIt'
 
-                "Plug 'CmdlineCompl.vim' SEEMS OUTDATED
-                "Plug 'hexman.vim'
-
-                " For creating text-based-ui menus in vim:
-                "Plug 'svn://svn.code.sf.net/p/vimuiex/code/trunk', {
-                            "\'name': 'vxlib',
-                            "\'rtp': 'runtime/vxlib/'
-                        "\}
-                "Plug 'svn://svn.code.sf.net/p/vimuiex/code/trunk', {
-                            "\'name': 'vimuiex',
-                            "\'rtp': 'runtime/vimuiex/'
-                        "\}
-
-                " When enabled preserves line endings, otherwise vim always adds a newline to the end.
-                "Plug 'PreserveNoEOL'
-                    "let g:PreserveNoEOL = 1
+                    "Plug 'kana/vim-gf-user'
+                    "Plug 'kana/vim-textobj-user'
+                    "Plug 'kana/vim-smartword'
+                    "Plug 'kana/vim-textobj-function'
 
                 Plug 'vim-jp/vital.vim' " nice utility functions, including one to make tree objects.
-
-                "Plug 'kana/vim-gf-user'
-                "Plug 'kana/vim-textobj-user'
-                "Plug 'kana/vim-smartword'
-                "Plug 'kana/vim-textobj-function'
 
                 " TODO: Other plugins to try:
                 " - https://rhysd.github.io/#vim-plugin
 
-                Plug 't9md/vim-textmanip'
-                    " needs custom shortcuts. Merge with my alt+movement below.
-
-                " Elm
-                Plug 'lambdatoast/elm.vim'
-
-                " BEGIN SEARCHING
+                " BEGIN SEARCHING:
 
                     " Shows the index of current the current search match out
                     " of the total matches when navigating with n and N, f.e.
