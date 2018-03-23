@@ -1523,8 +1523,13 @@ endif
                     "noremap <c-left> b
                     "noremap <c-right> e
 
+                    " move 5 lines at a time
                     noremap <c-down> 5<down>
                     noremap <c-up> 5<up>
+
+                    " scroll 5 lines at a time
+                    noremap <c-e> 5<c-e>
+                    noremap <c-y> 5<c-y>
 
                     " TODO: organize mappings. Group IJKL stuff before
                     " everything else.
