@@ -921,16 +921,21 @@ if glob(s:VIMROOT."/bundle/") != ""
                         let g:VeryMagicEscapeBackslashesInSearchArg = 1
                         let g:SortEditArgs = 1
 
-                        " If using incsearch:
-                        nnoremap / /\v
-                        nnoremap ? ?\v
-                        "nnoremap :g/ :g/\v " enable if needed
-                        vnoremap / /\v
-                        vnoremap ? ?\v
-                        cnoremap s: s:\v
                         " no-magic searching
-                        noremap <leader>/ /\V
-                        noremap <leader>? ?\V
+                        nnoremap / /\V
+                        nnoremap ? ?\V
+                        vnoremap / /\V
+                        vnoremap ? ?\V
+
+                        " If using incsearch:
+                        noremap <leader>/ /\v
+                        noremap <leader>? ?\v
+                        vnoremap <leader>/ /\v
+                        vnoremap <leader>? ?\v
+
+                        " enable as needed
+                        "nnoremap :g/ :g/\V
+                        cnoremap s: s:\V
 
                     " highlight all matches of current word, but do not move cursor to
                     " the next or previous ocurrence likw * and # do.
