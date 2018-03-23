@@ -790,6 +790,9 @@ if glob(s:VIMROOT."/bundle/") != ""
 
                 " IDE LIKE STUFF:
 
+                    " Quake-like terminal for Neovim, But currently mine is better, because it's a new terminal for each tab, but Nuake somehow keeps the terminal alive which I should figure out.
+                    "if has('nvim') | Plug 'Lenovsky/nuake' | endif
+
                     "Plug 'sjl/gundo.vim'
                     Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
                         let g:undotree_TreeNodeShape = '•'
