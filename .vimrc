@@ -1979,7 +1979,9 @@ endif
                 autocmd FocusGained * :call SetRelativeNumber()
                 autocmd InsertEnter * :call SetNoRelativeNumber()
 
-                autocmd TermOpen * :call SetNoNumberNoRelativeNumber()
+                "if has('nvim')
+                    "autocmd TermOpen * :call SetNoNumberNoRelativeNumber()
+                "endif
 
                 " doesn't work in NeoVim 0.1.2
                 autocmd InsertLeave * :call SetRelativeNumber()
