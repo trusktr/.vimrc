@@ -456,9 +456,12 @@ if glob(s:VIMROOT."/bundle/") != ""
                         "nnoremap <leader>t :TagbarToggle<cr>
 
                     " FUZZY FINDING
+
+                        " TODO: integration with vim-bookmarks, then re-eable without overriding my fzf ctrl-p binding
                         "Plug 'kien/ctrlp.vim' " Alternative to wincent/command-t
                             "let g:ctrlp_working_path_mode = 2 " CtrlP: use the nearest ancestor that contains one of these directories or files: .git/ .hg/ .svn/ .bzr/ _darcs/
                             "nnoremap <silent> <leader>sh :h<CR>:CtrlPTag<CR>
+
 
                         "Plug 'wincent/command-t' " Alternative to kien/ctrlp.vim, seems to have better matching
                             "let g:CommandTMaxHeight=10
@@ -471,13 +474,12 @@ if glob(s:VIMROOT."/bundle/") != ""
                         " uses ag or rg by default, which honors .gitignore
                         if (has('nvim')) " for neovim
                             Plug 'cloudhead/neovim-fuzzy' " uses ag or rg to find in files.
-                                map <leader>s :FuzzyGrep<enter>
-                                map <leader><space> :FuzzyOpen<cr>
+                                "map <leader>s :FuzzyGrep<enter>
+                                "map <leader><space> :FuzzyOpen<cr>
                         endif
 
                         Plug 'junegunn/fzf', { 'do': './install --all' }
                         Plug 'junegunn/fzf.vim'
-                            map <c-p> :Files<cr>
                             let g:fzf_action = {
                                 \ 'ctrl-t': 'tab split',
                                 \ 'ctrl-s': 'split',
@@ -486,12 +488,20 @@ if glob(s:VIMROOT."/bundle/") != ""
                             let g:fzf_layout = { 'down': '~25%' }
                             let $FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
 
+                            " add a search-in-files command, thanks for https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
+                            command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
+                            map <c-p> :Files<cr>
+                            map <leader>s :Find<cr>
+
                         " Fzf seems cleaner and faster, and exists for zsh too.
                         if ((has('nvim') || v:version > 799) && has('python3')) " for neovim or vim 8.0+
                             Plug 'Shougo/denite.nvim' " async version of unite.vim
                         else
                             Plug 'Shougo/unite.vim'
                         endif
+
+                            " TODO: integration with vim-bookmarks
 
 
                     Plug 'wesQ3/vim-windowswap' " easily swap window splits.
