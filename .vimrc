@@ -512,6 +512,43 @@ if glob(s:VIMROOT."/bundle/") != ""
                         " a session noticeably slow at the moment:
                         " https://github.com/MattesGroeger/vim-bookmarks/issues/111
                         Plug 'MattesGroeger/vim-bookmarks'
+                            let g:bookmark_save_per_working_dir = 1
+
+                            " make per-git-project bookmarks
+                            function! g:BMWorkDirFileLocation()
+                                let filename = 'bookmarks'
+                                let location = ''
+                                if isdirectory('.git')
+                                    " Current work dir is git's work tree
+                                    let location = getcwd().'/.git'
+                                else
+                                    " Look upwards (at parents) for a directory named '.git'
+                                    let location = finddir('.git', '.;')
+                                endif
+                                if len(location) > 0
+                                    return location.'/'.filename
+                                else
+                                    return getcwd().'/.'.filename
+                                endif
+                            endfunction
+
+                            " Finds the Git super-project directory based on the file passed as an argument.
+                            function! g:BMBufferFileLocation(file)
+                                let filename = 'vim-bookmarks'
+                                let location = ''
+                                if isdirectory(fnamemodify(a:file, ":p:h").'/.git')
+                                    " Current work dir is git's work tree
+                                    let location = fnamemodify(a:file, ":p:h").'/.git'
+                                else
+                                    " Look upwards (at parents) for a directory named '.git'
+                                    let location = finddir('.git', fnamemodify(a:file, ":p:h").'/.;')
+                                endif
+                                if len(location) > 0
+                                    return simplify(location.'/.'.filename)
+                                else
+                                    return simplify(fnamemodify(a:file, ":p:h").'/.'.filename)
+                                endif
+                            endfunction
 
                         "" show and navigate bookmarks in the gutter.
                         "Plug 'kshenoy/vim-signature'
