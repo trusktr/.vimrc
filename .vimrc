@@ -16,8 +16,11 @@
 
 scriptencoding utf-8 " make sure we use utf-8 before doing anything.
 "behave mswin " awesome (but horrible name choice. "behave cua" would be nicer. I dislike Windows.) Treats the cursor like an I beam when selecting text instead of a block, and if you have a block the I beam is basically the left edge of the block.
-let loaded_matchit = 1
-runtime! macros/matchit.vim " enabled awesome match abilities like HTML tag matching with %
+
+" enables awesome match abilities like HTML tag matching with %
+" let loaded_matchit = 1 " prevents matchit.vim from loading
+runtime! macros/matchit.vim
+runtime! plugin/matchit.vim
     " TODO: Fix ugly reposition of view during match.
 
 set nocompatible " be iMproved
@@ -118,6 +121,8 @@ if glob(s:VIMROOT."/bundle/") != ""
                     autocmd FileType javascript :autocmd BufWritePost <buffer> :silent Neomake
 
                 Plug 'scrooloose/nerdcommenter'
+                    let NERDSpaceDelims=1 " f.e. space in '// this is a comment'
+                    " let NERDRemoveExtraSpaces=1
 
                 " COLORSCHEMES
                 " TODO: Mark which ones support term, gui, or both.
@@ -771,8 +776,13 @@ if glob(s:VIMROOT."/bundle/") != ""
                         Plug 'tpope/vim-markdown', { 'for': [ 'markdown', 'vue' ] }
 
                     " Vue
-                        "Plug 'posva/vim-vue', { 'for': 'vue' } " EFFING SLOW, using 'html' filetype for now with the following autocmd
-                            "let g:vue_disable_pre_processors=1
+                        " Plug 'posva/vim-vue', { 'for': 'vue' } " EFFING SLOW, using 'html' filetype for now with the following autocmd
+                            " " let g:vue_disable_pre_processors=1
+
+                        " Plug 'darthmall/vim-vue', { 'for': 'vue' } " also slow!
+
+                        " Plug 'chunqian/vim-vue', { 'for': 'vue' } " forked from darthmall's, missing style syntax, though much faster.
+
                         autocmd BufRead,BufNewFile *.vue setlocal filetype=html
 
                     " CSS
