@@ -1332,7 +1332,7 @@ endif
                         " vim-diminactive plugin.
                         "highlight Normal ctermfg=250 ctermbg=233 guifg=#c5c8c6 guibg=#1d1f21
                         "set background=dark
-                        highlight ColorColumn ctermbg=232 guibg=#282a2e
+                        highlight ColorColumn ctermbg=235 guibg=#282a2e
                         highlight LineNr ctermfg=237 ctermbg=233 guifg=#373b41
 
                         " Make the vertical split line solid.
@@ -1356,6 +1356,10 @@ endif
                         highlight SignifySignAdd    cterm=bold ctermbg=234  ctermfg=119
                         highlight SignifySignDelete cterm=bold ctermbg=234  ctermfg=167
                         highlight SignifySignChange cterm=bold ctermbg=234  ctermfg=227
+
+                        " highlight text that is past the right margin
+                        " TODO: put the column number (80)
+                        highlight OverLength ctermbg=240 guibg=#592929
 
                     endif
 
@@ -1411,6 +1415,10 @@ endif
                 endif
 
             endif
+
+            " create a highlight group for text that is longer than our right margin
+            " TODO throws error if OverLength highlight group is not defined
+            match OverLength /\%81v.\+/
 
     "TODO: detect terminal UI vs GUI in nvim.
     if (has('nvim'))
