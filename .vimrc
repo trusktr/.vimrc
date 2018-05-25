@@ -741,7 +741,8 @@ if glob(s:VIMROOT."/bundle/") != ""
                             "Plug 'thinca/vim-textobj-function-javascript', { 'for': 'javascript' }
 
                         " Use the same js beautifier from jsbeautifier.org
-                        Plug 'maksimr/vim-jsbeautify', { 'on': 'JsBeautify' }
+                        " Plug 'maksimr/vim-jsbeautify', { 'on': 'JsBeautify' }
+                        Plug 'maksimr/vim-jsbeautify'
                             command JsBeautify call JsBeautify()
 
                         " Syntax highlight stuff inside JS template strings.
