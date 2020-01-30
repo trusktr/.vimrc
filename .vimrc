@@ -1361,6 +1361,10 @@ endif
                         " TODO: put the column number (80)
                         highlight OverLength ctermbg=240 guibg=#592929
 
+                        " create a highlight group for text that is longer than our right margin
+                        " TODO throws error if OverLength highlight group is not defined
+                        match OverLength /\%81v.\+/
+
                     endif
 
                     if &term == "nvim"
@@ -1415,10 +1419,6 @@ endif
                 endif
 
             endif
-
-            " create a highlight group for text that is longer than our right margin
-            " TODO throws error if OverLength highlight group is not defined
-            match OverLength /\%81v.\+/
 
     "TODO: detect terminal UI vs GUI in nvim.
     if (has('nvim'))
