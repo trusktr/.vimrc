@@ -1467,6 +1467,11 @@ endif
             imap <left> I suck at Vim.
             imap <right> I suck at Vim.
 
+            " Make ctrl-c send escape in INSERT mode. This makes it easier to
+            " end multi-line editing with ctrl-c instead of having to press
+            " escape.
+            inoremap <c-c> <esc>
+
         " MOVEMENT {
             " IJKL like arrow keys. {
                 " TODO: make sure this is consistent across modes including when
