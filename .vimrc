@@ -1357,13 +1357,11 @@ endif
                         highlight SignifySignDelete cterm=bold ctermbg=234  ctermfg=167
                         highlight SignifySignChange cterm=bold ctermbg=234  ctermfg=227
 
-                        " highlight text that is past the right margin
-                        " TODO: put the column number (80)
-                        highlight OverLength ctermbg=240 guibg=#592929
-
-                        " create a highlight group for text that is longer than our right margin
-                        " TODO throws error if OverLength highlight group is not defined
-                        match OverLength /\%81v.\+/
+                        " " highlight text that is past the right margin
+                        " " TODO: put the column number (80)
+                        " highlight OverLength ctermbg=240 guibg=#592929
+                        " " create a highlight group for text that is longer than our right margin
+                        " match OverLength /\%81v.\+/
 
                     endif
 
