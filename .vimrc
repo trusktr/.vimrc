@@ -1207,8 +1207,8 @@ endif
             set list " enable the above character representation
         set notimeout
         set timeoutlen=10000 " default 1000. This makes vim wait for you to finish a multi-key combo, but with the benefits of having a timeout (if set timeout).
-        set ttimeout
-        set ttimeoutlen=1000 " default 1000
+        set nottimeout
+        set ttimeoutlen=1000 " default 1000. Similar to timeout, but for TUI stuff (escape sequences, and the escape key is under this category)
         filetype indent plugin on " enable filetype features.
         set showcmd " display incomplete command. I moved this here from Bram's example because it wasn't working before vundle.
         set history=9999        " how many lines of command line history to keep.
