@@ -999,7 +999,7 @@ if glob(s:VIMROOT."/bundle/") != ""
     endif
 
 endif
-" END PLUGIN_MANAGEMENT {
+" END PLUGIN_MANAGEMENT }
 
 
 " BEGIN VIM SUGGESTED DEFAULT SETTINGS BY BRAM MOOLENAR:
@@ -1602,11 +1602,11 @@ endif
 
                 " alt+direction in INSERT to move char by char or line by line
                     " Some environments (terminals) output escape followed by letter instead of alt+letter
-                        imap j <a-j>
-                        imap k <a-k>
-                        imap i <a-i>
-                        imap l <a-l>
-                        imap h <a-h>
+                        " imap j <a-j>
+                        " imap k <a-k>
+                        " imap i <a-i>
+                        " imap l <a-l>
+                        " imap h <a-h>
 
                     " Mac OS X (alt+letters output certain symbols in OS X)
                         imap ∆ <a-j>
@@ -1703,7 +1703,7 @@ endif
             "imap <c-h> <c-w>
 
             imap <c-del> <c-o>de
-            imap [3;5~ <c-o>de
+            " imap [3;5~ <c-o>de
 
         " smart home key.
             nmap <expr> <home> search('^\s\+\%#', 'n') ? '0' : '_'
@@ -1803,8 +1803,10 @@ endif
                         "map ¬ <a-l>
 
                     " when langmap works
-                        map h <a-h>
-                        map l <a-l>
+                        " TODO delete, or replace these escape-key mappings,
+                        " beause they break multi-line editing.
+                        " map h <a-h>
+                        " map l <a-l>
 
                         " Mac OS X
                         map ˙ <a-h>
